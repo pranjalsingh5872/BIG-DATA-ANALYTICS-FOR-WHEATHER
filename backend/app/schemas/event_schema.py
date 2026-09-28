@@ -54,6 +54,12 @@ class GrievanceCreate(BaseModel):
     contact_email: str
     grievance_type: str
     description: str
+    evidence_photo_url: str  # Mandatory ground photograph or visual evidence
+    complainant_lat: Optional[float] = None
+    complainant_lng: Optional[float] = None
+
+class GrievanceAppealRequest(BaseModel):
+    appeal_note: str
 
 class GrievanceResponse(BaseModel):
     id: str
@@ -66,6 +72,17 @@ class GrievanceResponse(BaseModel):
     resolution_note: Optional[str] = None
     created_at: datetime
     resolved_at: Optional[datetime] = None
+
+    # 55-45 AI Authenticity & Fraud Detection
+    evidence_photo_url: Optional[str] = None
+    authenticity_score: Optional[float] = 0.0
+    is_fake: Optional[bool] = False
+    flagged_reason: Optional[str] = None
+    verification_breakdown: Optional[str] = None
+    satellite_concurrence: Optional[float] = 0.0
+    vision_concurrence: Optional[float] = 0.0
+    appeal_note: Optional[str] = None
+    is_appealed: Optional[bool] = False
 
     class Config:
         from_attributes = True

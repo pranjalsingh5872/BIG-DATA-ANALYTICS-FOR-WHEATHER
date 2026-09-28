@@ -30,7 +30,7 @@ class WeatherEvent(Base):
     external_reference = Column(String(512), nullable=True)
     
     # Media & Multimodal Authenticity
-    media_url = Column(String(512), nullable=True)
+    media_url = Column(Text, nullable=True)
     media_type = Column(String(32), default="none")  # image, video, none
     is_media_authentic = Column(Boolean, default=True)
     vision_check_result = Column(Text, nullable=True)  # JSON explainability
@@ -39,7 +39,7 @@ class WeatherEvent(Base):
     trust_score = Column(Float, default=50.0)  # 0 to 100%
     nlp_confidence = Column(Float, default=0.8)
     radar_corroborated = Column(Boolean, default=False)
-    radar_station_name = Column(String(128), nullable=True)
+    radar_station_name = Column(String(255), nullable=True)
     radar_recorded_value = Column(Float, nullable=True)  # mm rain or km/h wind
     
     # Workflow & Moderation
@@ -97,9 +97,20 @@ class Grievance(Base):
     contact_email = Column(String(128), nullable=False)
     grievance_type = Column(String(64), nullable=False)  # False Alarm, Missed Disaster, Severity Mismatch, Fake Media
     description = Column(Text, nullable=False)
-    status = Column(String(32), default="OPEN", index=True)  # OPEN, IN_REVIEW, RESOLVED, DISMISSED
+    status = Column(String(32), default="OPEN", index=True)  # OPEN, FLAGGED_FAKE, IN_REVIEW, RESOLVED, DISMISSED
     resolution_note = Column(Text, nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     resolved_at = Column(DateTime, nullable=True)
+
+    # 55-45 AI Verification & Fraud Detection Fields
+    evidence_photo_url = Column(Text, nullable=True)
+    authenticity_score = Column(Float, default=0.0)
+    is_fake = Column(Boolean, default=False)
+    flagged_reason = Column(Text, nullable=True)
+    verification_breakdown = Column(Text, nullable=True)
+    satellite_concurrence = Column(Float, default=0.0)
+    vision_concurrence = Column(Float, default=0.0)
+    appeal_note = Column(Text, nullable=True)
+    is_appealed = Column(Boolean, default=False)
 
     event = relationship("WeatherEvent", back_populates="grievances")

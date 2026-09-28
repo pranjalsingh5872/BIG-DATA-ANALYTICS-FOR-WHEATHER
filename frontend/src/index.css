@@ -139,8 +139,12 @@ body {
   background-color: var(--color-canvas-bg, #f2ebe0) !important;
 }
 
+.radar-dark-map .leaflet-tile {
+  filter: invert(96%) hue-rotate(195deg) brightness(80%) contrast(115%) !important;
+}
+
 .leaflet-tile {
-  filter: none !important;
+  filter: none;
 }
 
 .leaflet-tile-pane {

@@ -12,6 +12,9 @@ import CitizenReportPWA from './components/CitizenSubmit/CitizenReportPWA';
 import GrievancePortal from './components/Grievance/GrievancePortal';
 import CapBroadcast from './components/Alerts/CapBroadcast';
 import SystemStatus from './components/System/SystemStatus';
+import CyclonePredictor from './components/Forecast/CyclonePredictor';
+import AuthorityLoginModal from './components/Auth/AuthorityLoginModal';
+import { Lock } from 'lucide-react';
 import { api } from './services/api';
 
 export default function App() {
@@ -24,6 +27,38 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Authority State (Role-based access for IMD / Disaster Authorities)
+  const [authorityUser, setAuthorityUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('imd_authority_officer');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+
+  const handleLoginSuccess = (officer) => {
+    setAuthorityUser(officer);
+    try {
+      localStorage.setItem('imd_authority_officer', JSON.stringify(officer));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleLogout = () => {
+    setAuthorityUser(null);
+    try {
+      localStorage.removeItem('imd_authority_officer');
+    } catch (e) {
+      console.error(e);
+    }
+    if (['system', 'review', 'alerts'].includes(activeTab)) {
+      setActiveTab('overview');
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -84,24 +119,16 @@ export default function App() {
     }
   };
 
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('weather_ops_theme') || 'sovereign-cream';
-  });
-
-  const handleSetTheme = (newTheme) => {
-    setTheme(newTheme);
-    localStorage.setItem('weather_ops_theme', newTheme);
-  };
-
   return (
-    <div className={`min-h-screen theme-${theme} bg-command-950 text-slate-800 flex flex-col font-sans transition-colors duration-200`}>
+    <div className="min-h-screen theme-sovereign-cream bg-command-950 text-slate-800 flex flex-col font-sans transition-colors duration-200">
       {/* Top Operations Navbar */}
       <Navbar
         summary={summary}
         onRefresh={fetchData}
         loading={loading}
-        theme={theme}
-        onSetTheme={handleSetTheme}
+        authorityUser={authorityUser}
+        onOpenAuthModal={() => setAuthModalOpen(true)}
+        onLogout={handleLogout}
         onOpenAlertModal={() => setActiveTab('alerts')}
         onSyncLive={handleSyncLiveWeather}
         onSyncTwitter={handleSyncTwitter}
@@ -124,6 +151,8 @@ export default function App() {
             setActiveTab={setActiveTab}
             pendingCount={summary?.pending_review || 0}
             openGrievances={summary?.open_grievances || 0}
+            authorityUser={authorityUser}
+            onOpenAuthModal={() => setAuthModalOpen(true)}
           />
         </div>
 
@@ -136,6 +165,7 @@ export default function App() {
               <button onClick={fetchData} className="ml-auto text-red-600 hover:text-red-900 font-bold underline">Retry</button>
             </div>
           )}
+
           {activeTab === 'overview' && (
             <div className="space-y-5">
               {/* Top KPI Cards */}
@@ -161,6 +191,10 @@ export default function App() {
             </div>
           )}
 
+          {activeTab === 'forecast' && (
+            <CyclonePredictor />
+          )}
+
           {activeTab === 'events' && (
             <EventTable
               events={events}
@@ -172,7 +206,27 @@ export default function App() {
           {activeTab === 'analytics' && <AnalyticsHub />}
 
           {activeTab === 'review' && (
-            <OperatorDesk onEventUpdated={fetchData} />
+            authorityUser ? (
+              <OperatorDesk onEventUpdated={fetchData} />
+            ) : (
+              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area · Operator Review Desk</h3>
+                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    Meteorological incident triage, report verification, and operational queue curation are strictly restricted to verified disaster authorities and IMD duty officers to prevent unauthorized status changes.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
+                >
+                  Sign In with Official Officer Credentials
+                </button>
+              </div>
+            )
           )}
 
           {activeTab === 'submit' && (
@@ -187,11 +241,51 @@ export default function App() {
           )}
 
           {activeTab === 'alerts' && (
-            <CapBroadcast events={events} onAlertDispatched={fetchData} />
+            authorityUser ? (
+              <CapBroadcast events={events} onAlertDispatched={fetchData} />
+            ) : (
+              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                <div className="w-14 h-14 rounded-full bg-red-100 border border-red-300 flex items-center justify-center text-red-700 mx-auto">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area · CAP Alert Dispatch</h3>
+                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    Broadcasting Common Alerting Protocol (CAP v1.2) emergency warnings to public sirens, cell broadcasts, and NDMA feeds requires verified authority credentials.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all"
+                >
+                  Sign In with Official Officer Credentials
+                </button>
+              </div>
+            )
           )}
 
           {activeTab === 'system' && (
-            <SystemStatus summary={summary} />
+            authorityUser ? (
+              <SystemStatus summary={summary} />
+            ) : (
+              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area</h3>
+                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    System runtime engine, telemetry microservices, and big data pipeline nodes are restricted to verified disaster authorities and IMD command officers.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
+                >
+                  Sign In with Official Officer Credentials
+                </button>
+              </div>
+            )
           )}
         </main>
       </div>
@@ -204,6 +298,13 @@ export default function App() {
           onOpenGrievance={handleOpenGrievance}
         />
       )}
+
+      {/* Official Authority Sign-In Modal */}
+      <AuthorityLoginModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 }

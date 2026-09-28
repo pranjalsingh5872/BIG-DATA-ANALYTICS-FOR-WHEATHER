@@ -105,6 +105,13 @@ export const api = {
     return res.data;
   },
 
+  appealGrievance: async (id, appealNote) => {
+    const res = await axios.post(`${API_BASE}/grievances/${id}/appeal`, {
+      appeal_note: appealNote
+    });
+    return res.data;
+  },
+
   // CAP Emergency Alert Broadcast
   broadcastCapAlert: async (data) => {
     const res = await axios.post(`${API_BASE}/alerts/broadcast-cap`, data);
@@ -116,8 +123,15 @@ export const api = {
     return res.data;
   },
 
+  // AI Weather & Cyclone Disaster Prediction
+  getCycloneForecast: async () => {
+    const res = await axios.get(`${API_BASE}/forecast/cyclone-monsoon`);
+    return res.data;
+  },
+
   // PDF Incident Brief URL
   getPdfDownloadUrl: (eventId) => {
     return `${API_BASE}/export/pdf/${eventId}`;
   }
 };
+

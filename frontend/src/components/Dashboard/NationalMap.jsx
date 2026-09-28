@@ -424,14 +424,27 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                   }`}
                 >
                   <div className="flex items-center gap-2 truncate">
-                    <span
-                      className={`w-2.5 h-2.5 rounded-full shrink-0 transition-all duration-300 transform ${
-                        isSelected
-                          ? '-translate-y-0.5 scale-125 shadow ring-2 ring-blue-400'
-                          : 'translate-y-0 scale-100 shadow-sm'
-                      }`}
-                      style={{ backgroundColor: type.color }}
-                    ></span>
+                    {/* Mini Map Pin Logo with Hazard Symbol */}
+                    <svg
+                      width="14"
+                      height="18"
+                      viewBox="0 0 28 36"
+                      fill="none"
+                      className="shrink-0 transition-transform duration-200"
+                      style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
+                    >
+                      <path
+                        d="M14 0.8C6.71 0.8 0.8 6.71 0.8 14C0.8 24.2 14 35.2 14 35.2C14 35.2 27.2 24.2 27.2 14C27.2 6.71 21.29 0.8 14 0.8Z"
+                        fill={type.color}
+                        stroke="#ffffff"
+                        strokeWidth="1.2"
+                      />
+                      <circle cx="14" cy="13.5" r="7.5" fill="#ffffff" />
+                      <g
+                        transform="translate(7.5, 7)"
+                        dangerouslySetInnerHTML={{ __html: getCategorySvgLogo(type.name, type.color) }}
+                      />
+                    </svg>
                     <span className="truncate">{type.name}</span>
                   </div>
                   {count > 0 && (
@@ -442,11 +455,6 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                 </button>
               );
             })}
-          </div>
-
-          {/* Bottom Caption matching user's photo */}
-          <div className="pt-1.5 border-t border-slate-200 text-[9px] text-slate-500 leading-tight">
-            ring color = AI verification score on verified events
           </div>
         </div>
       </div>

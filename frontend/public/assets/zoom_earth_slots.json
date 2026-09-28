@@ -1,0 +1,54 @@
+[
+  {
+    "id": "pass_0h",
+    "label": "Latest (Current Real-Time Observation)",
+    "timestamp": "28 Sep, 08:50 UTC",
+    "imageSrc": "/assets/zoom_earth_pass_0h.jpg",
+    "cyclone_lat": 16.8,
+    "cyclone_lon": 88.5,
+    "category": "Severe Cyclonic Storm (SCS)",
+    "wind_kmh": 105,
+    "pressure_hpa": 984,
+    "sensor": "Zoom Earth Live Composite (Himawari + Meteosat-IODC)",
+    "source": "https://zoom.earth/maps/satellite/"
+  },
+  {
+    "id": "pass_3h",
+    "label": "3 Hours Ago (T - 3h Synoptic Pass)",
+    "timestamp": "28 Sep, 05:50 UTC",
+    "imageSrc": "/assets/zoom_earth_pass_3h.jpg",
+    "cyclone_lat": 16.3,
+    "cyclone_lon": 88.8,
+    "category": "Cyclonic Storm (CS)",
+    "wind_kmh": 90,
+    "pressure_hpa": 990,
+    "sensor": "Zoom Earth Live Composite (Himawari + Meteosat-IODC)",
+    "source": "https://zoom.earth/maps/satellite/"
+  },
+  {
+    "id": "pass_6h",
+    "label": "6 Hours Ago (T - 6h Baseline)",
+    "timestamp": "28 Sep, 02:50 UTC",
+    "imageSrc": "/assets/zoom_earth_pass_6h.jpg",
+    "cyclone_lat": 15.8,
+    "cyclone_lon": 89.1,
+    "category": "Deep Depression (DD)",
+    "wind_kmh": 75,
+    "pressure_hpa": 996,
+    "sensor": "Zoom Earth Live Composite (Himawari + Meteosat-IODC)",
+    "source": "https://zoom.earth/maps/satellite/"
+  },
+  {
+    "id": "pass_12h",
+    "label": "12 Hours Ago (T - 12h Origin Pass)",
+    "timestamp": "27 Sep, 20:50 UTC",
+    "imageSrc": "/assets/zoom_earth_pass_12h.jpg",
+    "cyclone_lat": 14.9,
+    "cyclone_lon": 89.6,
+    "category": "Depression / Low Pressure",
+    "wind_kmh": 55,
+    "pressure_hpa": 1002,
+    "sensor": "Zoom Earth Live Composite (Himawari + Meteosat-IODC)",
+    "source": "https://zoom.earth/maps/satellite/"
+  }
+]
