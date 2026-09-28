@@ -89,74 +89,95 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
           );
         })}
 
-        {/* Authority Operations Section: Full Access Always Unlocked */}
-        <div className="pt-3 space-y-2 border-t border-[#1a2840] mt-3">
-          <div className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center justify-between">
-            <span className="flex items-center gap-1.5">
+        {/* Authority Section: ONLY rendered when signed in */}
+        {authorityUser ? (
+          <div className="pt-3 space-y-2 border-t border-[#1a2840] mt-3">
+            <div className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Authority Operations</span>
-            </span>
-            <span className="text-[9px] font-mono bg-amber-950/80 text-amber-300 border border-amber-500/50 px-1.5 py-0.5 rounded font-bold">
-              FULL ACCESS
-            </span>
-          </div>
+              <span>Authority Controls</span>
+            </div>
 
-          {authorityMenuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 transform ${
-                  isActive
-                    ? 'bg-gradient-to-r from-amber-700 to-amber-800 text-white border-2 border-amber-400/60 shadow-lg shadow-amber-950/60 -translate-y-1'
-                    : 'text-amber-200 hover:bg-[#1a273b] hover:text-white hover:-translate-y-0.5 border border-amber-900/30'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ease-out transform ${
-                      isActive
-                        ? '-translate-y-1.5 scale-110 bg-amber-400 text-slate-950 shadow-md shadow-amber-400/40 ring-2 ring-amber-300'
-                        : 'translate-y-0 scale-100 bg-[#070e1b] border border-amber-800/50 text-amber-400 group-hover:text-amber-200 group-hover:-translate-y-0.5'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
+            {authorityMenuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 transform ${
+                    isActive
+                      ? 'bg-gradient-to-r from-amber-700 to-amber-800 text-white border-2 border-amber-400/60 shadow-lg shadow-amber-950/60 -translate-y-1'
+                      : 'text-amber-200 hover:bg-[#1a273b] hover:text-white hover:-translate-y-0.5 border border-amber-900/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ease-out transform ${
+                        isActive
+                          ? '-translate-y-1.5 scale-110 bg-amber-400 text-slate-950 shadow-md shadow-amber-400/40 ring-2 ring-amber-300'
+                          : 'translate-y-0 scale-100 bg-[#070e1b] border border-amber-800/50 text-amber-400 group-hover:text-amber-200 group-hover:-translate-y-0.5'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                    </div>
+
+                    <span className="tracking-wide">
+                      {item.label}
+                    </span>
                   </div>
 
-                  <span className="tracking-wide">
-                    {item.label}
-                  </span>
-                </div>
-
-                {item.badge && (
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${item.badgeColor || 'bg-amber-600'} text-white shadow-sm`}>
-                    {item.badge}
-                  </span>
-                )}
+                  {item.badge && (
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${item.badgeColor || 'bg-amber-600'} text-white shadow-sm`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="pt-3 border-t border-[#1a2840] mt-3">
+            <div className="p-3 rounded-xl bg-[#070e1b] border border-amber-500/30 space-y-2">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-400">
+                <Lock className="w-3.5 h-3.5" />
+                <span>Restricted Authority Tools</span>
+              </div>
+              <p className="text-[10px] text-slate-400 leading-snug">
+                Review Desk, CAP Broadcast, and System Engine are restricted to verified disaster officers.
+              </p>
+              <button
+                onClick={onOpenAuthModal}
+                className="w-full py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5"
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                <span>Sign In as Authority</span>
               </button>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Operator Session Footer Card */}
       <div className="p-4 border-t border-[#18263e] bg-[#070e1b]">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center text-emerald-300 font-bold text-xs shadow-sm">
-            <ShieldCheck className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="text-xs font-bold text-white truncate max-w-[130px]">
-              {authorityUser?.name || 'Apex Commander'}
+        {authorityUser ? (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center text-emerald-300 font-bold text-xs shadow-sm">
+              <ShieldCheck className="w-4 h-4" />
             </div>
-            <div className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Full Unrestricted Access
+            <div>
+              <div className="text-xs font-bold text-white truncate max-w-[130px]">{authorityUser.name || 'Officer'}</div>
+              <div className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Official Authority Active
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center justify-between text-[11px] text-slate-400">
+            <span>Public Access Mode</span>
+            <span className="text-[10px] font-mono text-cyan-400">Read-Only</span>
+          </div>
+        )}
       </div>
     </aside>
   );

@@ -28,44 +28,35 @@ export default function App() {
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Apex Authority Profile (Full Unrestricted System Access)
-  const FULL_ACCESS_AUTHORITY = {
-    id: 'commander.imd@gov.in',
-    name: 'National Disaster Commander (Full Access)',
-    role: 'Apex Authority (Full System Access)',
-    badge: 'GOV-APEX-MAX-CLEARANCE'
-  };
-
-  // Authority State (Role-based access for IMD / Disaster Authorities - Default: Full Access)
+  // Authority State (Role-based access for IMD / Disaster Authorities)
   const [authorityUser, setAuthorityUser] = useState(() => {
     try {
       const saved = localStorage.getItem('imd_authority_officer');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    try {
-      localStorage.setItem('imd_authority_officer', JSON.stringify(FULL_ACCESS_AUTHORITY));
-    } catch {}
-    return FULL_ACCESS_AUTHORITY;
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const handleLoginSuccess = (officer) => {
-    const active = officer || FULL_ACCESS_AUTHORITY;
-    setAuthorityUser(active);
+    setAuthorityUser(officer);
     try {
-      localStorage.setItem('imd_authority_officer', JSON.stringify(active));
+      localStorage.setItem('imd_authority_officer', JSON.stringify(officer));
     } catch (e) {
       console.error(e);
     }
   };
 
   const handleLogout = () => {
-    // When reset, immediately provide full access
-    setAuthorityUser(FULL_ACCESS_AUTHORITY);
+    setAuthorityUser(null);
     try {
-      localStorage.setItem('imd_authority_officer', JSON.stringify(FULL_ACCESS_AUTHORITY));
+      localStorage.removeItem('imd_authority_officer');
     } catch (e) {
       console.error(e);
+    }
+    if (['system', 'review', 'alerts'].includes(activeTab)) {
+      setActiveTab('overview');
     }
   };
 
@@ -215,7 +206,27 @@ export default function App() {
           {activeTab === 'analytics' && <AnalyticsHub />}
 
           {activeTab === 'review' && (
-            <OperatorDesk onEventUpdated={fetchData} />
+            authorityUser ? (
+              <OperatorDesk onEventUpdated={fetchData} />
+            ) : (
+              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area · Operator Review Desk</h3>
+                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    Meteorological incident triage, report verification, and operational queue curation are strictly restricted to verified disaster authorities and IMD duty officers to prevent unauthorized status changes.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
+                >
+                  Sign In with Official Officer Credentials
+                </button>
+              </div>
+            )
           )}
 
           {activeTab === 'submit' && (
@@ -230,11 +241,51 @@ export default function App() {
           )}
 
           {activeTab === 'alerts' && (
-            <CapBroadcast events={events} onAlertDispatched={fetchData} />
+            authorityUser ? (
+              <CapBroadcast events={events} onAlertDispatched={fetchData} />
+            ) : (
+              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                <div className="w-14 h-14 rounded-full bg-red-100 border border-red-300 flex items-center justify-center text-red-700 mx-auto">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area · CAP Alert Dispatch</h3>
+                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    Broadcasting Common Alerting Protocol (CAP v1.2) emergency warnings to public sirens, cell broadcasts, and NDMA feeds requires verified authority credentials.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all"
+                >
+                  Sign In with Official Officer Credentials
+                </button>
+              </div>
+            )
           )}
 
           {activeTab === 'system' && (
-            <SystemStatus summary={summary} />
+            authorityUser ? (
+              <SystemStatus summary={summary} />
+            ) : (
+              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area</h3>
+                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    System runtime engine, telemetry microservices, and big data pipeline nodes are restricted to verified disaster authorities and IMD command officers.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
+                >
+                  Sign In with Official Officer Credentials
+                </button>
+              </div>
+            )
           )}
         </main>
       </div>
