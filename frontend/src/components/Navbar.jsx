@@ -73,45 +73,28 @@ export default function Navbar({
           <span className="hidden sm:inline">Sync #IMD Tweets</span>
         </button>
 
-        {/* 1-Click CAP Emergency Broadcast Trigger - Authorities Only */}
-        {authorityUser && (
-          <button
-            onClick={onOpenAlertModal}
-            className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold text-xs uppercase px-3 py-2 rounded-lg shadow-md shadow-red-950/40 transition-all active:scale-95"
-          >
-            <BellRing className="w-4 h-4 animate-bounce" />
-            <span className="hidden sm:inline">CAP Alert</span>
-          </button>
-        )}
+        {/* 1-Click CAP Emergency Broadcast Trigger - Full Access Enabled */}
+        <button
+          onClick={onOpenAlertModal}
+          className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold text-xs uppercase px-3 py-2 rounded-lg shadow-md shadow-red-950/40 transition-all active:scale-95"
+          title="1-Click WMO-standard Common Alerting Protocol emergency broadcast"
+        >
+          <BellRing className="w-4 h-4 animate-bounce" />
+          <span className="hidden sm:inline">CAP Alert</span>
+        </button>
 
-        {/* Authority Access Section */}
-        {authorityUser ? (
-          <div className="flex items-center gap-2 bg-[#070e1b] pl-3 pr-1.5 py-1 rounded-lg border border-emerald-500/40 shadow-sm">
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <div className="text-left hidden lg:block">
-                <span className="block text-[10px] font-bold text-emerald-400 font-mono leading-none">OFFICIAL AUTHORITY</span>
-                <span className="block text-[9px] text-slate-300 font-mono leading-none mt-0.5">{authorityUser.name || 'IMD Officer'}</span>
-              </div>
-            </div>
-            <button
-              onClick={onLogout}
-              className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded transition-colors ml-1"
-              title="Sign Out of Authority Session"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-            </button>
+        {/* Apex Authority Access Section (Full Access Active) */}
+        <div className="flex items-center gap-2 bg-[#070e1b] px-3 py-1.5 rounded-lg border border-emerald-500/50 shadow-sm">
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="text-left hidden lg:block">
+            <span className="block text-[10px] font-black text-emerald-400 font-mono tracking-wider leading-none">
+              APEX AUTHORITY • FULL ACCESS
+            </span>
+            <span className="block text-[9px] text-slate-300 font-mono leading-none mt-0.5">
+              {authorityUser?.name || 'National Disaster Commander'}
+            </span>
           </div>
-        ) : (
-          <button
-            onClick={onOpenAuthModal}
-            className="flex items-center gap-1.5 bg-[#070e1b] hover:bg-[#13223f] border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white font-bold text-xs px-3 py-2 rounded-lg transition-all shadow-sm active:scale-95"
-            title="Restricted Sign-In for IMD Officers & Disaster Authorities"
-          >
-            <Lock className="w-3.5 h-3.5 text-amber-400" />
-            <span>Authority Sign In</span>
-          </button>
-        )}
+        </div>
 
         {/* Refresh Action */}
         <button
