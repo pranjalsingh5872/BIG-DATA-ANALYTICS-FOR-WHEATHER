@@ -5,7 +5,7 @@ export default function SystemStatus({ summary }) {
   const services = [
     {
       name: 'High-Throughput Ingestion Bus',
-      endpoint: 'FastAPI Async Microservice (:8000)',
+      endpoint: 'FastAPI Async Microservice (Cloud & Local)',
       status: 'AVAILABLE',
       statusColor: 'text-emerald-800 border-emerald-300 bg-emerald-100',
       icon: Radio,
@@ -85,12 +85,12 @@ export default function SystemStatus({ summary }) {
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
             <span className="text-slate-500 block text-[10px] uppercase font-bold">API Ingestion Node</span>
             <span className="text-sm font-bold text-slate-900">Uvicorn Async Worker</span>
-            <span className="text-[10px] text-emerald-700 block mt-0.5">● Healthy (Port 8000)</span>
+            <span className="text-[10px] text-emerald-700 block mt-0.5">● Operational / Connected</span>
           </div>
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
             <span className="text-slate-500 block text-[10px] uppercase font-bold">Client UI Pipeline</span>
-            <span className="text-sm font-bold text-slate-900">Vite React 19 Engine</span>
-            <span className="text-[10px] text-emerald-700 block mt-0.5">● Active (Port 5173)</span>
+            <span className="text-sm font-bold text-slate-900">Vite React Engine</span>
+            <span className="text-[10px] text-emerald-700 block mt-0.5">● Live Production</span>
           </div>
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
             <span className="text-slate-500 block text-[10px] uppercase font-bold">Active Sensors</span>
