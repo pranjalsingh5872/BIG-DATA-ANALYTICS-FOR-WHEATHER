@@ -109,8 +109,8 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
               onChange={(e) => setSelectedEventId(e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:border-red-500 outline-none"
             >
-              {events?.map((ev) => (
-                <option key={ev.id} value={ev.id}>
+              {events?.map((ev, idx) => (
+                <option key={ev.id || `ev-opt-${idx}`} value={ev.id}>
                   {ev.id} - {ev.title} ({ev.city}, {ev.state})
                 </option>
               ))}
@@ -243,8 +243,8 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
                 No emergency CAP alerts broadcast yet. Ready for dispatch.
               </div>
             ) : (
-              history.map((h) => (
-                <div key={h.id} className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+              history.map((h, idx) => (
+                <div key={h.id || h.identifier || `cap-hist-${idx}`} className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10px] text-red-700 font-bold">{h.identifier}</span>
                     <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-red-100 text-red-800">

@@ -70,3 +70,33 @@ def health_check():
         "spatial_engine": "Uber H3 Enabled",
         "verification_engine": "Tri-Check AI Active"
     }
+
+# =============================================================================
+# Production Static SPA Frontend Mounting
+# Allows the entire application (React + FastAPI) to run from a single permanent port
+# =============================================================================
+import os
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+frontend_dist = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "dist"))
+if os.path.exists(frontend_dist):
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="spa-assets")
+
+    # Also mount public assets if available
+    public_assets = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "public", "assets"))
+    if os.path.exists(public_assets):
+        app.mount("/public/assets", StaticFiles(directory=public_assets), name="public-assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa_frontend(full_path: str):
+        # Do not catch API routes or system endpoints
+        if full_path.startswith("api/") or full_path.startswith("ws/") or full_path.startswith("docs") or full_path.startswith("redoc") or full_path == "openapi.json" or full_path == "health":
+            return
+        candidate_file = os.path.join(frontend_dist, full_path)
+        if full_path and os.path.isfile(candidate_file):
+            return FileResponse(candidate_file)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+

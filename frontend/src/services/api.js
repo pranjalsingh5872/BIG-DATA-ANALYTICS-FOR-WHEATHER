@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Using 127.0.0.1 to avoid Windows IPv6 localhost resolution mismatch
-const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
+// Automatically use direct backend URL during Vite dev (port 5173) or relative /api/v1 in production
+const API_BASE = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port === '5173' ? 'http://127.0.0.1:8000/api/v1' : '/api/v1');
 
 export const api = {
   // Summary & KPIs
