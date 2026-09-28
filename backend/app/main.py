@@ -27,6 +27,25 @@ app.add_middleware(
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
+@app.on_event("startup")
+async def startup_event():
+    from backend.app.core.database import SessionLocal
+    from backend.app.models.event import WeatherEvent
+    from backend.app.services.live_ingestion import fetch_and_ingest_live_weather
+    from backend.app.api.endpoints.review import seed_pending_review_events
+    db = SessionLocal()
+    try:
+        count = db.query(WeatherEvent).count()
+        if count == 0:
+            print("Auto-seeding live meteorological telemetry...")
+            fetch_and_ingest_live_weather(wipe_old=False)
+            seed_pending_review_events(db)
+            print("Auto-seeding completed.")
+    except Exception as e:
+        print(f"Startup seeding error: {e}")
+    finally:
+        db.close()
+
 class ConnectionManager:
     def __init__(self):
         self.active_connections: List[WebSocket] = []
