@@ -1,0 +1,28 @@
+# Node & Frontend dependencies
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+build/
+.vite/
+
+# Python cache & virtual environments
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+venv/
+.venv/
+env/
+.env
+
+# Logs and scratch files
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

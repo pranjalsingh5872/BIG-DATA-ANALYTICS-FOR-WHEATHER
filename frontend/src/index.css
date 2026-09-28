@@ -1,0 +1,160 @@
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas-bg: #f2ebe0;
+  --color-card-bg: #fbf8f1;
+  --color-card-border: #ded3bf;
+  --color-text-main: #1e293b;
+  --color-text-sub: #5c687a;
+  color-scheme: light;
+}
+
+/* 1. Sovereign Eye-Protective Cream Theme (Primary / Default) */
+.theme-sovereign-cream {
+  --color-canvas-bg: #f2ebe0;
+  --color-card-bg: #fbf8f1;
+  --color-card-border: #ded3bf;
+  --color-text-main: #1e293b;
+  --color-text-sub: #5c687a;
+  color-scheme: light;
+}
+
+.theme-sovereign-cream .bg-white,
+.theme-sovereign-cream .bg-command-card {
+  background-color: #fbf8f1 !important;
+}
+
+.theme-sovereign-cream .bg-slate-50,
+.theme-sovereign-cream .bg-slate-100 {
+  background-color: #ede4d4 !important;
+}
+
+.theme-sovereign-cream .border-slate-200,
+.theme-sovereign-cream .border-slate-300,
+.theme-sovereign-cream .border-command-border {
+  border-color: #ded3bf !important;
+}
+
+.theme-sovereign-cream input,
+.theme-sovereign-cream select,
+.theme-sovereign-cream textarea {
+  background-color: #fbf8f1 !important;
+  border-color: #ded3bf !important;
+  color: #1e293b !important;
+}
+
+/* 2. High-Clarity Ice-Slate Theme */
+.theme-ice-slate {
+  --color-canvas-bg: #f1f5f9;
+  --color-card-bg: #ffffff;
+  --color-card-border: #e2e8f0;
+  --color-text-main: #0f172a;
+  --color-text-sub: #64748b;
+  color-scheme: light;
+}
+
+/* 3. Tactical Atmospheric Dark Theme */
+.theme-tactical-dark {
+  --color-canvas-bg: #090e1a;
+  --color-card-bg: #0f172a;
+  --color-card-border: #1e293b;
+  --color-text-main: #f8fafc;
+  --color-text-sub: #94a3b8;
+  color-scheme: dark;
+}
+
+.theme-tactical-dark {
+  background-color: #090e1a !important;
+  color: #f8fafc !important;
+}
+
+.theme-tactical-dark .text-slate-900,
+.theme-tactical-dark .text-slate-800,
+.theme-tactical-dark .text-slate-700 {
+  color: #f1f5f9 !important;
+}
+
+.theme-tactical-dark .text-slate-600,
+.theme-tactical-dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.theme-tactical-dark .bg-white {
+  background-color: #0f172a !important;
+}
+
+.theme-tactical-dark .bg-slate-50,
+.theme-tactical-dark .bg-slate-100 {
+  background-color: #141f35 !important;
+}
+
+.theme-tactical-dark .border-slate-200,
+.theme-tactical-dark .border-slate-300 {
+  border-color: #1e2f4d !important;
+}
+
+.theme-tactical-dark input,
+.theme-tactical-dark select,
+.theme-tactical-dark textarea {
+  background-color: #101a2e !important;
+  color: #f1f5f9 !important;
+  border-color: #1e2f4d !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-canvas-bg, #f2ebe0);
+  color: var(--color-text-main, #1e293b);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom Tactical Scrollbars in Warm Cream */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #ede4d4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c5b7a0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}
+
+/* Leaflet clean styling */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 500px !important;
+  background-color: var(--color-canvas-bg, #f2ebe0) !important;
+}
+
+.leaflet-tile {
+  filter: none !important;
+}
+
+.leaflet-tile-pane {
+  z-index: 2 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: #fbf8f1 !important;
+  color: #1e293b !important;
+  border: 1px solid #ded3bf !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12) !important;
+}
+
+.leaflet-popup-tip {
+  background-color: #fbf8f1 !important;
+}
