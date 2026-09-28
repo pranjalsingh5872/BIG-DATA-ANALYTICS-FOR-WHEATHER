@@ -198,9 +198,9 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
   const currentBasemap = BASEMAP_TILES[selectedStyle] || BASEMAP_TILES.osm;
 
   return (
-    <div className="rounded-xl bg-command-card border border-command-border shadow-sm overflow-hidden flex flex-col h-[580px] relative">
+    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden flex flex-col h-[580px] relative">
       {/* Map Header */}
-      <div className="px-4 py-2.5 bg-command-900 border-b border-command-border flex items-center justify-between z-10 shrink-0">
+      <div className="px-4 py-2.5 bg-white border-b border-slate-200 flex items-center justify-between z-10 shrink-0">
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-blue-600" />
           <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
@@ -263,7 +263,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
       </div>
 
       {/* Leaflet Map Canvas with Fixed Pixel Height (Prevents 0px Flex Collapse) */}
-      <div className="w-full h-[530px] min-h-[500px] relative bg-[#f8f5ee] overflow-hidden">
+      <div className="w-full h-[530px] min-h-[500px] relative bg-[#f8fafc] overflow-hidden">
         <MapContainer
           center={[22.5, 80.0]}
           zoom={5}

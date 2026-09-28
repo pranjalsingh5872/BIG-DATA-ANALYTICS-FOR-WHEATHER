@@ -37,16 +37,16 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
   };
 
   return (
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4">
-      <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-slate-950/60 backdrop-blur-xs p-4">
+      <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-[#ded3bf] pb-4">
+        <div className="flex items-start justify-between border-b border-slate-200 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 shadow-sm">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 shadow-xs">
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                 Restricted Access
               </span>
               <h3 className="text-base font-black text-slate-900 mt-1">Disaster Authority Sign-In</h3>
@@ -54,7 +54,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-[#ede4d4] transition-colors"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -65,8 +65,8 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
         </p>
 
         {error && (
-          <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
         )}
@@ -81,7 +81,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
               required
               value={officerId}
               onChange={(e) => setOfficerId(e.target.value)}
-              className="w-full bg-[#ede4d4] border border-[#ded3bf] rounded-lg px-3 py-2 text-xs text-slate-900 outline-none focus:border-amber-600 font-mono"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none focus:border-amber-500 font-mono"
               placeholder="e.g. officer.imd@gov.in"
             />
           </div>
@@ -95,7 +95,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
               required
               value={pin}
               onChange={(e) => setPin(e.target.value)}
-              className="w-full bg-[#ede4d4] border border-[#ded3bf] rounded-lg px-3 py-2 text-xs text-slate-900 outline-none focus:border-amber-600 font-mono"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none focus:border-amber-500 font-mono"
               placeholder="Default PIN: imd2026"
             />
           </div>
@@ -103,7 +103,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
           <div className="pt-2 space-y-2">
             <button
               type="submit"
-              className="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2"
             >
               <KeyRound className="w-4 h-4" />
               <span>Authenticate Authority Clearance</span>
@@ -112,7 +112,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
             <button
               type="button"
               onClick={handleQuickDemoLogin}
-              className="w-full py-2 rounded-lg bg-[#ede4d4] hover:bg-[#e4d7c0] text-slate-800 border border-[#ded3bf] font-bold text-xs transition-colors flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-bold text-xs transition-colors flex items-center justify-center gap-1.5"
             >
               <UserCheck className="w-3.5 h-3.5 text-emerald-700" />
               <span>1-Click Evaluator Sign-In (IMD Officer)</span>
@@ -120,7 +120,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
           </div>
         </form>
 
-        <div className="text-[10px] text-center text-slate-500 font-mono border-t border-[#ded3bf] pt-3">
+        <div className="text-[10px] text-center text-slate-500 font-mono border-t border-slate-200 pt-3">
           Authorized under National Disaster Management Act 2005 · Official Government Seal
         </div>
       </div>

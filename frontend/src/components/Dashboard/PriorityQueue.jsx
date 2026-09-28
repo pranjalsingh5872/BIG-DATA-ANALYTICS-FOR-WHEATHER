@@ -26,9 +26,9 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
     .slice(0, 7) || [];
 
   return (
-    <div className="rounded-xl bg-command-card border border-command-border shadow-sm p-4 flex flex-col h-[520px]">
+    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs p-4 flex flex-col h-[520px]">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-command-border mb-3">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-3">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">

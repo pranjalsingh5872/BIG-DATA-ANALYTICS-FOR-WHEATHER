@@ -67,7 +67,7 @@ export default function MetricCards({ summary }) {
         return (
           <div
             key={i}
-            className={`p-2.5 rounded-xl bg-command-card border ${c.borderColor} shadow-sm transition-all hover:shadow-md hover:border-slate-400 flex flex-col justify-between`}
+            className={`p-3 rounded-2xl bg-white border border-slate-200/90 shadow-xs transition-all hover:shadow-md flex flex-col justify-between`}
           >
             <div className="flex items-center justify-between mb-1">
               <span className="text-[9px] font-bold tracking-wider uppercase text-slate-500 truncate">

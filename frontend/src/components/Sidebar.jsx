@@ -17,25 +17,25 @@ import {
 export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGrievances, authorityUser, onOpenAuthModal }) {
   const publicMenuItems = [
     { id: 'overview', label: 'National Situation', icon: Compass, badge: null },
-    { id: 'forecast', label: 'Cyclone & Wind Predictor', icon: Wind, badge: 'AI MODEL', badgeColor: 'bg-cyan-600' },
+    { id: 'forecast', label: 'Cyclone & Wind Predictor', icon: Wind, badge: 'AI MODEL', badgeColor: 'bg-teal-600' },
     { id: 'events', label: 'Weather Events', icon: FileSpreadsheet, badge: null },
     { id: 'analytics', label: 'Platform Analytics', icon: BarChart3, badge: null },
-    { id: 'submit', label: 'Citizen Field Report', icon: Send, badge: 'PWA' },
+    { id: 'submit', label: 'Citizen Field Report', icon: Send, badge: 'PWA', badgeColor: 'bg-emerald-600' },
     { id: 'grievance', label: 'Grievance Desk', icon: Scale, badge: openGrievances > 0 ? openGrievances : null, badgeColor: 'bg-rose-500' }
   ];
 
   // Operator Review Desk, CAP Alert Dispatch, and System & Engine are ONLY accessible to authenticated authorities
   const authorityMenuItems = [
-    { id: 'review', label: 'Operator Review Desk', icon: CheckCircle2, badge: pendingCount > 0 ? pendingCount : null, badgeColor: 'bg-amber-500' },
-    { id: 'alerts', label: 'CAP Alert Dispatch', icon: Megaphone, badge: 'EMERGENCY', badgeColor: 'bg-red-600' },
-    { id: 'system', label: 'System & Engine', icon: Server, badge: 'OFFICER', badgeColor: 'bg-emerald-600' }
+    { id: 'review', label: 'Operator Review Desk', icon: CheckCircle2, badge: pendingCount > 0 ? pendingCount : null, badgeColor: 'bg-amber-600' },
+    { id: 'alerts', label: 'CAP Alert Dispatch', icon: Megaphone, badge: 'EMERGENCY', badgeColor: 'bg-rose-600' },
+    { id: 'system', label: 'System & Engine', icon: Server, badge: 'OFFICER', badgeColor: 'bg-emerald-700' }
   ];
 
   return (
-    <aside className="hidden md:flex w-64 bg-[#0a1324] border-r border-[#1a2840] flex-col justify-between shrink-0 min-h-[calc(100vh-65px)]">
+    <aside className="hidden md:flex w-64 bg-white border-r border-slate-200 flex-col justify-between shrink-0 min-h-[calc(100vh-65px)] shadow-xs">
       {/* Navigation Links */}
-      <div className="p-4 space-y-2">
-        <div className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+      <div className="p-3.5 space-y-1.5">
+        <div className="px-3 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
           Public Operations
         </div>
 
@@ -46,40 +46,34 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 transform ${
+              className={`w-full group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                 isActive
-                  ? 'bg-gradient-to-r from-blue-700 to-indigo-700 text-white border-2 border-cyan-400/60 shadow-lg shadow-blue-950/60 -translate-y-1'
-                  : 'text-slate-300 hover:bg-[#13223f] hover:text-white hover:-translate-y-0.5 border border-transparent'
+                  ? 'bg-emerald-50 text-emerald-900 border-l-4 border-emerald-600 font-bold shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-l-4 border-transparent'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <div
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ease-out transform ${
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
                     isActive
-                      ? '-translate-y-1.5 scale-110 bg-gradient-to-tr from-cyan-400 to-blue-500 text-slate-950 shadow-md shadow-cyan-400/40 ring-2 ring-cyan-300'
-                      : 'translate-y-0 scale-100 bg-[#070e1b] border border-[#1c2c48] text-slate-400 group-hover:text-cyan-300 group-hover:-translate-y-0.5 group-hover:border-cyan-700'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-500 group-hover:bg-emerald-50 group-hover:text-emerald-700'
                   }`}
                 >
-                  <Icon
-                    className={`w-4 h-4 transition-transform duration-300 ${
-                      isActive ? 'scale-110 drop-shadow-sm' : ''
-                    }`}
-                  />
+                  <Icon className="w-3.5 h-3.5" />
                 </div>
 
-                <span className={`tracking-wide transition-colors duration-200 ${isActive ? 'font-bold text-white' : ''}`}>
+                <span className={`tracking-tight ${isActive ? 'font-bold text-emerald-950' : ''}`}>
                   {item.label}
                 </span>
               </div>
 
               {item.badge && (
                 <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition-transform duration-300 ${
-                    isActive ? 'scale-105' : ''
-                  } ${
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                     item.badgeColor
-                      ? `${item.badgeColor} text-white shadow-sm`
-                      : 'bg-[#13223f] text-slate-300 border border-[#1e2f50]'
+                      ? `${item.badgeColor} text-white shadow-xs`
+                      : 'bg-slate-200 text-slate-700'
                   }`}
                 >
                   {item.badge}
@@ -91,9 +85,9 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
 
         {/* Authority Section: ONLY rendered when signed in */}
         {authorityUser ? (
-          <div className="pt-3 space-y-2 border-t border-[#1a2840] mt-3">
-            <div className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5" />
+          <div className="pt-2.5 space-y-1.5 border-t border-slate-200 mt-2">
+            <div className="px-3 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-amber-700 flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
               <span>Authority Controls</span>
             </div>
 
@@ -104,30 +98,30 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 transform ${
+                  className={`w-full group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                     isActive
-                      ? 'bg-gradient-to-r from-amber-700 to-amber-800 text-white border-2 border-amber-400/60 shadow-lg shadow-amber-950/60 -translate-y-1'
-                      : 'text-amber-200 hover:bg-[#1a273b] hover:text-white hover:-translate-y-0.5 border border-amber-900/30'
+                      ? 'bg-amber-50 text-amber-950 border-l-4 border-amber-600 font-bold shadow-xs'
+                      : 'text-slate-600 hover:bg-amber-50/50 hover:text-amber-900 border-l-4 border-transparent'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2.5">
                     <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ease-out transform ${
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
                         isActive
-                          ? '-translate-y-1.5 scale-110 bg-amber-400 text-slate-950 shadow-md shadow-amber-400/40 ring-2 ring-amber-300'
-                          : 'translate-y-0 scale-100 bg-[#070e1b] border border-amber-800/50 text-amber-400 group-hover:text-amber-200 group-hover:-translate-y-0.5'
+                          ? 'bg-amber-600 text-white shadow-xs'
+                          : 'bg-amber-100 text-amber-800'
                       }`}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
 
-                    <span className="tracking-wide">
+                    <span className="tracking-tight">
                       {item.label}
                     </span>
                   </div>
 
                   {item.badge && (
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${item.badgeColor || 'bg-amber-600'} text-white shadow-sm`}>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${item.badgeColor || 'bg-amber-600'} text-white shadow-xs`}>
                       {item.badge}
                     </span>
                   )}
@@ -136,18 +130,18 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
             })}
           </div>
         ) : (
-          <div className="pt-3 border-t border-[#1a2840] mt-3">
-            <div className="p-3 rounded-xl bg-[#070e1b] border border-amber-500/30 space-y-2">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-400">
-                <Lock className="w-3.5 h-3.5" />
+          <div className="pt-2.5 border-t border-slate-200 mt-2">
+            <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/80 space-y-2">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-900">
+                <Lock className="w-3.5 h-3.5 text-amber-700" />
                 <span>Restricted Authority Tools</span>
               </div>
-              <p className="text-[10px] text-slate-400 leading-snug">
+              <p className="text-[10px] text-slate-600 leading-snug">
                 Review Desk, CAP Broadcast, and System Engine are restricted to verified disaster officers.
               </p>
               <button
                 onClick={onOpenAuthModal}
-                className="w-full py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-sm transition-all flex items-center justify-center gap-1.5"
+                className="w-full py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5"
               >
                 <KeyRound className="w-3.5 h-3.5" />
                 <span>Sign In as Authority</span>
@@ -158,24 +152,24 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
       </div>
 
       {/* Operator Session Footer Card */}
-      <div className="p-4 border-t border-[#18263e] bg-[#070e1b]">
+      <div className="p-3.5 border-t border-slate-200 bg-slate-50/60">
         {authorityUser ? (
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center text-emerald-300 font-bold text-xs shadow-sm">
-              <ShieldCheck className="w-4 h-4" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 font-bold text-xs shadow-xs">
+              <ShieldCheck className="w-4 h-4 text-emerald-700" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white truncate max-w-[130px]">{authorityUser.name || 'Officer'}</div>
-              <div className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <div className="text-xs font-bold text-slate-900 truncate max-w-[130px]">{authorityUser.name || 'Officer'}</div>
+              <div className="text-[10px] text-emerald-700 flex items-center gap-1 font-mono font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 Official Authority Active
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-between text-[11px] text-slate-400">
+          <div className="flex items-center justify-between text-[11px] text-slate-500">
             <span>Public Access Mode</span>
-            <span className="text-[10px] font-mono text-cyan-400">Read-Only</span>
+            <span className="text-[10px] font-mono text-emerald-700 font-bold">Read-Only</span>
           </div>
         )}
       </div>

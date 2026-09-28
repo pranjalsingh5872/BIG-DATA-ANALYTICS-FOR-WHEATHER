@@ -120,7 +120,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen theme-sovereign-cream bg-command-950 text-slate-800 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Operations Navbar */}
       <Navbar
         summary={summary}
@@ -209,7 +209,7 @@ export default function App() {
             authorityUser ? (
               <OperatorDesk onEventUpdated={fetchData} />
             ) : (
-              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+              <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
                 <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
                   <Lock className="w-7 h-7" />
                 </div>
@@ -244,7 +244,7 @@ export default function App() {
             authorityUser ? (
               <CapBroadcast events={events} onAlertDispatched={fetchData} />
             ) : (
-              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+              <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
                 <div className="w-14 h-14 rounded-full bg-red-100 border border-red-300 flex items-center justify-center text-red-700 mx-auto">
                   <Lock className="w-7 h-7" />
                 </div>
@@ -268,7 +268,7 @@ export default function App() {
             authorityUser ? (
               <SystemStatus summary={summary} />
             ) : (
-              <div className="bg-[#fbf8f1] border border-[#ded3bf] rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+              <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
                 <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
                   <Lock className="w-7 h-7" />
                 </div>
