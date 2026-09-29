@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { Send, MapPin, Camera, AlertCircle, CheckCircle, ShieldCheck, Sparkles, Upload, Image as ImageIcon, X } from 'lucide-react';
 import { api } from '../../services/api';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function CitizenReportPWA({ onReportSubmitted }) {
+  const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -178,13 +180,16 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
       {/* Header */}
       <div className="text-center space-y-1">
         <span className="text-[10px] uppercase font-bold tracking-widest text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
-          Crowdsourced Disaster Sensing · Mobile PWA
+          {tr('Crowdsourced Disaster Sensing · Mobile PWA', 'क्राउडसोर्स आपदा संवेदन · मोबाइल PWA')}
         </span>
         <h2 className="text-xl font-black text-slate-900 tracking-tight">
-          Citizen Weather & Hazard Ground Report
+          {tr('Citizen Weather & Hazard Ground Report', 'नागरिक मौसम एवं आपदा ग्राउंड रिपोर्ट')}
         </h2>
         <p className="text-xs text-slate-500">
-          Empowering citizens to report real-time ground truth directly to the National IMD Operations Room
+          {tr(
+            'Empowering citizens to report real-time ground truth directly to the National IMD Operations Room',
+            'नागरिकों को राष्ट्रीय आईएमडी कमान कक्ष में सीधे रियल-टाइम जमीनी स्थिति रिपोर्ट करने हेतु सशक्त बनाना'
+          )}
         </p>
       </div>
 
@@ -194,42 +199,45 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
             <CheckCircle className="w-7 h-7" />
           </div>
           <div>
-            <h3 className="text-base font-black text-slate-900">Report Successfully Ingested!</h3>
+            <h3 className="text-base font-black text-slate-900">{tr('Report Successfully Ingested!', 'रिपोर्ट सफलतापूर्वक दर्ज की गई!')}</h3>
             <p className="text-xs text-slate-500 mt-1">
-              Your submission has been evaluated by the High-Precision Satellite & Computer Vision AI Verification Engine.
+              {tr(
+                'Your submission has been evaluated by the High-Precision Satellite & Computer Vision AI Verification Engine.',
+                'आपकी रिपोर्ट का उच्च-परिशुद्धता उपग्रह एवं कंप्यूटर विज़न AI इंजन द्वारा मूल्यांकन किया गया है।'
+              )}
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left space-y-2.5 text-xs">
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <span className="text-slate-500">Assigned Incident ID:</span>
+              <span className="text-slate-500">{tr('Assigned Incident ID:', 'आवंटित घटना पहचान (ID):')}</span>
               <span className="font-mono text-blue-700 font-bold">{result.id}</span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <span className="text-slate-500">Uber H3 Precision Cell:</span>
+              <span className="text-slate-500">{tr('Uber H3 Precision Cell:', 'H3 परिशुद्धता सेल:')}</span>
               <span className="font-mono text-slate-900 font-bold">{result.h3_index}</span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <span className="text-slate-500">Real-Time Precision Satellite Lock:</span>
+              <span className="text-slate-500">{tr('Real-Time Precision Satellite Lock:', 'उपग्रह समन्वय लॉक:')}</span>
               <span className="font-mono text-cyan-800 font-bold text-right text-[11px] truncate max-w-[240px]">
                 {result.radar_station_name || 'INSAT-3DR Geostationary Grid'}
               </span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <span className="text-slate-500">Vision AI Multimodal Corroboration:</span>
+              <span className="text-slate-500">{tr('Vision AI Multimodal Corroboration:', 'विज़न AI सत्यापन:')}</span>
               <span className={`font-mono font-bold text-[11px] ${result.is_media_authentic ? 'text-emerald-700' : 'text-amber-700'}`}>
-                {result.is_media_authentic ? 'Authentic Visuals Corroborated' : 'Satellite Optical Fallback'}
+                {result.is_media_authentic ? tr('Authentic Visuals Corroborated', 'प्रामाणिक दृश्य सत्यापित') : tr('Satellite Optical Fallback', 'उपग्रह ऑप्टिकल बैकअप')}
               </span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <span className="text-slate-500 font-bold">Tri-Check AI TrustScore™:</span>
+              <span className="text-slate-500 font-bold">{tr('Tri-Check AI TrustScore™:', 'AI ट्रस्ट-स्कोर™:')}</span>
               <div className="flex items-center gap-1.5">
                 <span className="font-mono text-emerald-700 font-black text-base">{result.trust_score}%</span>
-                <span className="text-[10px] text-emerald-600 font-bold">(High Precision)</span>
+                <span className="text-[10px] text-emerald-600 font-bold">({tr('High Precision', 'उच्च सटीकता')})</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-500">Verification Outcome:</span>
+              <span className="text-slate-500">{tr('Verification Outcome:', 'सत्यापन परिणाम:')}</span>
               <span className={`px-2.5 py-0.5 rounded font-bold uppercase text-[10px] ${
                 result.verification_status === 'VERIFIED'
                   ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
@@ -261,7 +269,7 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
             }}
             className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors shadow-sm"
           >
-            Submit Another Ground Report
+            {tr('Submit Another Ground Report', 'एक और जमीनी रिपोर्ट दर्ज करें')}
           </button>
         </div>
       ) : (
@@ -269,13 +277,13 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           {/* Observation Title */}
           <div>
             <label htmlFor="title" className="block text-xs uppercase font-bold text-slate-700 mb-1">
-              Hazard / Event Headline *
+              {tr('Hazard / Event Headline *', 'आपदा / घटना शीर्षक *')}
             </label>
             <input
               id="title"
               type="text"
               required
-              placeholder="e.g. Heavy waterlogging near Dadar station / भीषण जलभराव"
+              placeholder={tr('e.g. Heavy waterlogging near Dadar station / भीषण जलभराव', 'उदा. दादर स्टेशन के पास भीषण जलभराव')}
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-blue-500 outline-none"
@@ -285,13 +293,16 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           {/* Detailed Description */}
           <div>
             <label htmlFor="description" className="block text-xs uppercase font-bold text-slate-700 mb-1">
-              Ground Observation Details (Hindi or English) *
+              {tr('Ground Observation Details (Hindi or English) *', 'जमीनी अवलोकन विवरण (हिन्दी या अंग्रेजी) *')}
             </label>
             <textarea
               id="description"
               required
               rows={3}
-              placeholder="Describe what you see: water height, wind speed, damages, localized disruption..."
+              placeholder={tr(
+                'Describe what you see: water height, wind speed, damages, localized disruption...',
+                'जो आप देख रहे हैं उसका विवरण दें: पानी की ऊंचाई, हवा की गति, क्षति, स्थानीय अवरोध...'
+              )}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg p-3 text-xs text-slate-900 placeholder-slate-400 focus:border-blue-500 outline-none"
@@ -301,25 +312,25 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           {/* Category & Severity Grid */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="category" className="block text-xs uppercase font-bold text-slate-700 mb-1">Hazard Category</label>
+              <label htmlFor="category" className="block text-xs uppercase font-bold text-slate-700 mb-1">{tr('Hazard Category', 'आपदा श्रेणी')}</label>
               <select
                 id="category"
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:border-blue-500 outline-none"
               >
-                {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                {categories.map((c) => <option key={c} value={c}>{translateCategory(c)}</option>)}
               </select>
             </div>
             <div>
-              <label htmlFor="severity" className="block text-xs uppercase font-bold text-slate-700 mb-1">Observed Severity</label>
+              <label htmlFor="severity" className="block text-xs uppercase font-bold text-slate-700 mb-1">{tr('Observed Severity', 'अवलोकित गंभीरता')}</label>
               <select
                 id="severity"
                 value={formData.severity}
                 onChange={(e) => setFormData({ ...formData, severity: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:border-blue-500 outline-none"
               >
-                {severities.map((s) => <option key={s} value={s}>{s}</option>)}
+                {severities.map((s) => <option key={s} value={s}>{translateSeverity(s)}</option>)}
               </select>
             </div>
           </div>
@@ -329,7 +340,7 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-blue-600" />
-                <span>Geographical GPS Anchor</span>
+                <span>{tr('Geographical GPS Anchor', 'भौगोलिक जीपीएस एंकर')}</span>
               </span>
               <button
                 type="button"
@@ -340,10 +351,10 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
                 {detectingGps ? (
                   <>
                     <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
-                    <span>Resolving GPS & City...</span>
+                    <span>{tr('Resolving GPS & City...', 'जीपीएस एवं शहर की पहचान जारी...')}</span>
                   </>
                 ) : (
-                  <span>Auto-Detect My GPS</span>
+                  <span>{tr('Auto-Detect My GPS', 'मेरा जीपीएस स्वतः पहचानें')}</span>
                 )}
               </button>
             </div>
@@ -362,7 +373,7 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="latitude" className="block text-[10px] text-slate-500 mb-0.5">Latitude</label>
+                <label htmlFor="latitude" className="block text-[10px] text-slate-500 mb-0.5">{tr('Latitude', 'अक्षांश (Latitude)')}</label>
                 <input
                   id="latitude"
                   type="number"
@@ -376,7 +387,7 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
                 />
               </div>
               <div>
-                <label htmlFor="longitude" className="block text-[10px] text-slate-500 mb-0.5">Longitude</label>
+                <label htmlFor="longitude" className="block text-[10px] text-slate-500 mb-0.5">{tr('Longitude', 'देशांतर (Longitude)')}</label>
                 <input
                   id="longitude"
                   type="number"
@@ -395,24 +406,24 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           {/* City & State */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="city" className="block text-xs uppercase font-bold text-slate-700 mb-1">City / District *</label>
+              <label htmlFor="city" className="block text-xs uppercase font-bold text-slate-700 mb-1">{tr('City / District *', 'शहर / ज़िला *')}</label>
               <input
                 id="city"
                 type="text"
                 required
-                placeholder="e.g. Mumbai, Indore, Patna"
+                placeholder={tr('e.g. Mumbai, Indore, Patna', 'उदा. मुंबई, इंदौर, पटना')}
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:border-blue-500 outline-none"
               />
             </div>
             <div>
-              <label htmlFor="state" className="block text-xs uppercase font-bold text-slate-700 mb-1">State *</label>
+              <label htmlFor="state" className="block text-xs uppercase font-bold text-slate-700 mb-1">{tr('State *', 'राज्य *')}</label>
               <input
                 id="state"
                 type="text"
                 required
-                placeholder="e.g. Maharashtra, Madhya Pradesh"
+                placeholder={tr('e.g. Maharashtra, Madhya Pradesh', 'उदा. महाराष्ट्र, मध्य प्रदेश')}
                 value={formData.state}
                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:border-blue-500 outline-none"
@@ -425,18 +436,18 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
                 <Camera className="w-3.5 h-3.5 text-blue-600" />
-                <span>Visual Ground Evidence (Photo Verification)</span>
+                <span>{tr('Visual Ground Evidence (Photo Verification)', 'प्रत्यक्ष दृश्य साक्ष्य (फोटो सत्यापन)')}</span>
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                  Vision AI Active
+                  {tr('Vision AI Active', 'विज़न एआई सक्रिय')}
                 </span>
                 <button
                   type="button"
                   onClick={() => setMediaInputMode(mediaInputMode === 'upload' ? 'url' : 'upload')}
                   className="text-[10px] text-blue-600 hover:underline font-semibold"
                 >
-                  {mediaInputMode === 'upload' ? 'Enter Web URL' : 'Upload Device File'}
+                  {mediaInputMode === 'upload' ? tr('Enter Web URL', 'वेब यूआरएल दर्ज करें') : tr('Upload Device File', 'डिवाइस से फाइल अपलोड करें')}
                 </button>
               </div>
             </div>
@@ -456,14 +467,14 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
                       </div>
                       <div className="text-[10px] text-emerald-600 font-mono mt-0.5 flex items-center gap-1">
                         <Sparkles className="w-3 h-3 text-emerald-500" />
-                        <span>Ready for Computer Vision Tri-Check (+25 pts)</span>
+                        <span>{tr('Ready for Computer Vision Tri-Check (+25 pts)', 'कंप्यूटर विज़न ट्राई-चेक हेतु तैयार (+25 अंक)')}</span>
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={handleClearPhoto}
                       className="p-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-                      title="Remove image"
+                      title={tr('Remove image', 'तस्वीर हटाएं')}
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -482,10 +493,10 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
                     />
                     <Upload className="w-6 h-6 text-blue-600 mx-auto mb-1.5" />
                     <div className="text-xs font-bold text-slate-800">
-                      Tap to Upload Photo or Capture from Camera
+                      {tr('Tap to Upload Photo or Capture from Camera', 'फोटो अपलोड करने या कैमरे से लेने के लिए टैप करें')}
                     </div>
                     <div className="text-[10px] text-slate-400 mt-0.5">
-                      JPG, PNG, WebP supported · High-precision visual corroboration boosts TrustScore to 90%+
+                      {tr('JPG, PNG, WebP supported · High-precision visual corroboration boosts TrustScore to 90%+', 'JPG, PNG, WebP समर्थित · उच्च परिशुद्धता दृश्य पुष्टि ट्रस्ट स्कोर को 90%+ तक बढ़ाती है')}
                     </div>
                   </div>
                 )}
@@ -496,7 +507,7 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
                 <input
                   id="media_url"
                   type="url"
-                  placeholder="https://... (direct image URL)"
+                  placeholder={tr('https://... (direct image URL)', 'https://... (सीधा छवि URL)')}
                   value={formData.media_url}
                   onChange={(e) => {
                     const val = e.target.value;
@@ -516,12 +527,12 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           {/* Citizen Alias */}
           <div>
             <label htmlFor="source_author" className="block text-xs uppercase font-bold text-slate-700 mb-1">
-              Your Name / Reporter Alias (Optional)
+              {tr('Your Name / Reporter Alias (Optional)', 'आपका नाम / प्रेषक का नाम (वैकल्पिक)')}
             </label>
             <input
               id="source_author"
               type="text"
-              placeholder="e.g. Amit Sharma (Field Volunteer)"
+              placeholder={tr('e.g. Amit Sharma (Field Volunteer)', 'उदा. अमित शर्मा (फील्ड वालंटियर)')}
               value={formData.source_author}
               onChange={(e) => setFormData({ ...formData, source_author: e.target.value })}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-blue-500 outline-none"
@@ -536,7 +547,7 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
             className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
-            <span>{submitting ? 'Running Tri-Check AI Verification...' : 'Transmit Report to National Command Room'}</span>
+            <span>{submitting ? tr('Running Tri-Check AI Verification...', 'ट्राई-चेक एआई सत्यापन जारी...') : tr('Transmit Report to National Command Room', 'राष्ट्रीय नियंत्रण कक्ष को रिपोर्ट प्रेषित करें')}</span>
           </button>
         </form>
       )}

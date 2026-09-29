@@ -6,8 +6,10 @@ import {
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { formatIST } from '../../utils/time';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitted }) {
+  const { tr } = useLanguage();
   const [grievances, setGrievances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('list'); // 'list' or 'file'
@@ -196,13 +198,16 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
         <div>
           <h2 className="text-base font-black text-stone-900 tracking-tight flex items-center gap-2">
             <Scale className="w-5 h-5 text-amber-700" />
-            <span>Public Dispute & Grievance Redressal Desk</span>
+            <span>{tr('Public Dispute & Grievance Redressal Desk', 'सार्वजनिक विवाद एवं शिकायत निवारण पटल')}</span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100/80 text-amber-900 border border-amber-300/80">
-              55% Citizen Ground • 45% Satellite Truth
+              {tr('55% Citizen Ground • 45% Satellite Truth', '55% नागरिक धरातल • 45% उपग्रह सत्यता')}
             </span>
           </h2>
           <p className="text-xs text-stone-600 mt-0.5">
-            AI-supervised dispute resolution with mandatory ground photo verification and INSAT-3DR physical reality cross-check. Disputes scoring &lt; 40% are locked as fake until formally appealed.
+            {tr(
+              'AI-supervised dispute resolution with mandatory ground photo verification and INSAT-3DR physical reality cross-check. Disputes scoring < 40% are locked as fake until formally appealed.',
+              'अनिवार्य ग्राउंड फोटो सत्यापन और INSAT-3DR भौतिक वास्तविकता क्रॉस-चेक के साथ एआई-पर्यवेक्षित विवाद समाधान। 40% से कम स्कोर वाले विवादों को औपचारिक अपील तक फर्जी मानकर लॉक रखा जाता है।'
+            )}
           </p>
         </div>
 
@@ -216,7 +221,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                 : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-300/80'
             }`}
           >
-            Dispute Queue ({grievances.length})
+            {tr('Dispute Queue', 'विवाद कतार')} ({grievances.length})
           </button>
           <button
             onClick={() => setView('file')}
@@ -226,7 +231,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                 : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-300/80'
             }`}
           >
-            + File New Grievance
+            + {tr('File New Grievance', 'नई शिकायत दर्ज करें')}
           </button>
         </div>
       </div>
@@ -236,10 +241,13 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
           <div className="border-b border-stone-200 pb-3">
             <h3 className="text-sm font-black text-stone-900 flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 text-amber-700" />
-              <span>Submit Operational Grievance / Dispute Report</span>
+              <span>{tr('Submit Operational Grievance / Dispute Report', 'परिचालन शिकायत / विवाद रिपोर्ट जमा करें')}</span>
             </h3>
             <p className="text-[11px] text-stone-600 mt-0.5">
-              Ground photo evidence is mandatory. Submissions are algorithmically cross-verified with INSAT-3DR Geostationary satellite telemetry.
+              {tr(
+                'Ground photo evidence is mandatory. Submissions are algorithmically cross-verified with INSAT-3DR Geostationary satellite telemetry.',
+                'धरातलीय फोटो साक्ष्य अनिवार्य है। सबमिशन का INSAT-3DR भू-स्थिर उपग्रह टेलीमेट्री से एल्गोरिदमिक क्रॉस-सत्यापन किया जाता है।'
+              )}
             </p>
           </div>
 
@@ -258,7 +266,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
 
           <div>
             <label className="block text-[11px] uppercase font-bold text-stone-700 mb-1">
-              Referenced Event ID *
+              {tr('Referenced Event ID *', 'संदर्भित इवेंट आईडी *')}
             </label>
             <input
               type="text"
@@ -273,12 +281,12 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
               <label className="block text-[11px] uppercase font-bold text-stone-700 mb-1">
-                Complainant Name *
+                {tr('Complainant Name *', 'शिकायतकर्ता का नाम *')}
               </label>
               <input
                 type="text"
                 required
-                placeholder="Full Name / Field Officer"
+                placeholder={tr('Full Name / Field Officer', 'पूरा नाम / फील्ड अधिकारी')}
                 value={form.complainant_name}
                 onChange={(e) => setForm({ ...form, complainant_name: e.target.value })}
                 className="w-full bg-white border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-stone-900 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 outline-none"
@@ -286,7 +294,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
             </div>
             <div>
               <label className="block text-[11px] uppercase font-bold text-stone-700 mb-1">
-                Contact Email * <span className="text-[10px] text-stone-500 font-normal">(Authenticity verified)</span>
+                {tr('Contact Email *', 'संपर्क ईमेल *')} <span className="text-[10px] text-stone-500 font-normal">({tr('Authenticity verified', 'प्रमाणिकता सत्यापित')})</span>
               </label>
               <input
                 type="email"
@@ -301,29 +309,32 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
 
           <div>
             <label className="block text-[11px] uppercase font-bold text-stone-700 mb-1">
-              Dispute Category *
+              {tr('Dispute Category *', 'विवाद श्रेणी *')}
             </label>
             <select
               value={form.grievance_type}
               onChange={(e) => setForm({ ...form, grievance_type: e.target.value })}
               className="w-full bg-white border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-stone-900 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 outline-none"
             >
-              <option value="False Alarm">False Alarm / Disputed Event (Claiming Dry/Clear Skies)</option>
-              <option value="Severity Mismatch">Severity Mismatch (Claiming Underestimated Hazard)</option>
-              <option value="Missed Disaster">Unreported Critical Disaster In Vicinity</option>
-              <option value="Fake Media">Fake / Staged Imagery Dispute</option>
-              <option value="General Dispute">Other Operational Dispute</option>
+              <option value="False Alarm">{tr('False Alarm / Disputed Event (Claiming Dry/Clear Skies)', 'झूठी चेतावनी / विवादित घटना (साफ मौसम का दावा)')}</option>
+              <option value="Severity Mismatch">{tr('Severity Mismatch (Claiming Underestimated Hazard)', 'गंभीरता बेमेल (आपदा को कम आंकने का दावा)')}</option>
+              <option value="Missed Disaster">{tr('Unreported Critical Disaster In Vicinity', 'आसपास में अनरिपोर्टेड गंभीर आपदा')}</option>
+              <option value="Fake Media">{tr('Fake / Staged Imagery Dispute', 'फर्जी / कृत्रिम छवि विवाद')}</option>
+              <option value="General Dispute">{tr('Other Operational Dispute', 'अन्य परिचालन विवाद')}</option>
             </select>
           </div>
 
           <div>
             <label className="block text-[11px] uppercase font-bold text-stone-700 mb-1">
-              Detailed Grounds for Grievance *
+              {tr('Detailed Grounds for Grievance *', 'शिकायत का विस्तृत आधार *')}
             </label>
             <textarea
               required
               rows={3}
-              placeholder="Specify landmark street, standing water depth, visible conditions, or why this status must be altered..."
+              placeholder={tr(
+                'Specify landmark street, standing water depth, visible conditions, or why this status must be altered...',
+                'लैंडमार्क सड़क, जलभराव की गहराई, प्रत्यक्ष स्थिति या इस स्थिति को बदलने का कारण बताएं...'
+              )}
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               className="w-full bg-white border border-stone-300 rounded-xl p-3 text-xs text-stone-900 placeholder-stone-400 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 outline-none"
@@ -341,9 +352,9 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
             <div className="flex items-center justify-between mb-2">
               <label className="block text-xs uppercase font-extrabold text-stone-900 flex items-center gap-1.5">
                 <Camera className="w-4 h-4 text-amber-700" />
-                <span>Mandatory Ground Photo Evidence *</span>
+                <span>{tr('Mandatory Ground Photo Evidence *', 'अनिवार्य धरातलीय फोटो साक्ष्य *')}</span>
                 <span className="text-[10px] text-amber-900 font-bold px-1.5 py-0.5 rounded bg-amber-200/80">
-                  Required (35% Weight)
+                  {tr('Required (35% Weight)', 'आवश्यक (35% भार)')}
                 </span>
               </label>
 
@@ -356,13 +367,16 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                   }}
                   className="text-[10px] text-rose-700 font-bold hover:underline"
                 >
-                  Remove Photo
+                  {tr('Remove Photo', 'फोटो हटाएं')}
                 </button>
               )}
             </div>
 
             <p className="text-[11px] text-stone-600 mb-3">
-              Citizen disputes require a verifiable on-site photo. AI Vision inspects this against INSAT-3DR satellite reality before verification approval.
+              {tr(
+                'Citizen disputes require a verifiable on-site photo. AI Vision inspects this against INSAT-3DR satellite reality before verification approval.',
+                'नागरिक विवादों के लिए साइट पर सत्यापन योग्य फोटो आवश्यक है। सत्यापन स्वीकृति से पहले एआई विजन इसका INSAT-3DR उपग्रह वास्तविकता से मिलान करता है।'
+              )}
             </p>
 
             {photoPreview ? (
@@ -375,9 +389,11 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                 <div className="text-xs text-stone-700 space-y-1">
                   <div className="font-bold text-emerald-800 flex items-center gap-1">
                     <CheckCircle className="w-4 h-4 text-emerald-600" />
-                    <span>Evidence Photo Attached</span>
+                    <span>{tr('Evidence Photo Attached', 'साक्ष्य फोटो संलग्न')}</span>
                   </div>
-                  <p className="text-[11px] text-stone-500">Ready for automated 55-45 cross-verification against satellite grid.</p>
+                  <p className="text-[11px] text-stone-500">
+                    {tr('Ready for automated 55-45 cross-verification against satellite grid.', 'उपग्रह ग्रिड के विरुद्ध स्वचालित 55-45 क्रॉस-सत्यापन हेतु तैयार।')}
+                  </p>
                 </div>
               </div>
             ) : (
@@ -385,7 +401,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                 <div className="flex flex-col sm:flex-row items-center gap-3">
                   <label className="flex-1 w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white border border-stone-300 hover:border-amber-600 text-stone-800 text-xs font-bold cursor-pointer transition-all shadow-sm">
                     <UploadCloud className="w-4 h-4 text-amber-700" />
-                    <span>Upload Local File / Camera Snapshot</span>
+                    <span>{tr('Upload Local File / Camera Snapshot', 'लोकल फाइल / कैमरा स्नैपशॉट अपलोड करें')}</span>
                     <input 
                       type="file" 
                       accept="image/*" 
@@ -396,7 +412,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-stone-500 uppercase font-bold shrink-0">Or Image URL:</span>
+                  <span className="text-[10px] text-stone-500 uppercase font-bold shrink-0">{tr('Or Image URL:', 'या छवि URL:')}</span>
                   <input
                     type="url"
                     placeholder="https://example.org/photo-evidence.jpg"
@@ -423,7 +439,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
               className="flex items-center gap-1.5 text-[11px] font-bold text-amber-800 hover:text-amber-900 underline"
             >
               <MapPin className="w-3.5 h-3.5 text-amber-700" />
-              <span>{locating ? 'Detecting GPS...' : 'Tag My Current GPS Location (For 10% Proximity Score)'}</span>
+              <span>{locating ? tr('Detecting GPS...', 'जीपीएस पहचान जारी...') : tr('Tag My Current GPS Location (For 10% Proximity Score)', 'वर्तमान जीपीएस स्थान टैग करें (10% निकटता अंक हेतु)')}</span>
             </button>
             {gpsNote && <span className="text-[10px] font-mono text-stone-600">{gpsNote}</span>}
           </div>
@@ -433,7 +449,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
             disabled={submitting}
             className="w-full py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-amber-900/10 transition-all disabled:opacity-50"
           >
-            {submitting ? 'Running 55-45 AI Fraud Engine & Submitting...' : 'File Grievance With Mandatory Photo'}
+            {submitting ? tr('Running 55-45 AI Fraud Engine & Submitting...', '55-45 एआई सत्यापन व सबमिशन जारी...') : tr('File Grievance With Mandatory Photo', 'अनिवार्य फोटो के साथ शिकायत दर्ज करें')}
           </button>
         </form>
       ) : (
@@ -449,11 +465,11 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
           {loading ? (
             <div className="p-12 text-center text-stone-600">
               <Radio className="w-8 h-8 text-amber-700 animate-spin mx-auto mb-2" />
-              <span className="text-xs font-bold">Scanning Grievance Registry & Authenticity Metrics...</span>
+              <span className="text-xs font-bold">{tr('Scanning Grievance Registry & Authenticity Metrics...', 'शिकायत रजिस्ट्री एवं प्रमाणिकता मेट्रिक्स की जांच जारी...')}</span>
             </div>
           ) : grievances.length === 0 ? (
             <div className="p-8 text-center text-stone-500 text-xs">
-              No active citizen grievances filed. System operating with zero open disputes.
+              {tr('No active citizen grievances filed. System operating with zero open disputes.', 'कोई सक्रिय नागरिक शिकायत दर्ज नहीं है। प्रणाली शून्य खुले विवादों के साथ कार्य कर रही है।')}
             </div>
           ) : (
             <div className="divide-y divide-stone-200">
@@ -481,7 +497,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                           {g.id}
                         </span>
                         <span className="text-xs text-stone-600">
-                          Target Event: <b className="text-stone-900 font-mono">{g.event_id}</b>
+                          {tr('Target Event:', 'लक्षित इवेंट:')} <b className="text-stone-900 font-mono">{g.event_id}</b>
                         </span>
                         <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-stone-200 text-stone-800">
                           {g.grievance_type}
@@ -493,12 +509,12 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                         {isFake ? (
                           <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase bg-rose-100 text-rose-900 border border-rose-300 flex items-center gap-1">
                             <Lock className="w-3 h-3 text-rose-700" />
-                            <span>🚨 FLAGGED FAKE ({score}%) - LOCKED</span>
+                            <span>{tr('🚨 FLAGGED FAKE', '🚨 फर्जी चिह्नित')} ({score}%) - {tr('LOCKED', 'लॉक')}</span>
                           </span>
                         ) : isAppealed ? (
                           <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
                             <Unlock className="w-3 h-3 text-amber-700" />
-                            <span>APPEALED / RE-INVESTIGATING ({score}%)</span>
+                            <span>{tr('APPEALED / RE-INVESTIGATING', 'अपील की गई / पुनर्परीक्षण जारी')} ({score}%)</span>
                           </span>
                         ) : (
                           <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase flex items-center gap-1 ${
@@ -507,7 +523,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                               : 'bg-amber-100 text-amber-900 border border-amber-300'
                           }`}>
                             <CheckCircle2 className="w-3 h-3 text-emerald-700" />
-                            <span>AUTHENTIC ({score}%)</span>
+                            <span>{tr('AUTHENTIC', 'प्रमाणिक')} ({score}%)</span>
                           </span>
                         )}
                       </div>

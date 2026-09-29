@@ -481,6 +481,51 @@ export default function CyclonePredictor() {
   const currentStep = steps.find(s => s.hour === selectedHour) || steps[0] || {};
   const trajectoryCoords = steps.map(s => [s.lat, s.lon]);
 
+  const getHazardDisplayName = (h) => {
+    if (!h) return '';
+    if (h.id === 'cyclone') return tr('Bay of Bengal Tropical Cyclone (Severe Cyclonic Storm)', 'बंगाल की खाड़ी उष्णकटिबंधीय चक्रवात (गंभीर चक्रवाती तूफान)');
+    if (h.id === 'landslide') return tr('Wayanad Meppadi Debris Flow & Landslide', 'वायनाड मेप्पाडी मलबा प्रवाह एवं भूस्खलन');
+    if (h.id === 'volcano') return tr('Barren Island Volcano Active Thermal Eruption', 'बैरन द्वीप ज्वालामुखी सक्रिय थर्मल विस्फोट');
+    if (h.id === 'flood') return tr('Assam Brahmaputra River Basin Monitored Hydrology', 'असम ब्रह्मपुत्र नदी घाटी जल विज्ञान निगरानी');
+    return h.name;
+  };
+
+  const getHazardRegionName = (h) => {
+    if (!h) return '';
+    if (h.id === 'cyclone') return tr('Odisha & West Bengal Coastal Littoral Zone', 'ओडिशा एवं पश्चिम बंगाल तटीय क्षेत्र');
+    if (h.id === 'landslide') return tr('Western Ghats Escarpment, Kerala (Chooralmala)', 'पश्चिमी घाट ढलान, केरल (चूरलमाला)');
+    if (h.id === 'volcano') return tr('Andaman Sea Maritime Corridor (Indian EEZ)', 'अंडमान सागर समुद्री गलियारा (भारतीय ईईजेड)');
+    if (h.id === 'flood') return tr('Kaziranga / Majuli Island Riparian Corridor', 'काजीरंगा / माजुली द्वीप तटवर्ती गलियारा');
+    return h.region;
+  };
+
+  const getHazardMetricLabel = (h) => {
+    if (!h) return '';
+    if (h.id === 'cyclone') return tr('105 km/h Gale Wind', '105 किमी/घंटा तूफानी हवा');
+    if (h.id === 'landslide') return tr('91.4% Soil Saturation', '91.4% मृदा संतृप्ति');
+    if (h.id === 'volcano') return tr('142 MW Radiative Power', '142 मेगावाट विकिरण शक्ति');
+    if (h.id === 'flood') return tr('18,200 m³/s Discharge', '18,200 घन मी/सेकंड निर्वहन');
+    return h.primary_metric;
+  };
+
+  const getHazardStatusLabel = (h) => {
+    if (!h) return '';
+    if (h.status_code === 'LANDFALL_IMMINENT') return tr('LANDFALL IMMINENT', 'तट प्रवेश आसन्न');
+    if (h.status_code === 'HIGH_SATURATION') return tr('HIGH SATURATION', 'अत्यधिक संतृप्ति');
+    if (h.status_code === 'CONTINUOUS_VENTING') return tr('CONTINUOUS VENTING', 'निरंतर गैस उत्सर्जन');
+    if (h.status_code === 'BELOW_DANGER_MARK') return tr('BELOW DANGER MARK', 'खतरे के निशान से नीचे');
+    return h.status_code?.replace('_', ' ');
+  };
+
+  const getPassLabel = (p) => {
+    if (!p) return '';
+    if (p.id === 'pass_0h') return tr('Latest (Current Observation)', 'नवीनतम (वर्तमान अवलोकन)');
+    if (p.id === 'pass_3h') return tr('3 Hours Ago (T - 3h Pass)', '3 घंटे पूर्व (T - 3h पास)');
+    if (p.id === 'pass_6h') return tr('6 Hours Ago (T - 6h Baseline)', '6 घंटे पूर्व (T - 6h बेसलाइन)');
+    if (p.id === 'pass_12h') return tr('12 Hours Ago (T - 12h Origin)', '12 घंटे पूर्व (T - 12h उद्गम)');
+    return p.label;
+  };
+
   // Handle slide selection
   const handleSelectHazard = (hazard) => {
     setSelectedHazardId(hazard.id);
@@ -678,7 +723,7 @@ export default function CyclonePredictor() {
                           ? (isSelected ? 'bg-red-500 text-white font-bold' : 'bg-red-100 text-red-800 border border-red-300')
                           : (isSelected ? 'bg-amber-700 text-amber-100' : 'bg-stone-100 text-stone-600')
                       }`}>
-                        {isTopRank ? '★ Rank #1 (Primary Face)' : `Rank #${hazard.severity_rank}`}
+                        {isTopRank ? tr('★ Rank #1 (Primary Face)', '★ रैंक #1 (प्राथमिक आपदा)') : `${tr('Rank', 'रैंक')} #${hazard.severity_rank}`}
                       </span>
                       <span className={`text-[10px] font-mono font-bold ${isSelected ? 'text-amber-200' : 'text-stone-500'}`}>
                         MHSI {hazard.mhsi_score}
@@ -690,19 +735,19 @@ export default function CyclonePredictor() {
                       {hazard.id === 'landslide' && <Mountain className={`w-4 h-4 ${isSelected ? 'text-emerald-300' : 'text-emerald-700'}`} />}
                       {hazard.id === 'volcano' && <Flame className={`w-4 h-4 ${isSelected ? 'text-orange-300' : 'text-orange-600'}`} />}
                       {hazard.id === 'flood' && <Waves className={`w-4 h-4 ${isSelected ? 'text-blue-300' : 'text-blue-600'}`} />}
-                      <h4 className="text-xs font-black truncate">{hazard.name}</h4>
+                      <h4 className="text-xs font-black truncate">{getHazardDisplayName(hazard)}</h4>
                     </div>
 
                     <p className={`text-[10px] mt-1 truncate ${isSelected ? 'text-stone-300' : 'text-stone-500'}`}>
-                      {hazard.region}
+                      {getHazardRegionName(hazard)}
                     </p>
 
                     <div className="mt-2 pt-2 border-t border-stone-200/40 flex items-center justify-between text-[10px] font-mono">
                       <span className={isSelected ? 'text-amber-300 font-bold' : 'text-stone-700 font-bold'}>
-                        {hazard.primary_metric}
+                        {getHazardMetricLabel(hazard)}
                       </span>
                       <span className={isSelected ? 'text-stone-300' : 'text-stone-500'}>
-                        {hazard.status_code.replace('_', ' ')}
+                        {getHazardStatusLabel(hazard)}
                       </span>
                     </div>
                   </button>
@@ -716,19 +761,19 @@ export default function CyclonePredictor() {
             <div className="flex items-center gap-2">
               <span className={`w-2.5 h-2.5 rounded-full ${currentHazard.badge_color || 'bg-red-600'}`}></span>
               <span className="text-xs font-bold text-stone-900">
-                Active Threat Focus: <span className="underline decoration-amber-600 underline-offset-2">{currentHazard.name}</span>
+                {tr('Active Threat Focus:', 'सक्रिय आपदा केंद्र:')} <span className="underline decoration-amber-600 underline-offset-2">{getHazardDisplayName(currentHazard)}</span>
               </span>
               <span className="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-stone-300 font-bold text-stone-700">
-                MHSI Threat Index: {currentHazard.mhsi_score} / 100
+                {tr('MHSI Threat Index:', 'MHSI आपदा सूचकांक:')} {currentHazard.mhsi_score} / 100
               </span>
             </div>
             <button
               onClick={() => setXaiModalOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-amber-800 hover:bg-amber-900 text-amber-100 shadow-sm transition-all cursor-pointer"
-              title="Inspect mathematical breakdown and satellite attribution for this score"
+              title={tr('Inspect mathematical breakdown and satellite attribution for this score', 'इस स्कोर के गणितीय विभाजन और उपग्रह साक्ष्य का निरीक्षण करें')}
             >
               <Brain className="w-3.5 h-3.5 text-amber-300" />
-              <span>Explain AI Threat Score (XAI)</span>
+              <span>{tr('Explain AI Threat Score (XAI)', 'एआई खतरे का स्पष्टीकरण (XAI)')}</span>
             </button>
           </div>
 
@@ -778,24 +823,24 @@ export default function CyclonePredictor() {
             {selectedHazardId === 'landslide' && (
               <>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Hydraulic Soil Saturation</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Hydraulic Soil Saturation', 'हाइड्रोलिक मृदा संतृप्ति')}</span>
                   <span className="text-lg font-black text-red-700">91.4%</span>
-                  <span className="text-[10px] text-stone-500 block">Critical threshold (&gt;85%)</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Critical threshold (>85%)', 'गंभीर सीमा (>85%)')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">48h Rain Accumulation</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('48h Rain Accumulation', '48 घंटे वर्षा संचय')}</span>
                   <span className="text-lg font-black text-stone-900">312 mm</span>
-                  <span className="text-[10px] text-stone-500 block">Antecedent Precipitation Index</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Antecedent Precipitation Index', 'पूर्ववर्ती वर्षा सूचकांक')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Slope Failure Probability</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Slope Failure Probability', 'ढलान विफलता संभावना')}</span>
                   <span className="text-lg font-black text-amber-700">84.2%</span>
-                  <span className="text-[10px] text-stone-500 block">Slopes &gt;30° in Wayanad</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Slopes >30° in Wayanad', 'वायनाड में >30° ढलान')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Vulnerable Habitations</span>
-                  <span className="text-lg font-black text-emerald-800">4 Mountain Sectors</span>
-                  <span className="text-[10px] text-stone-500 block">Chooralmala & Meppadi</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Vulnerable Habitations', 'संवेदनशील बस्तियां')}</span>
+                  <span className="text-lg font-black text-emerald-800">4 {tr('Mountain Sectors', 'पर्वतीय क्षेत्र')}</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Chooralmala & Meppadi', 'चूरलमाला एवं मेप्पाडी')}</span>
                 </div>
               </>
             )}
@@ -803,24 +848,24 @@ export default function CyclonePredictor() {
             {selectedHazardId === 'volcano' && (
               <>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Thermal Radiative Power</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Thermal Radiative Power', 'थर्मल विकिरण शक्ति')}</span>
                   <span className="text-lg font-black text-orange-700">142 MW</span>
-                  <span className="text-[10px] text-stone-500 block">SWIR 2.2μm Sensor Band</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('SWIR 2.2μm Sensor Band', 'SWIR 2.2μm सेंसर बैंड')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">SO₂ Plume Dispersion</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('SO₂ Plume Dispersion', 'SO₂ गैस फैलाव')}</span>
                   <span className="text-lg font-black text-stone-900">3.8 DU</span>
-                  <span className="text-[10px] text-stone-500 block">Sentinel-5P TROPOMI</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Sentinel-5P TROPOMI', 'सेंटिनल-5P ट्रोपोमी')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Maritime Exclusion Buffer</span>
-                  <span className="text-lg font-black text-amber-700">45 km Radius</span>
-                  <span className="text-[10px] text-stone-500 block">Coast Guard Notice</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Maritime Exclusion Buffer', 'समुद्री निषेध क्षेत्र')}</span>
+                  <span className="text-lg font-black text-amber-700">45 km {tr('Radius', 'त्रिज्या')}</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Coast Guard Notice', 'तटरक्षक सूचना')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Caldera Core Temp</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Caldera Core Temp', 'काल्डेरा कोर तापमान')}</span>
                   <span className="text-lg font-black text-red-700">1100°C</span>
-                  <span className="text-[10px] text-stone-500 block">Continuous Strombolian Venting</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Continuous Strombolian Venting', 'निरंतर स्ट्रोमबोलियन उत्सर्जन')}</span>
                 </div>
               </>
             )}
@@ -828,24 +873,24 @@ export default function CyclonePredictor() {
             {selectedHazardId === 'flood' && (
               <>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">River Gauge Margin</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('River Gauge Margin', 'नदी गेज मार्जिन')}</span>
                   <span className="text-lg font-black text-emerald-700">-0.8 m</span>
-                  <span className="text-[10px] text-stone-500 block">Below CWC Danger Mark</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Below CWC Danger Mark', 'सीडब्ल्यूसी खतरे के निशान से नीचे')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Upstream Discharge</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Upstream Discharge', 'अपस्ट्रीम जल निर्वहन')}</span>
                   <span className="text-lg font-black text-stone-900">18,200 m³/s</span>
-                  <span className="text-[10px] text-stone-500 block">Brahmaputra at Nematighat</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Brahmaputra at Nematighat', 'नेमातीघाट पर ब्रह्मपुत्र')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Monitored Lowlands</span>
-                  <span className="text-lg font-black text-blue-700">Kaziranga & Majuli</span>
-                  <span className="text-[10px] text-stone-500 block">Sentinel-1 SAR Extent</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Monitored Lowlands', 'निगरानी तराई क्षेत्र')}</span>
+                  <span className="text-lg font-black text-blue-700">{tr('Kaziranga & Majuli', 'काजीरंगा एवं माजुली')}</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Sentinel-1 SAR Extent', 'सेंटिनल-1 सार सीमा')}</span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Flood Shelters Active</span>
-                  <span className="text-lg font-black text-cyan-800">82 Ready</span>
-                  <span className="text-[10px] text-stone-500 block">Assam Disaster Authority</span>
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Flood Shelters Active', 'सक्रिय बाढ़ आश्रय')}</span>
+                  <span className="text-lg font-black text-cyan-800">82 {tr('Ready', 'तैयार')}</span>
+                  <span className="text-[10px] text-stone-500 block">{tr('Assam Disaster Authority', 'असम आपदा प्राधिकरण')}</span>
                 </div>
               </>
             )}
@@ -857,10 +902,10 @@ export default function CyclonePredictor() {
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-stone-800 flex items-center gap-1.5">
                   <Camera className="w-4 h-4 text-amber-800" />
-                  <span>ZOOM EARTH OBSERVATION PASSES (TOUCH TO UPDATE IMAGE & SYNC BOTH MAPS):</span>
+                  <span>{tr('ZOOM EARTH OBSERVATION PASSES (TOUCH TO UPDATE IMAGE & SYNC BOTH MAPS):', 'ज़ूम अर्थ अवलोकन पास (छवि अपडेट व दोनों मैप सिंक हेतु स्पर्श करें):')}</span>
                 </span>
                 <span className="text-[10px] font-mono text-stone-500 font-bold">
-                  ACTIVE PASS: {formatPassTimeToIST(activePass.timestamp)}
+                  {tr('ACTIVE PASS:', 'सक्रिय पास:')} {formatPassTimeToIST(activePass.timestamp)}
                 </span>
               </div>
 
@@ -878,10 +923,10 @@ export default function CyclonePredictor() {
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-black truncate">{pass.label}</span>
+                        <span className="text-xs font-black truncate">{getPassLabel(pass)}</span>
                         {isSelected && (
                           <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-amber-500 text-amber-950 font-bold">
-                            LINKED
+                            {tr('LINKED', 'लिंक्ड')}
                           </span>
                         )}
                       </div>
