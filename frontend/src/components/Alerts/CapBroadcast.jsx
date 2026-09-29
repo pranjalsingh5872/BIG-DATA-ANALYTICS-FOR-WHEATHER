@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Megaphone, BellRing, Radio, CheckCircle, ShieldAlert, Send } from 'lucide-react';
 import { api } from '../../services/api';
 import { formatIST } from '../../utils/time';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function CapBroadcast({ events, onAlertDispatched }) {
+  const { tr, translateSeverity } = useLanguage();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -45,7 +47,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
     setErrorMsg(null);
     setSuccessMsg(null);
     if (!selectedEventId) {
-      setErrorMsg('Please select an active weather event to anchor this CAP broadcast.');
+      setErrorMsg(tr('Please select an active weather event to anchor this CAP broadcast.', 'कृपया इस CAP प्रसारण हेतु एक सक्रिय मौसम घटना चुनें।'));
       return;
     }
     try {
@@ -60,12 +62,12 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
         instructions: form.instructions,
         target_channels: form.target_channels
       });
-      setSuccessMsg('Common Alerting Protocol (CAP) v1.2 bulletin successfully signed and disseminated!');
+      setSuccessMsg(tr('Common Alerting Protocol (CAP) v1.2 bulletin successfully signed and disseminated!', 'कॉमन अलर्टिंग प्रोटोकॉल (CAP) v1.2 बुलेटिन सफलतापूर्वक हस्ताक्षरित एवं प्रसारित किया गया!'));
       await loadHistory();
       if (onAlertDispatched) onAlertDispatched();
     } catch (err) {
       console.error('Failed to dispatch alert', err);
-      setErrorMsg('CAP broadcast dispatch failed. Check broker status.');
+      setErrorMsg(tr('CAP broadcast dispatch failed. Check broker status.', 'CAP प्रसारण प्रेषण विफल रहा। ब्रोकर स्थिति जांचें।'));
     } finally {
       setSubmitting(false);
     }
@@ -77,10 +79,10 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
       <div>
         <h2 className="text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
           <Megaphone className="w-5 h-5 text-red-600" />
-          <span>CAP v1.2 Emergency Alert Dispatch Console</span>
+          <span>{tr('CAP v1.2 Emergency Alert Dispatch Console', 'CAP v1.2 आपातकालीन चेतावनी प्रेषण कंसोल')}</span>
         </h2>
         <p className="text-xs text-slate-500">
-          ITU/WMO-standard emergency broadcast dispatch to citizen mobile phones, civil defense sirens, and state portals
+          {tr('ITU/WMO-standard emergency broadcast dispatch to citizen mobile phones, civil defense sirens, and state portals', 'नागरिक मोबाइल फोन, नागरिक सुरक्षा सायरन और राज्य पोर्टलों पर ITU/WMO-मानक आपातकालीन प्रसारण प्रेषण')}
         </p>
       </div>
 
@@ -90,10 +92,10 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
             <span className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
               <BellRing className="w-4 h-4 text-red-600" />
-              <span>Compose Official Warning Bulletin</span>
+              <span>{tr('Compose Official Warning Bulletin', 'आधिकारिक चेतावनी बुलेटिन तैयार करें')}</span>
             </span>
             <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 text-red-800 font-mono border border-red-300 font-bold">
-              Standard: WMO CAP-v1.2
+              {tr('Standard: WMO CAP-v1.2', 'मानक: WMO CAP-v1.2')}
             </span>
           </div>
 
@@ -103,7 +105,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           {/* Anchor Event */}
           <div>
             <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
-              Anchor Verified Event ID *
+              {tr('Anchor Verified Event ID *', 'एंकर सत्यापित इवेंट आईडी *')}
             </label>
             <select
               value={selectedEventId}
@@ -120,7 +122,9 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
 
           {/* Headline */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">Alert Headline *</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
+              {tr('Alert Headline *', 'चेतावनी शीर्षक *')}
+            </label>
             <input
               type="text"
               required
@@ -133,39 +137,45 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           {/* Urgency & Severity & Certainty */}
           <div className="grid grid-cols-3 gap-2.5">
             <div>
-              <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">Urgency</label>
+              <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
+                {tr('Urgency', 'तात्कालिकता')}
+              </label>
               <select
                 value={form.urgency}
                 onChange={(e) => setForm({ ...form, urgency: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs text-slate-900 focus:border-red-500 outline-none"
               >
-                <option value="Immediate">Immediate</option>
-                <option value="Expected">Expected</option>
-                <option value="Future">Future</option>
+                <option value="Immediate">{tr('Immediate', 'तत्काल')}</option>
+                <option value="Expected">{tr('Expected', 'अपेक्षित')}</option>
+                <option value="Future">{tr('Future', 'भविष्य')}</option>
               </select>
             </div>
             <div>
-              <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">Severity</label>
+              <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
+                {tr('Severity', 'गंभीरता')}
+              </label>
               <select
                 value={form.severity}
                 onChange={(e) => setForm({ ...form, severity: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs text-slate-900 focus:border-red-500 outline-none"
               >
-                <option value="Extreme">Extreme (Red)</option>
-                <option value="Severe">Severe (Orange)</option>
-                <option value="Moderate">Moderate (Yellow)</option>
+                <option value="Extreme">{tr('Extreme (Red)', 'चरम (लाल)')}</option>
+                <option value="Severe">{tr('Severe (Orange)', 'गंभीर (नारंगी)')}</option>
+                <option value="Moderate">{tr('Moderate (Yellow)', 'मध्यम (पीला)')}</option>
               </select>
             </div>
             <div>
-              <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">Certainty</label>
+              <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
+                {tr('Certainty', 'निश्चितता')}
+              </label>
               <select
                 value={form.certainty}
                 onChange={(e) => setForm({ ...form, certainty: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs text-slate-900 focus:border-red-500 outline-none"
               >
-                <option value="Observed">Observed (Radar)</option>
-                <option value="Likely">Likely (&gt;80%)</option>
-                <option value="Possible">Possible</option>
+                <option value="Observed">{tr('Observed (Radar)', 'अवलोकित (रडार)')}</option>
+                <option value="Likely">{tr('Likely (>80%)', 'संभावित (>80%)')}</option>
+                <option value="Possible">{tr('Possible', 'संभव')}</option>
               </select>
             </div>
           </div>
@@ -173,7 +183,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           {/* Affected Areas */}
           <div>
             <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
-              Target Districts / Geospatial Zones (Comma separated)
+              {tr('Target Districts / Geospatial Zones (Comma separated)', 'लक्षित ज़िले / भू-स्थानिक क्षेत्र (अल्पविराम से अलग)')}
             </label>
             <input
               type="text"
@@ -186,7 +196,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           {/* Citizen Instructions */}
           <div>
             <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
-              Public Protective Action Instructions *
+              {tr('Public Protective Action Instructions *', 'सार्वजनिक सुरक्षात्मक कार्रवाई निर्देश *')}
             </label>
             <textarea
               rows={2}
@@ -200,20 +210,20 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           {/* Dispatch Channels */}
           <div>
             <label className="block text-[10px] uppercase font-bold text-slate-600 mb-1">
-              Active Multi-Channel Gateways
+              {tr('Active Multi-Channel Gateways', 'सक्रिय मल्टी-चैनल गेटवे')}
             </label>
             <div className="flex items-center gap-3 text-xs">
               <label className="flex items-center gap-1.5 text-slate-700 font-medium">
                 <input type="checkbox" defaultChecked className="accent-red-600" />
-                <span>SMS Cell Broadcast</span>
+                <span>{tr('SMS Cell Broadcast', 'एसएमएस सेल ब्रॉडकास्ट')}</span>
               </label>
               <label className="flex items-center gap-1.5 text-slate-700 font-medium">
                 <input type="checkbox" defaultChecked className="accent-red-600" />
-                <span>CAP RSS Feed</span>
+                <span>{tr('CAP RSS Feed', 'CAP RSS फीड')}</span>
               </label>
               <label className="flex items-center gap-1.5 text-slate-700 font-medium">
                 <input type="checkbox" defaultChecked className="accent-red-600" />
-                <span>WhatsApp Citizen Bot</span>
+                <span>{tr('WhatsApp Citizen Bot', 'व्हाट्सएप नागरिक बॉट')}</span>
               </label>
             </div>
           </div>
@@ -224,7 +234,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
             className="w-full py-2.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
-            <span>{submitting ? 'Disseminating Warning Message...' : 'Broadcast Multi-Channel CAP Alert'}</span>
+            <span>{submitting ? tr('Disseminating Warning Message...', 'चेतावनी संदेश प्रसारित किया जा रहा है...') : tr('Broadcast Multi-Channel CAP Alert', 'मल्टी-चैनल CAP चेतावनी प्रसारित करें')}</span>
           </button>
         </form>
 
@@ -233,15 +243,15 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
           <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
             <span className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
               <Radio className="w-4 h-4 text-emerald-600" />
-              <span>CAP Dissemination Log</span>
+              <span>{tr('CAP Dissemination Log', 'CAP प्रसारण लॉग')}</span>
             </span>
-            <span className="text-[10px] text-slate-500 font-mono">Total: {history.length}</span>
+            <span className="text-[10px] text-slate-500 font-mono">{tr('Total:', 'कुल:')} {history.length}</span>
           </div>
 
           <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
             {history.length === 0 ? (
               <div className="p-6 text-center text-slate-500 text-xs">
-                No emergency CAP alerts broadcast yet. Ready for dispatch.
+                {tr('No emergency CAP alerts broadcast yet. Ready for dispatch.', 'अभी तक कोई आपातकालीन CAP अलर्ट प्रसारित नहीं किया गया है। प्रेषण हेतु तैयार।')}
               </div>
             ) : (
               history.map((h, idx) => (
@@ -249,13 +259,13 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10px] text-red-700 font-bold">{h.identifier}</span>
                     <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-red-100 text-red-800">
-                      {h.severity}
+                      {translateSeverity(h.severity)}
                     </span>
                   </div>
                   <h4 className="font-bold text-slate-900 text-xs">{h.headline}</h4>
                   <p className="text-[11px] text-slate-600 leading-tight">{h.instructions}</p>
                   <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-200">
-                    <span>Sender: {h.sender}</span>
+                    <span>{tr('Sender:', 'प्रेषक:')} {h.sender}</span>
                     <span>{formatIST(h.sent_at)}</span>
                   </div>
                 </div>

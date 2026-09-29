@@ -163,8 +163,8 @@ export default function OperatorDesk({ onEventUpdated }) {
           {/* Left Column: Queue Items List */}
           <div className="lg:col-span-5 bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs max-h-[640px] overflow-y-auto space-y-2">
             <div className="flex items-center justify-between text-[10px] uppercase font-bold text-slate-500 px-1 mb-1">
-              <span>Active Reports Pending Action ({queue.length})</span>
-              <span className="text-emerald-700">Click to Inspect</span>
+              <span>{tr('Active Reports Pending Action', 'समीक्षा हेतु लंबित सक्रिय रिपोर्ट')} ({queue.length})</span>
+              <span className="text-emerald-700">{tr('Click to Inspect', 'निरीक्षण हेतु क्लिक करें')}</span>
             </div>
             {queue.map((ev) => {
               const isSelected = selectedEvent?.id === ev.id;
@@ -183,13 +183,13 @@ export default function OperatorDesk({ onEventUpdated }) {
                     <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
                       ev.severity === 'Critical' ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-amber-100 text-amber-700 border border-amber-200'
                     }`}>
-                      {ev.severity}
+                      {translateSeverity(ev.severity)}
                     </span>
                   </div>
                   <h4 className="text-xs font-bold text-slate-900 line-clamp-1 mb-1">{ev.title}</h4>
                   <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
                     <span>{ev.city}, {ev.state}</span>
-                    <span className="text-amber-700 font-bold">Trust: {ev.trust_score}%</span>
+                    <span className="text-amber-700 font-bold">{tr('Trust:', 'विश्वास:')} {ev.trust_score}%</span>
                   </div>
                   <div className="text-[9px] text-slate-400 mt-1 font-mono flex items-center gap-1">
                     <Clock className="w-2.5 h-2.5" />
@@ -206,7 +206,7 @@ export default function OperatorDesk({ onEventUpdated }) {
               <div className="border-b border-slate-200 pb-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase font-bold tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                    Awaiting Authority Decision
+                    {tr('Awaiting Authority Decision', 'प्राधिकरण निर्णय की प्रतीक्षा')}
                   </span>
                   <span className="text-xs font-mono text-slate-600 font-bold bg-slate-100 px-2 py-0.5 rounded">
                     {selectedEvent.id}
@@ -215,7 +215,7 @@ export default function OperatorDesk({ onEventUpdated }) {
                 <h3 className="text-sm font-black text-slate-900 mt-2">{selectedEvent.title}</h3>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">{selectedEvent.description}</p>
                 <div className="text-[10px] text-slate-500 mt-1 font-mono">
-                  Timestamp: {formatIST(selectedEvent.observed_at)}
+                  {tr('Timestamp:', 'समय-मुहर:')} {formatIST(selectedEvent.observed_at)}
                 </div>
               </div>
 
@@ -223,32 +223,32 @@ export default function OperatorDesk({ onEventUpdated }) {
               <div className="grid grid-cols-2 gap-3 text-xs">
                 {/* Claim details */}
                 <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5 text-slate-800">
-                  <span className="block text-[10px] uppercase font-bold text-slate-500">Report Telemetry</span>
-                  <div><b>Category:</b> {selectedEvent.category}</div>
-                  <div><b>Source:</b> {selectedEvent.source} ({selectedEvent.source_author || 'Citizen'})</div>
-                  <div><b>Coordinates:</b> {selectedEvent.latitude?.toFixed(4)}, {selectedEvent.longitude?.toFixed(4)}</div>
-                  <div><b>City/State:</b> {selectedEvent.city}, {selectedEvent.state}</div>
-                  <div><b>H3 Cell:</b> <code className="text-emerald-700 text-[10px] font-bold">{selectedEvent.h3_index}</code></div>
+                  <span className="block text-[10px] uppercase font-bold text-slate-500">{tr('Report Telemetry', 'रिपोर्ट टेलीमेट्री')}</span>
+                  <div><b>{tr('Category:', 'श्रेणी:')}</b> {translateCategory(selectedEvent.category)}</div>
+                  <div><b>{tr('Source:', 'स्रोत:')}</b> {selectedEvent.source} ({selectedEvent.source_author || tr('Citizen', 'नागरिक')})</div>
+                  <div><b>{tr('Coordinates:', 'निर्देशांक:')}</b> {selectedEvent.latitude?.toFixed(4)}, {selectedEvent.longitude?.toFixed(4)}</div>
+                  <div><b>{tr('City/State:', 'शहर / राज्य:')}</b> {selectedEvent.city}, {selectedEvent.state}</div>
+                  <div><b>{tr('H3 Cell:', 'H3 सेल:')}</b> <code className="text-emerald-700 text-[10px] font-bold">{selectedEvent.h3_index}</code></div>
                 </div>
 
                 {/* Physical station truth */}
                 <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5 text-slate-800">
-                  <span className="block text-[10px] uppercase font-bold text-slate-500">Sensor Cross-Check</span>
-                  <div><b>Nearest Sensor:</b> {selectedEvent.radar_station_name || 'Regional Meteorological Station'}</div>
-                  <div><b>Sensor Value:</b> {selectedEvent.radar_recorded_value || 0.0} mm/kmh</div>
+                  <span className="block text-[10px] uppercase font-bold text-slate-500">{tr('Sensor Cross-Check', 'सेंसर क्रॉस-चेक')}</span>
+                  <div><b>{tr('Nearest Sensor:', 'निकटतम सेंसर:')}</b> {selectedEvent.radar_station_name || tr('Regional Meteorological Station', 'क्षेत्रीय मौसम विज्ञान स्टेशन')}</div>
+                  <div><b>{tr('Sensor Value:', 'सेंसर मान:')}</b> {selectedEvent.radar_recorded_value || 0.0} mm/kmh</div>
                   <div>
-                    <b>Corroboration:</b>{' '}
+                    <b>{tr('Corroboration:', 'पुष्टि:')}</b>{' '}
                     <span className={selectedEvent.radar_corroborated ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
-                      {selectedEvent.radar_corroborated ? 'Station Confirmed' : 'Sensor Mismatch'}
+                      {selectedEvent.radar_corroborated ? tr('Station Confirmed', 'स्टेशन द्वारा संपुष्ट') : tr('Sensor Mismatch', 'सेंसर बेमेल')}
                     </span>
                   </div>
-                  <div><b>Media Auth:</b> {selectedEvent.is_media_authentic ? 'Passed' : 'Recycled Flag'}</div>
+                  <div><b>{tr('Media Auth:', 'मीडिया प्रमाणिकता:')}</b> {selectedEvent.is_media_authentic ? tr('Passed', 'उत्तीर्ण') : tr('Recycled Flag', 'पुनर्चक्रित ध्वज')}</div>
                 </div>
               </div>
 
               {/* Decision Action Form */}
               <div className="space-y-3 pt-2">
-                <div className="text-[10px] uppercase font-bold text-slate-500">Authority Verdict</div>
+                <div className="text-[10px] uppercase font-bold text-slate-500">{tr('Authority Verdict', 'प्राधिकरण निर्णय')}</div>
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
@@ -263,7 +263,7 @@ export default function OperatorDesk({ onEventUpdated }) {
                     }`}
                   >
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>Verify Event</span>
+                    <span>{tr('Verify Event', 'घटना सत्यापित करें')}</span>
                   </button>
 
                   <button
@@ -279,7 +279,7 @@ export default function OperatorDesk({ onEventUpdated }) {
                     }`}
                   >
                     <XCircle className="w-4 h-4 text-red-600" />
-                    <span>Reject / Fake</span>
+                    <span>{tr('Reject / Fake', 'अस्वीकार / फर्जी')}</span>
                   </button>
 
                   <button
@@ -295,20 +295,20 @@ export default function OperatorDesk({ onEventUpdated }) {
                     }`}
                   >
                     <ShieldAlert className="w-4 h-4 text-amber-600" />
-                    <span>Quarantine</span>
+                    <span>{tr('Quarantine', 'क्वारंटाइन')}</span>
                   </button>
                 </div>
 
                 <div>
                   <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
-                    Official Authority Justification
+                    {tr('Official Authority Justification', 'आधिकारिक प्राधिकरण औचित्य')}
                   </label>
                   <textarea
                     rows={2}
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:border-emerald-500 outline-none"
-                    placeholder="Enter reason for verification or rejection..."
+                    placeholder={tr('Enter reason for verification or rejection...', 'सत्यापन अथवा अस्वीकृति का कारण दर्ज करें...')}
                   />
                 </div>
 
@@ -326,7 +326,11 @@ export default function OperatorDesk({ onEventUpdated }) {
                         : 'bg-amber-600 hover:bg-amber-700'
                     }`}
                   >
-                    <span>{submitting ? 'Committing & Advancing...' : `${decision === 'VERIFIED' ? 'Verify' : decision === 'REJECTED' ? 'Reject' : 'Quarantine'} & Advance to Next Case`}</span>
+                    <span>
+                      {submitting
+                        ? tr('Committing & Advancing...', 'दर्ज कर आगे बढ़ रहे हैं...')
+                        : `${decision === 'VERIFIED' ? tr('Verify Event', 'सत्यापित करें') : decision === 'REJECTED' ? tr('Reject', 'अस्वीकार करें') : tr('Quarantine', 'क्वारंटाइन करें')} & ${tr('Advance to Next Case', 'अगले मामले पर जाएं')}`}
+                    </span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -334,7 +338,7 @@ export default function OperatorDesk({ onEventUpdated }) {
             </div>
           ) : (
             <div className="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-8 shadow-xs text-center text-slate-500">
-              <span>Select an item from the left queue to inspect evidence.</span>
+              <span>{tr('Select an item from the left queue to inspect evidence.', 'साक्ष्य का निरीक्षण करने के लिए बाईं कतार से एक मद चुनें।')}</span>
             </div>
           )}
         </div>

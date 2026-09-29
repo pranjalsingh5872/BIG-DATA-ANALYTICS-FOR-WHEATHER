@@ -526,6 +526,15 @@ export default function CyclonePredictor() {
     return p.label;
   };
 
+  const getPassStatusDesc = (p) => {
+    if (!p) return '';
+    if (p.id === 'pass_0h') return tr('Latest Zoom Earth orbital pass: Active cyclonic eye and convective arms clearly observed over Bay of Bengal.', 'नवीनतम ज़ूम अर्थ कक्षीय पास: बंगाल की खाड़ी पर सक्रिय चक्रवाती आंख एवं संवहनी भुजाएं स्पष्ट रूप से देखी गईं।');
+    if (p.id === 'pass_3h') return tr('Zoom Earth snapshot 3 hours ago: Central dense overcast consolidating; convective rainbands wrapping into vortex.', '3 घंटे पहले ज़ूम अर्थ स्नैपशॉट: केंद्रीय सघन बादल संगठित हो रहे हैं; संवहनी वर्षा पट्टियां भंवर में लिपट रही हैं।');
+    if (p.id === 'pass_6h') return tr('Zoom Earth snapshot 6 hours ago: Low pressure system deepening into cyclonic storm over warm sea surface (30.5°C).', '6 घंटे पहले ज़ूम अर्थ स्नैपशॉट: गर्म समुद्र तल (30.5°C) पर कम दबाव का क्षेत्र चक्रवाती तूफान में बदल रहा है।');
+    if (p.id === 'pass_12h') return tr('Zoom Earth nighttime snapshot 12 hours ago: Peninsular city lights visible with nocturnal thermal IR cloud mass.', '12 घंटे पहले ज़ूम अर्थ रात्रि स्नैपशॉट: प्रायद्वीपीय शहर की बत्तियां रात्रि थर्मल आईआर मेघ पुंज के साथ दिखाई दे रही हैं।');
+    return p.status;
+  };
+
   // Handle slide selection
   const handleSelectHazard = (hazard) => {
     setSelectedHazardId(hazard.id);
@@ -990,17 +999,17 @@ export default function CyclonePredictor() {
                   <div className="flex items-center gap-2">
                     <Camera className="w-4 h-4 text-amber-700" />
                     <h3 className="text-xs font-black uppercase tracking-wider text-stone-900">
-                      {selectedHazardId === 'cyclone' ? 'Zoom Earth Live Geocolor Satellite Observation' : currentHazard.satellite_label}
+                      {selectedHazardId === 'cyclone' ? tr('Zoom Earth Live Geocolor Satellite Observation', 'ज़ूम अर्थ लाइव जियोकलर उपग्रह अवलोकन') : currentHazard.satellite_label}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-mono text-cyan-900 font-bold bg-cyan-100 px-2 py-0.5 rounded border border-cyan-300">
-                      {selectedHazardId === 'cyclone' ? formatPassTimeToIST(activePass.timestamp) : 'Real-Time Earth Observation'}
+                      {selectedHazardId === 'cyclone' ? formatPassTimeToIST(activePass.timestamp) : tr('Real-Time Earth Observation', 'रियल-टाइम पृथ्वी अवलोकन')}
                     </span>
                     <button
                       onClick={() => setHighResModalOpen(true)}
                       className="p-1 rounded bg-[#ede4d4] hover:bg-[#e4d7c0] text-stone-700"
-                      title="Expand to Fullscreen"
+                      title={tr('Expand to Fullscreen', 'पूर्णस्क्रीन में देखें')}
                     >
                       <Maximize2 className="w-3.5 h-3.5" />
                     </button>
@@ -1023,7 +1032,7 @@ export default function CyclonePredictor() {
                   <div className="absolute top-3 left-3 bg-stone-900/85 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg border border-stone-700 text-xs space-y-0.5">
                     <div className="font-bold flex items-center gap-1.5 text-amber-300">
                       <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                      <span>Observation Epicenter:</span>
+                      <span>{tr('Observation Epicenter:', 'अवलोकन केंद्र:')}</span>
                       <span className="font-mono">
                         {selectedHazardId === 'cyclone'
                           ? `${activePass.cyclone_lat}°N, ${activePass.cyclone_lon}°E`
@@ -1032,20 +1041,20 @@ export default function CyclonePredictor() {
                     </div>
                     <div className="text-[10px] text-stone-300 font-mono">
                       {selectedHazardId === 'cyclone'
-                        ? `Cloud Canopy: 720 km • Category: ${activePass.category}`
-                        : `${currentHazard.region}`}
+                        ? `${tr('Cloud Canopy:', 'बादल आवरण:')} 720 km • ${tr('Category:', 'श्रेणी:')} ${translateCategory(activePass.category) || activePass.category}`
+                        : getHazardRegionName(currentHazard)}
                     </div>
                   </div>
 
                   <div className="absolute bottom-2 right-2 bg-stone-900/85 backdrop-blur-sm text-stone-300 px-2 py-1 rounded text-[10px] font-mono border border-stone-700 flex items-center gap-1">
-                    <span>Source: {selectedHazardId === 'cyclone' ? 'Zoom Earth / JMA Himawari' : 'ISRO / ESA Sentinel'}</span>
+                    <span>{tr('Source:', 'स्रोत:')} {selectedHazardId === 'cyclone' ? 'Zoom Earth / JMA Himawari' : 'ISRO / ESA Sentinel'}</span>
                     <ExternalLink className="w-3 h-3 text-cyan-400" />
                   </div>
                 </div>
 
                 {/* Satellite Description */}
                 <p className="text-[11px] text-stone-600 leading-relaxed font-sans">
-                  {selectedHazardId === 'cyclone' ? activePass.status : currentHazard.description}
+                  {selectedHazardId === 'cyclone' ? getPassStatusDesc(activePass) : currentHazard.description}
                 </p>
               </div>
             )}
@@ -1057,15 +1066,15 @@ export default function CyclonePredictor() {
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-red-600" />
                     <h3 className="text-xs font-black uppercase tracking-wider text-stone-900">
-                      Linked Geospatial Map ({activeCoords[0]}°N, {activeCoords[1]}°E)
+                      {tr('Linked Geospatial Map', 'संबद्ध भू-स्थानिक मानचित्र')} ({activeCoords[0]}°N, {activeCoords[1]}°E)
                     </h3>
                   </div>
                   <div className="flex items-center gap-3 text-[10px] font-bold font-mono">
                     <span className="flex items-center gap-1 text-red-700">
-                      <span className="w-2 h-2 rounded-full bg-red-600"></span> Active Epicenter
+                      <span className="w-2 h-2 rounded-full bg-red-600"></span> {tr('Active Epicenter', 'सक्रिय केंद्र')}
                     </span>
                     <span className="flex items-center gap-1 text-amber-700">
-                      <span className="w-2 h-2 border border-amber-600 bg-amber-200"></span> Impact Corridor
+                      <span className="w-2 h-2 border border-amber-600 bg-amber-200"></span> {tr('Impact Corridor', 'प्रभाव गलियारा')}
                     </span>
                   </div>
                 </div>
@@ -1108,8 +1117,8 @@ export default function CyclonePredictor() {
                         <Marker position={activeCoords} icon={createCustomPin('#dc2626')}>
                           <Popup>
                             <div className="text-xs">
-                              <b>Active Cyclone Center:</b> {activeCoords[0]}°N, {activeCoords[1]}°E<br />
-                              <b>Wind:</b> {activePass.wind_kmh} km/h • <b>Pressure:</b> {activePass.pressure_hpa} hPa
+                              <b>{tr('Active Cyclone Center:', 'सक्रिय चक्रवात केंद्र:')}</b> {activeCoords[0]}°N, {activeCoords[1]}°E<br />
+                              <b>{tr('Wind:', 'हवा:')}</b> {activePass.wind_kmh} km/h • <b>{tr('Pressure:', 'दबाव:')}</b> {activePass.pressure_hpa} hPa
                             </div>
                           </Popup>
                         </Marker>
@@ -1130,7 +1139,7 @@ export default function CyclonePredictor() {
                               <div className="text-xs">
                                 <b>{spot.name}</b><br />
                                 <span className="text-red-700 font-bold">{spot.risk}</span><br />
-                                Coordinates: {spot.lat}°N, {spot.lon}°E
+                                {tr('Coordinates:', 'निर्देशांक:')} {spot.lat}°N, {spot.lon}°E
                               </div>
                             </Popup>
                           </Marker>
@@ -1143,10 +1152,10 @@ export default function CyclonePredictor() {
                 {/* Hotspot Vulnerability Summary */}
                 <div className="bg-[#ede4d4] p-2.5 rounded-xl border border-[#ded3bf] flex items-center justify-between text-xs">
                   <span className="font-bold text-stone-800">
-                    High-Risk Zones Identified: {currentHazard.hotspots?.length || 4} Locations
+                    {tr('High-Risk Zones Identified:', 'पहचाने गए उच्च जोखिम वाले क्षेत्र:')} {currentHazard.hotspots?.length || 4} {tr('Locations', 'स्थान')}
                   </span>
                   <span className="text-[11px] font-mono text-red-800 font-bold">
-                    NDRF Rapid Deployment Active
+                    {tr('NDRF Rapid Deployment Active', 'एनडीआरएफ त्वरित तैनाती सक्रिय')}
                   </span>
                 </div>
               </div>
@@ -1167,38 +1176,40 @@ export default function CyclonePredictor() {
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-sm font-black text-emerald-950">All National Sectors Within Safe Operating Limits</h3>
+                <h3 className="text-sm font-black text-emerald-950">
+                  {tr('All National Sectors Within Safe Operating Limits', 'सभी राष्ट्रीय क्षेत्र सुरक्षित परिचालन सीमा के भीतर')}
+                </h3>
                 <p className="text-xs text-emerald-800 mt-0.5">
-                  Automated telemetry sweep confirmed: Zero Level-3 emergency cyclones, landslides, or active flood incursions across Indian territory.
+                  {tr('Automated telemetry sweep confirmed: Zero Level-3 emergency cyclones, landslides, or active flood incursions across Indian territory.', 'स्वचालित टेलीमेट्री समीक्षा से पुष्टि: भारतीय क्षेत्र में शून्य स्तर-3 आपातकालीन चक्रवात, भूस्खलन, अथवा सक्रिय बाढ़ का प्रकोप।')}
                 </p>
               </div>
             </div>
             <span className="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-lg shrink-0">
-              GREEN CODE · NORMAL
+              {tr('GREEN CODE · NORMAL', 'हरा कोड · सामान्य स्थिति')}
             </span>
           </div>
 
           {/* Normal Key Performance Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="bg-[#fbf8f1] border border-[#ded3bf] p-4 rounded-xl shadow-sm">
-              <span className="text-[10px] uppercase font-bold text-stone-500 block">Doppler Radar Status</span>
-              <span className="text-lg font-black text-emerald-800">34 / 34 Active</span>
-              <span className="text-[10px] text-stone-500 block">100% Nationwide Radar Coverage</span>
+              <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Doppler Radar Status', 'डॉप्लर रडार स्थिति')}</span>
+              <span className="text-lg font-black text-emerald-800">{tr('34 / 34 Active', '34 / 34 सक्रिय')}</span>
+              <span className="text-[10px] text-stone-500 block">{tr('100% Nationwide Radar Coverage', '100% देशव्यापी रडार कवरेज')}</span>
             </div>
             <div className="bg-[#fbf8f1] border border-[#ded3bf] p-4 rounded-xl shadow-sm">
-              <span className="text-[10px] uppercase font-bold text-stone-500 block">National River Basins</span>
-              <span className="text-lg font-black text-emerald-800">99.4% Safe</span>
-              <span className="text-[10px] text-stone-500 block">All CWC gauges below danger marks</span>
+              <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('National River Basins', 'राष्ट्रीय नदी घाटियां')}</span>
+              <span className="text-lg font-black text-emerald-800">{tr('99.4% Safe', '99.4% सुरक्षित')}</span>
+              <span className="text-[10px] text-stone-500 block">{tr('All CWC gauges below danger marks', 'सभी सीडब्ल्यूसी गेज खतरे के निशान से नीचे')}</span>
             </div>
             <div className="bg-[#fbf8f1] border border-[#ded3bf] p-4 rounded-xl shadow-sm">
-              <span className="text-[10px] uppercase font-bold text-stone-500 block">Synoptic Wind Field</span>
+              <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('Synoptic Wind Field', 'सिनॉप्टिक वायु क्षेत्र')}</span>
               <span className="text-lg font-black text-stone-900">14 - 22 km/h</span>
-              <span className="text-[10px] text-stone-500 block">Benign seasonal circulation</span>
+              <span className="text-[10px] text-stone-500 block">{tr('Benign seasonal circulation', 'अनुकूल मौसमी परिसंचरण')}</span>
             </div>
             <div className="bg-[#fbf8f1] border border-[#ded3bf] p-4 rounded-xl shadow-sm">
-              <span className="text-[10px] uppercase font-bold text-stone-500 block">NDRF Battalion State</span>
-              <span className="text-lg font-black text-stone-900">Routine Standby</span>
-              <span className="text-[10px] text-stone-500 block">Standard operational readiness</span>
+              <span className="text-[10px] uppercase font-bold text-stone-500 block">{tr('NDRF Battalion State', 'एनडीआरएफ बटालियन स्थिति')}</span>
+              <span className="text-lg font-black text-stone-900">{tr('Routine Standby', 'नियमित स्टैंडबाय')}</span>
+              <span className="text-[10px] text-stone-500 block">{tr('Standard operational readiness', 'मानक परिचालन तत्परता')}</span>
             </div>
           </div>
 
