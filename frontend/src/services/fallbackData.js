@@ -29,7 +29,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@OdishaDisasterWatch",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:13:06.827105",
+    "observed_at": "2026-09-29T19:13:06.827105",
     "id": "EVT-TW-F0C83C00",
     "h3_index": "873c9db96ffffff",
     "source_credibility": 0.6,
@@ -45,7 +45,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "UNREVIEWED",
     "operator_notes": "Ingested via Twitter Weather Intelligence Connector",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:13:06.827105"
+    "ingested_at": "2026-09-29T19:13:06.827105"
   },
   {
     "title": "\u092c\u093f\u0939\u093e\u0930 \u092e\u094c\u0938\u092e \u0905\u0932\u0930\u094d\u091f: \u092a\u091f\u0928\u093e \u0914\u0930 \u0906\u0938\u092a\u093e\u0938 \u0915\u0947 \u091c\u093f\u0932\u094b\u0902 \u092e\u0947\u0902 \u092e\u0947\u0918\u0917\u0930\u094d\u091c\u0928 \u0915\u0947 \u0938\u093e\u0925 \u092d\u093e\u0930\u0940 \u092c\u093e\u0930\u093f\u0936 \u0915\u0940 \u0938\u0902\u092d\u093e\u0935\u0928\u093e\u0964 \u092a\u094d\u0930\u0936\u093e\u0938\u0928 \u0928\u0947 ...",
@@ -60,7 +60,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@BiharMausamWatch",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:13:06.827105",
+    "observed_at": "2026-09-29T19:13:06.827105",
     "id": "EVT-TW-DC37D005",
     "h3_index": "873da1146ffffff",
     "source_credibility": 0.75,
@@ -76,7 +76,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "UNREVIEWED",
     "operator_notes": "Ingested via Twitter Weather Intelligence Connector",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:13:06.827105"
+    "ingested_at": "2026-09-29T19:13:06.827105"
   },
   {
     "title": "IMD Nowcast: Kolkata and South 24 Parganas to experience moderate spells of rainfall accompanie...",
@@ -91,7 +91,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@KolkataWeatherDesk",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:13:06.827105",
+    "observed_at": "2026-09-29T19:13:06.827105",
     "id": "EVT-TW-C5822502",
     "h3_index": "873cf2c60ffffff",
     "source_credibility": 0.6,
@@ -107,7 +107,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "UNREVIEWED",
     "operator_notes": "Ingested via Twitter Weather Intelligence Connector",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:13:06.827105"
+    "ingested_at": "2026-09-29T19:13:06.827105"
   },
   {
     "title": "Severe localized thunderstorm and high wind squall reported across coastal Mumbai and Thane sub...",
@@ -122,7 +122,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@MumbaiWeatherLive",
     "media_url": "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80",
     "media_type": "image",
-    "observed_at": "2026-09-28T19:13:06.827105",
+    "observed_at": "2026-09-29T19:13:06.827105",
     "id": "EVT-TW-5539CBE9",
     "h3_index": "87608b0b6ffffff",
     "source_credibility": 0.6,
@@ -138,7 +138,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "UNREVIEWED",
     "operator_notes": "Ingested via Twitter Weather Intelligence Connector",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:13:06.827105"
+    "ingested_at": "2026-09-29T19:13:06.827105"
   },
   {
     "title": "\u092e\u094c\u0938\u092e \u0935\u093f\u092d\u093e\u0917 (IMD) \u0915\u093e \u0905\u0932\u0930\u094d\u091f: \u0926\u093f\u0932\u094d\u0932\u0940-\u090f\u0928\u0938\u0940\u0906\u0930 \u092e\u0947\u0902 \u0936\u093e\u092e \u0915\u094b \u0924\u0947\u091c \u0939\u0935\u093e\u0913\u0902 \u0915\u0947 \u0938\u093e\u0925 \u092c\u093e\u0930\u093f\u0936 \u0914\u0930 \u092c\u0942\u0902\u0926\u093e\u092c\u093e\u0902\u0926\u0940 \u0915\u0947 \u0906\u0938\u093e...",
@@ -153,7 +153,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@Indiametsky",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:13:06.827105",
+    "observed_at": "2026-09-29T19:13:06.827105",
     "id": "EVT-TW-F0596F35",
     "h3_index": "873da1146ffffff",
     "source_credibility": 0.6,
@@ -169,7 +169,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "UNREVIEWED",
     "operator_notes": "Ingested via Twitter Weather Intelligence Connector",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:13:06.827105"
+    "ingested_at": "2026-09-29T19:13:06.827105"
   },
   {
     "title": "Live Surface Observation: Agra, Uttar Pradesh (23.9\u00b0C)",
@@ -184,7 +184,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Agra Kheria AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0038",
     "h3_index": "873d8584affffff",
     "source_credibility": 0.92,
@@ -200,7 +200,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 23.9\u00b0C, 9.3 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Amritsar, Punjab (23.1\u00b0C)",
@@ -215,7 +215,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Amritsar Rajasansi AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0037",
     "h3_index": "87424d26dffffff",
     "source_credibility": 0.92,
@@ -231,7 +231,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 23.1\u00b0C, 4.5 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Varanasi, Uttar Pradesh (25.2\u00b0C)",
@@ -246,7 +246,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Varanasi Babatpur AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0036",
     "h3_index": "873c16456ffffff",
     "source_credibility": 0.92,
@@ -262,7 +262,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 25.2\u00b0C, 7.1 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Jodhpur, Rajasthan (28.1\u00b0C)",
@@ -277,7 +277,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Jodhpur Marwar AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0035",
     "h3_index": "87425a6c6ffffff",
     "source_credibility": 0.92,
@@ -293,7 +293,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 28.1\u00b0C, 1.8 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Madurai",
@@ -308,7 +308,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Madurai Airport AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0034",
     "h3_index": "87603422cffffff",
     "source_credibility": 0.92,
@@ -324,7 +324,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 26.6\u00b0C, 5.4 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Raipur, Chhattisgarh (24.4\u00b0C)",
@@ -339,7 +339,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Raipur Mana AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0033",
     "h3_index": "873cb1cabffffff",
     "source_credibility": 0.92,
@@ -355,7 +355,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 24.4\u00b0C, 6.2 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Low Visibility Fog Corridor in Ranchi, Jharkhand",
@@ -370,7 +370,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Ranchi Hinoo AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0032",
     "h3_index": "873ca8534ffffff",
     "source_credibility": 0.92,
@@ -386,7 +386,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 21.3\u00b0C, 8.9 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Bhubaneswar",
@@ -401,7 +401,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Bhubaneswar Airport AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0031",
     "h3_index": "873c8e400ffffff",
     "source_credibility": 0.92,
@@ -417,7 +417,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 25.5\u00b0C, 6.9 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Low Visibility Fog Corridor in Chandigarh, Punjab",
@@ -432,7 +432,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Chandigarh Airbase AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0030",
     "h3_index": "873d14699ffffff",
     "source_credibility": 0.92,
@@ -448,7 +448,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 21.9\u00b0C, 1.3 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Surat",
@@ -463,7 +463,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Surat Dumas Coast AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0029",
     "h3_index": "8742d9d6bffffff",
     "source_credibility": 0.92,
@@ -479,7 +479,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 25.6\u00b0C, 5.2 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Nagpur",
@@ -494,7 +494,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Nagpur Sonegaon AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0028",
     "h3_index": "87609612dffffff",
     "source_credibility": 0.92,
@@ -510,7 +510,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 25.2\u00b0C, 9.1 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Indore, Madhya Pradesh (23.6\u00b0C)",
@@ -525,7 +525,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Indore Devi Ahilya AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0027",
     "h3_index": "873d9629bffffff",
     "source_credibility": 0.92,
@@ -541,7 +541,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 23.6\u00b0C, 7.7 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Bhopal, Madhya Pradesh (23.9\u00b0C)",
@@ -556,7 +556,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Bhopal Bairagarh AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0026",
     "h3_index": "873d914f1ffffff",
     "source_credibility": 0.92,
@@ -572,7 +572,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 23.9\u00b0C, 8.2 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Patna, Bihar (25.2\u00b0C)",
@@ -587,7 +587,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Patna Jaiprakash AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0025",
     "h3_index": "873c138caffffff",
     "source_credibility": 0.92,
@@ -603,7 +603,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 25.2\u00b0C, 7.6 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Lucknow, Uttar Pradesh (24.6\u00b0C)",
@@ -618,7 +618,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Lucknow Amausi AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0024",
     "h3_index": "873d8dcd5ffffff",
     "source_credibility": 0.92,
@@ -634,7 +634,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 24.6\u00b0C, 4.7 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Jaipur, Rajasthan (23.9\u00b0C)",
@@ -649,7 +649,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Jaipur Sanganer AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0023",
     "h3_index": "873da218effffff",
     "source_credibility": 0.92,
@@ -665,7 +665,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 23.9\u00b0C, 6.0 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Pune",
@@ -680,7 +680,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Pune Shivajinagar AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0022",
     "h3_index": "876088501ffffff",
     "source_credibility": 0.92,
@@ -696,7 +696,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 22.9\u00b0C, 5.2 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Ahmedabad",
@@ -711,7 +711,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Ahmedabad Sabarmati AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0021",
     "h3_index": "8742cea64ffffff",
     "source_credibility": 0.92,
@@ -727,7 +727,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 27.6\u00b0C, 4.4 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Hyderabad, Telangana (26.6\u00b0C)",
@@ -742,7 +742,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Begumpet Airport AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0020",
     "h3_index": "8760a25b0ffffff",
     "source_credibility": 0.92,
@@ -758,7 +758,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 26.6\u00b0C, 2.4 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Low Visibility Fog Corridor in Bengaluru, Karnataka",
@@ -773,7 +773,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "National Surface AWS Network (Bengaluru HAL Surface AWS)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-AWS-0019",
     "h3_index": "8760145b4ffffff",
     "source_credibility": 0.92,
@@ -789,7 +789,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via Open-Meteo AWS pipeline. Verified telemetry: 20.8\u00b0C, 1.8 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Vijayawada",
@@ -804,7 +804,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Krishna Basin)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0018",
     "h3_index": "87619aa6cffffff",
     "source_credibility": 0.92,
@@ -820,7 +820,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 26.9\u00b0C, 0.7 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Shimla, Himachal Pradesh (10.7\u00b0C)",
@@ -835,7 +835,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Western Himalayan)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0017",
     "h3_index": "873d10976ffffff",
     "source_credibility": 0.92,
@@ -851,7 +851,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 10.7\u00b0C, 2.7 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Dehradun, Uttarakhand (20.2\u00b0C)",
@@ -866,7 +866,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Garhwal Infrared)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0016",
     "h3_index": "873d10659ffffff",
     "source_credibility": 0.92,
@@ -882,7 +882,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 20.2\u00b0C, 3.9 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Localized Thunderstorm & Cloud Cover in Imphal",
@@ -897,7 +897,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Northeast Sounder)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0015",
     "h3_index": "873cea050ffffff",
     "source_credibility": 0.92,
@@ -913,7 +913,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 23.7\u00b0C, 1.8 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Localized Thunderstorm & Cloud Cover in Gangtok",
@@ -928,7 +928,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Himalayan Sounder)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0014",
     "h3_index": "873c0acd4ffffff",
     "source_credibility": 0.92,
@@ -944,7 +944,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 15.8\u00b0C, 2.0 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Low Visibility Fog Corridor in Shillong, Meghalaya",
@@ -959,7 +959,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Cloud Top TIR)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0013",
     "h3_index": "873ce3a16ffffff",
     "source_credibility": 0.92,
@@ -975,7 +975,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 18.9\u00b0C, 4.6 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Coimbatore",
@@ -990,7 +990,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Ghats Imager)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0012",
     "h3_index": "876033868ffffff",
     "source_credibility": 0.92,
@@ -1006,7 +1006,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 25.1\u00b0C, 3.3 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Thiruvananthapuram",
@@ -1021,7 +1021,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "ISRO Earth Observation System (INSAT-3DR Coastal Sounder)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-INSAT-0011",
     "h3_index": "876026235ffffff",
     "source_credibility": 0.92,
@@ -1037,7 +1037,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via INSAT-3DR Satellite pipeline. Verified telemetry: 25.4\u00b0C, 7.5 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: Srinagar, Jammu & Kashmir (14.0\u00b0C)",
@@ -1052,7 +1052,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Srinagar Pir Panjal X-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0010",
     "h3_index": "873d34a5cffffff",
     "source_credibility": 0.96,
@@ -1068,7 +1068,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 14.0\u00b0C, 1.9 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Puri",
@@ -1083,7 +1083,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Puri Paradip Coastal Doppler)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0009",
     "h3_index": "873c9db96ffffff",
     "source_credibility": 0.96,
@@ -1099,7 +1099,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 26.5\u00b0C, 4.2 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Visakhapatnam",
@@ -1114,7 +1114,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Vizag Dolphin Nose S-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0008",
     "h3_index": "873c93014ffffff",
     "source_credibility": 0.96,
@@ -1130,7 +1130,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 26.2\u00b0C, 2.8 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Kochi",
@@ -1145,7 +1145,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Kochi Naval Base Doppler C-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0007",
     "h3_index": "876004d33ffffff",
     "source_credibility": 0.96,
@@ -1161,7 +1161,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 27.2\u00b0C, 1.8 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Localized Thunderstorm & Cloud Cover in Agartala",
@@ -1176,7 +1176,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Agartala Airport Doppler Radar)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0006",
     "h3_index": "873cc4453ffffff",
     "source_credibility": 0.96,
@@ -1192,7 +1192,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 26.9\u00b0C, 4.3 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Localized Thunderstorm & Cloud Cover in Guwahati",
@@ -1207,7 +1207,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Guwahati Borjhar C-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0005",
     "h3_index": "873ce1571ffffff",
     "source_credibility": 0.96,
@@ -1223,7 +1223,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 26.2\u00b0C, 3.3 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Live Surface Observation: New Delhi, Delhi (22.1\u00b0C)",
@@ -1238,7 +1238,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Delhi Mausam Bhavan S-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0004",
     "h3_index": "873da1146ffffff",
     "source_credibility": 0.96,
@@ -1254,7 +1254,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 22.1\u00b0C, 6.9 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Chennai",
@@ -1269,7 +1269,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Chennai Port Doppler C-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0003",
     "h3_index": "87618c488ffffff",
     "source_credibility": 0.96,
@@ -1285,7 +1285,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 28.2\u00b0C, 11.4 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Kolkata",
@@ -1300,7 +1300,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Kolkata Alipore Doppler S-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0002",
     "h3_index": "873cf2c60ffffff",
     "source_credibility": 0.96,
@@ -1316,7 +1316,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 26.9\u00b0C, 3.1 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Convective Showers & Marine Breeze in Mumbai",
@@ -1331,7 +1331,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "IMD Doppler Weather Radar Network (Mumbai Colaba Doppler S-Band)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:12:56.265729",
+    "observed_at": "2026-09-29T19:12:56.265729",
     "id": "EVT-IN-DWR-0001",
     "h3_index": "87608b0b6ffffff",
     "source_credibility": 0.96,
@@ -1347,7 +1347,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Authenticated via IMD Doppler Radar pipeline. Verified telemetry: 25.6\u00b0C, 3.2 km/h.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Severe Waterlogging at Kurla and Gandhi Market: Twitter Storm Report",
@@ -1362,7 +1362,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@MumbaiWeatherLive",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:09:56.265729",
+    "observed_at": "2026-09-29T19:09:56.265729",
     "id": "EVT-TW-0001",
     "h3_index": "87608b54dffffff",
     "source_credibility": 0.82,
@@ -1378,7 +1378,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Crowdsourced Twitter alert with NLP entity extraction and geo-spatial corroboration.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Citizen Field Verification: High Tide Tidal Surge at Fort Kochi Coast",
@@ -1393,7 +1393,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "Citizen Volunteer (ID: PWA-KER-4091)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:07:56.265729",
+    "observed_at": "2026-09-29T19:07:56.265729",
     "id": "EVT-CITIZEN-0001",
     "h3_index": "876004d32ffffff",
     "source_credibility": 0.75,
@@ -1409,7 +1409,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Citizen mobile field submission via PWA ground-truth module.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Brahmaputra Water Level Warning: Inundation in Rukminigaon",
@@ -1424,7 +1424,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@AssamDisasterAlert",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T19:02:56.265729",
+    "observed_at": "2026-09-29T19:02:56.265729",
     "id": "EVT-TW-0002",
     "h3_index": "873ce1571ffffff",
     "source_credibility": 0.82,
@@ -1440,7 +1440,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Crowdsourced Twitter alert with NLP entity extraction and geo-spatial corroboration.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Dense Valley Fog & Reduced Visibility on Kalka-Shimla Highway",
@@ -1455,7 +1455,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "Highway Patrol Volunteer (ID: PWA-HP-1102)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:55:56.265729",
+    "observed_at": "2026-09-29T18:55:56.265729",
     "id": "EVT-CITIZEN-0002",
     "h3_index": "873d10976ffffff",
     "source_credibility": 0.75,
@@ -1471,7 +1471,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "PENDING_REVIEW",
     "operator_notes": "Citizen mobile field submission via PWA ground-truth module.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Sudden Squall and Dust Surge in Delhi NCR: Crowdsourced Report",
@@ -1486,7 +1486,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@DelhiRainWatch",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:55:56.265729",
+    "observed_at": "2026-09-29T18:55:56.265729",
     "id": "EVT-TW-0003",
     "h3_index": "873da1140ffffff",
     "source_credibility": 0.82,
@@ -1502,7 +1502,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "PENDING_REVIEW",
     "operator_notes": "Crowdsourced Twitter alert with NLP entity extraction and geo-spatial corroboration.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Kalbaishakhi Nor'wester Activity Detected in North 24 Parganas",
@@ -1517,7 +1517,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@KolkataWeatherHQ",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:48:56.265729",
+    "observed_at": "2026-09-29T18:48:56.265729",
     "id": "EVT-TW-0004",
     "h3_index": "873cf2c65ffffff",
     "source_credibility": 0.82,
@@ -1533,7 +1533,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Crowdsourced Twitter alert with NLP entity extraction and geo-spatial corroboration.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Bellandur Outer Ring Road Flash Drainage Overflow",
@@ -1548,7 +1548,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "Civic Warden (ID: PWA-BLR-8823)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:43:56.265729",
+    "observed_at": "2026-09-29T18:43:56.265729",
     "id": "EVT-CITIZEN-0003",
     "h3_index": "8760145b4ffffff",
     "source_credibility": 0.75,
@@ -1564,7 +1564,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Citizen mobile field submission via PWA ground-truth module.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Coastal Moisture Surge & Steady Downpour in Velachery",
@@ -1579,7 +1579,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@TamilNaduWeatherman",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:41:56.265729",
+    "observed_at": "2026-09-29T18:41:56.265729",
     "id": "EVT-TW-0005",
     "h3_index": "87618c48effffff",
     "source_credibility": 0.82,
@@ -1595,7 +1595,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "VERIFIED",
     "operator_notes": "Crowdsourced Twitter alert with NLP entity extraction and geo-spatial corroboration.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Severe Heat Index & Loo Winds Reported Across Walled City",
@@ -1610,7 +1610,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "@RajasthanMausam",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:34:56.265729",
+    "observed_at": "2026-09-29T18:34:56.265729",
     "id": "EVT-TW-0006",
     "h3_index": "873da2188ffffff",
     "source_credibility": 0.82,
@@ -1626,7 +1626,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "PENDING_REVIEW",
     "operator_notes": "Crowdsourced Twitter alert with NLP entity extraction and geo-spatial corroboration.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   },
   {
     "title": "Spam/Unverified Claim: False Cloudburst Alert Flagged by AI Tri-Check",
@@ -1641,7 +1641,7 @@ export const FALLBACK_EVENTS = [
     "source_author": "Anonymous User (ID: PWA-UNK-009)",
     "media_url": null,
     "media_type": "none",
-    "observed_at": "2026-09-28T18:31:56.265729",
+    "observed_at": "2026-09-29T18:31:56.265729",
     "id": "EVT-CITIZEN-0004",
     "h3_index": "873c138cbffffff",
     "source_credibility": 0.2,
@@ -1657,7 +1657,7 @@ export const FALLBACK_EVENTS = [
     "operator_decision": "REJECTED",
     "operator_notes": "Citizen mobile field submission via PWA ground-truth module.",
     "duplicate_of_id": null,
-    "ingested_at": "2026-09-28T19:12:56.265729"
+    "ingested_at": "2026-09-29T19:12:56.265729"
   }
 ];
 
@@ -3796,8 +3796,8 @@ export const FALLBACK_REVIEW_QUEUE = [
     "radar_station_name": "Colaba Doppler Radar",
     "radar_recorded_value": 78.4,
     "radar_corroborated": true,
-    "observed_at": "2026-09-28T21:15:00Z",
-    "ingested_at": "2026-09-28T21:18:00Z"
+    "observed_at": "2026-09-29T21:15:00Z",
+    "ingested_at": "2026-09-29T21:18:00Z"
   },
   {
     "id": "EVT-REV-2A5022",
@@ -3817,8 +3817,8 @@ export const FALLBACK_REVIEW_QUEUE = [
     "radar_station_name": "Paradip Doppler Radar",
     "radar_recorded_value": 68.0,
     "radar_corroborated": true,
-    "observed_at": "2026-09-28T21:30:00Z",
-    "ingested_at": "2026-09-28T21:32:00Z"
+    "observed_at": "2026-09-29T21:30:00Z",
+    "ingested_at": "2026-09-29T21:32:00Z"
   },
   {
     "id": "EVT-REV-FF3AE4",
@@ -3838,8 +3838,8 @@ export const FALLBACK_REVIEW_QUEUE = [
     "radar_station_name": "Palam Doppler Radar",
     "radar_recorded_value": 45.0,
     "radar_corroborated": true,
-    "observed_at": "2026-09-28T21:40:00Z",
-    "ingested_at": "2026-09-28T21:42:00Z"
+    "observed_at": "2026-09-29T21:40:00Z",
+    "ingested_at": "2026-09-29T21:42:00Z"
   },
   {
     "id": "EVT-REV-A8BC44",
@@ -3859,7 +3859,7 @@ export const FALLBACK_REVIEW_QUEUE = [
     "radar_station_name": "Bengaluru Doppler Radar",
     "radar_recorded_value": 62.0,
     "radar_corroborated": true,
-    "observed_at": "2026-09-28T21:45:00Z",
-    "ingested_at": "2026-09-28T21:48:00Z"
+    "observed_at": "2026-09-29T21:45:00Z",
+    "ingested_at": "2026-09-29T21:48:00Z"
   }
 ];

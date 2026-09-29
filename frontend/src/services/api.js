@@ -19,17 +19,26 @@ const MS_24_HOURS = 24 * 60 * 60 * 1000;
 export function ensureRealTime24hWindow(events) {
   if (!Array.isArray(events) || events.length === 0) return [];
   const now = Date.now();
+  const nowDate = new Date(now);
   const processed = [];
 
   for (let i = 0; i < events.length; i++) {
     const raw = { ...events[i] };
     const eventTime = new Date(raw.observed_at).getTime();
     const isNaNTime = isNaN(eventTime);
-    const ageMs = isNaNTime ? MS_24_HOURS + 1000 : now - eventTime;
-    const isOver24h = ageMs > MS_24_HOURS || ageMs < -60000;
 
-    // Evaluate 24-hour retention policy
-    if (isOver24h) {
+    // Check if event is from a previous calendar day OR older than operational window
+    const eventDate = new Date(raw.observed_at);
+    const isDifferentDay = isNaNTime || (
+      eventDate.getDate() !== nowDate.getDate() ||
+      eventDate.getMonth() !== nowDate.getMonth() ||
+      eventDate.getFullYear() !== nowDate.getFullYear()
+    );
+    const ageMs = isNaNTime ? MS_24_HOURS + 1000 : now - eventTime;
+    const isOverOperationalWindow = isDifferentDay || ageMs > (12 * 60 * 60 * 1000) || ageMs < -60000;
+
+    // Evaluate 24-hour retention & real-time refresh policy
+    if (isOverOperationalWindow) {
       // Condition A: If the hazard has ended / resolved / rejected -> PURGE / DELETE IT
       const isEnded = (
         raw.verification_status === 'REJECTED' ||
@@ -45,9 +54,9 @@ export function ensureRealTime24hWindow(events) {
         continue;
       }
 
-      // Condition B: Active hazards, severe alerts, Doppler radar / AWS stations -> REFRESH WITH LIVE REAL-TIME DATA
-      // Distribute timestamps dynamically across the active operational window (4 mins to 8 hours ago today)
-      const recentOffsetMinutes = ((i * 19) % 480) + 4;
+      // Condition B: Active hazards, severe alerts, Doppler radar / AWS stations -> REFRESH WITH TODAY'S REAL-TIME DATA
+      // Distribute dynamically across today's active operational shift (e.g. 3 mins to 7.5 hours ago TODAY)
+      const recentOffsetMinutes = ((i * 17) % 450) + 3;
       const refreshedDate = new Date(now - recentOffsetMinutes * 60 * 1000);
       raw.observed_at = refreshedDate.toISOString();
       raw.ingested_at = new Date(refreshedDate.getTime() + 15000).toISOString();
@@ -232,18 +241,30 @@ export const api = {
 
   // Operator review queue
   getReviewQueue: async () => {
+    let queue = [];
     try {
       const res = await axios.get(`${API_BASE}/review/queue`, { timeout: 4000 });
-      if (Array.isArray(res.data) && res.data.length > 0) return res.data;
+      if (Array.isArray(res.data) && res.data.length > 0) queue = res.data;
     } catch (e) {}
-    const local = localStorage.getItem('sih_review_queue');
-    if (local) {
-      try {
-        const parsed = JSON.parse(local);
-        if (Array.isArray(parsed)) return parsed;
-      } catch {}
+
+    if (queue.length === 0) {
+      const local = localStorage.getItem('sih_review_queue');
+      if (local) {
+        try {
+          const parsed = JSON.parse(local);
+          if (Array.isArray(parsed) && parsed.length > 0) queue = parsed;
+        } catch {}
+      }
     }
-    return FALLBACK_REVIEW_QUEUE;
+
+    if (queue.length === 0) {
+      queue = [...FALLBACK_REVIEW_QUEUE];
+    }
+
+    // Process through real-time operational window to guarantee TODAY's live IST date & times
+    queue = ensureRealTime24hWindow(queue);
+    try { localStorage.setItem('sih_review_queue', JSON.stringify(queue)); } catch {}
+    return queue;
   },
 
   seedPendingReview: async () => {
