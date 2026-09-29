@@ -444,7 +444,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
             <Popup>
               <div className="text-xs space-y-1.5 min-w-[210px] p-1">
                 <div className="font-extrabold text-red-700 flex items-center gap-1.5 uppercase text-[11px] border-b border-red-200 pb-1">
-                  <span>🌀 Severe Cyclonic Storm (BOB-02)</span>
+                  <span>🌀 Severe Cyclonic Storm 'DANA' (VSCS-02B)</span>
                 </div>
                 <div className="text-slate-800">Coordinates: <b className="font-mono">16.8°N, 88.5°E (Bay of Bengal)</b></div>
                 <div className="text-slate-800">Peak Gusts: <b className="text-red-700 font-mono">105 km/h</b> (984 hPa)</div>

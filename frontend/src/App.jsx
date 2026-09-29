@@ -176,7 +176,7 @@ export default function App() {
                   </div>
                   <div>
                     <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
-                      <span>ACTIVE CYCLONE DETECTED: SEVERE CYCLONIC STORM (BOB-02)</span>
+                      <span>ACTIVE CYCLONE DETECTED: SEVERE CYCLONIC STORM 'DANA' (VSCS-02B)</span>
                       <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
                         105 km/h · 984 hPa
                       </span>

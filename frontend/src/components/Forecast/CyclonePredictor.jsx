@@ -36,14 +36,38 @@ import {
 import { MapContainer, TileLayer, Polyline, Circle, Marker, Popup, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { api } from '../../services/api';
+import { useLanguage } from '../../context/LanguageContext';
 
-// Fallback Zoom Earth Real-Time Observation Passes
+// Helper to guarantee Indian Standard Time (IST) formatting for all observation passes
+export const formatPassTimeToIST = (ts) => {
+  if (!ts) return 'Live IST';
+  if (ts.includes('UTC')) {
+    const parts = ts.replace(' UTC', '').split(', ');
+    if (parts.length === 2) {
+      const [datePart, timePart] = parts;
+      const [h, m] = timePart.split(':').map(Number);
+      if (!isNaN(h) && !isNaN(m)) {
+        let totalMinutes = h * 60 + m + 330; // +5:30 for Indian Standard Time
+        let newH = Math.floor(totalMinutes / 60) % 24;
+        let newM = totalMinutes % 60;
+        const ampm = newH >= 12 ? 'PM' : 'AM';
+        const displayH = newH % 12 || 12;
+        const displayM = String(newM).padStart(2, '0');
+        return `${datePart}, ${String(displayH).padStart(2, '0')}:${displayM} ${ampm} IST`;
+      }
+    }
+    return ts.replace('UTC', 'IST');
+  }
+  return ts;
+};
+
+// Fallback Zoom Earth Real-Time Observation Passes in Indian Standard Time (IST)
 const DEFAULT_ZOOM_EARTH_PASSES = [
   {
     id: 'pass_0h',
     label: 'Latest (Current Observation)',
     timeAgo: 'Latest (Updated in Real-Time)',
-    timestamp: '28 Sep, 09:45 UTC',
+    timestamp: '29 Sep, 04:12 PM IST',
     satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
     sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
     cycloneEye: '16.8°N, 88.5°E (Bay of Bengal)',
@@ -61,7 +85,7 @@ const DEFAULT_ZOOM_EARTH_PASSES = [
     id: 'pass_3h',
     label: '3 Hours Ago (T - 3h Pass)',
     timeAgo: '3 Hours Ago Observation',
-    timestamp: '28 Sep, 06:45 UTC',
+    timestamp: '29 Sep, 01:12 PM IST',
     satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
     sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
     cycloneEye: '16.3°N, 88.8°E (South-Central Bay)',
@@ -79,7 +103,7 @@ const DEFAULT_ZOOM_EARTH_PASSES = [
     id: 'pass_6h',
     label: '6 Hours Ago (T - 6h Baseline)',
     timeAgo: '6 Hours Ago Observation',
-    timestamp: '28 Sep, 03:45 UTC',
+    timestamp: '29 Sep, 10:12 AM IST',
     satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
     sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
     cycloneEye: '15.8°N, 89.1°E (Central Bay of Bengal)',
@@ -97,7 +121,7 @@ const DEFAULT_ZOOM_EARTH_PASSES = [
     id: 'pass_12h',
     label: '12 Hours Ago (T - 12h Origin)',
     timeAgo: '12 Hours Ago Night Observation',
-    timestamp: '27 Sep, 21:45 UTC',
+    timestamp: '29 Sep, 04:12 AM IST',
     satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
     sensorBand: 'GeoColor Night Infrared & Earth City Lights',
     cycloneEye: '14.9°N, 89.6°E (South-Central Bay)',
@@ -297,6 +321,7 @@ function MapFocusCenter({ center, zoom = 6 }) {
 }
 
 export default function CyclonePredictor() {
+  const { lang } = useLanguage();
   const [forecastData, setForecastData] = useState(null);
   const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
   const [selectedHazardId, setSelectedHazardId] = useState('cyclone'); // 'cyclone', 'landslide', 'volcano', 'flood'
@@ -611,25 +636,41 @@ export default function CyclonePredictor() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {selectedHazardId === 'cyclone' && (
               <>
-                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Sustained Wind Speed</span>
-                  <span className="text-lg font-black text-red-700">{activePass.wind_kmh} km/h</span>
-                  <span className="text-[10px] text-stone-500 block">Severe Cyclonic Storm (SCS)</span>
+                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
+                  <span className="text-[11px] uppercase font-black text-stone-600 block">
+                    {lang === 'hi' ? 'निरंतर हवा की गति' : 'Sustained Wind Speed'}
+                  </span>
+                  <span className="text-xl font-black text-red-700 font-mono">{activePass.wind_kmh} km/h</span>
+                  <span className="text-[10px] text-stone-500 block font-medium">
+                    {lang === 'hi' ? 'गंभीर चक्रवाती तूफान (SCS)' : 'Severe Cyclonic Storm (SCS)'}
+                  </span>
                 </div>
-                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Central Pressure</span>
-                  <span className="text-lg font-black text-stone-900">{activePass.pressure_hpa} hPa</span>
-                  <span className="text-[10px] text-stone-500 block">Deficit: -22 hPa</span>
+                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
+                  <span className="text-[11px] uppercase font-black text-stone-600 block">
+                    {lang === 'hi' ? 'केंद्रीय वायुमंडलीय दबाव' : 'Central Pressure'}
+                  </span>
+                  <span className="text-xl font-black text-stone-900 font-mono">{activePass.pressure_hpa} hPa</span>
+                  <span className="text-[10px] text-stone-500 block font-medium">
+                    {lang === 'hi' ? 'दबाव कमी: -22 hPa' : 'Deficit: -22 hPa'}
+                  </span>
                 </div>
-                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Storm Surge Height</span>
-                  <span className="text-lg font-black text-amber-700">1.2 - 1.8 m</span>
-                  <span className="text-[10px] text-stone-500 block">High tide coastal window</span>
+                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
+                  <span className="text-[11px] uppercase font-black text-stone-600 block">
+                    {lang === 'hi' ? 'तूफानी लहर की ऊंचाई' : 'Storm Surge Height'}
+                  </span>
+                  <span className="text-xl font-black text-amber-700 font-mono">1.2 - 1.8 m</span>
+                  <span className="text-[10px] text-stone-500 block font-medium">
+                    {lang === 'hi' ? 'उच्च ज्वार तटीय खिड़की' : 'High tide coastal window'}
+                  </span>
                 </div>
-                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-sm">
-                  <span className="text-[10px] uppercase font-bold text-stone-500 block">Projected Landfall</span>
-                  <span className="text-lg font-black text-cyan-800">+24 Hours</span>
-                  <span className="text-[10px] text-stone-500 block">Dhamra / Sagar Island</span>
+                <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
+                  <span className="text-[11px] uppercase font-black text-stone-600 block">
+                    {lang === 'hi' ? 'अनुमानित तट प्रवेश' : 'Projected Landfall'}
+                  </span>
+                  <span className="text-xl font-black text-cyan-800 font-mono">+24 Hours</span>
+                  <span className="text-[10px] text-stone-500 block font-medium">
+                    {lang === 'hi' ? 'धामरा / सागर द्वीप सेक्टर' : 'Dhamra / Sagar Island'}
+                  </span>
                 </div>
               </>
             )}
@@ -719,7 +760,7 @@ export default function CyclonePredictor() {
                   <span>ZOOM EARTH OBSERVATION PASSES (TOUCH TO UPDATE IMAGE & SYNC BOTH MAPS):</span>
                 </span>
                 <span className="text-[10px] font-mono text-stone-500 font-bold">
-                  ACTIVE PASS: {activePass.timestamp}
+                  ACTIVE PASS: {formatPassTimeToIST(activePass.timestamp)}
                 </span>
               </div>
 
@@ -745,7 +786,7 @@ export default function CyclonePredictor() {
                         )}
                       </div>
                       <span className={`text-[10px] font-mono block mt-1 ${isSelected ? 'text-amber-200' : 'text-stone-500'}`}>
-                        {pass.timestamp}
+                        {formatPassTimeToIST(pass.timestamp)}
                       </span>
                     </button>
                   );
@@ -809,7 +850,7 @@ export default function CyclonePredictor() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-mono text-cyan-900 font-bold bg-cyan-100 px-2 py-0.5 rounded border border-cyan-300">
-                      {selectedHazardId === 'cyclone' ? activePass.timestamp : 'Real-Time Earth Observation'}
+                      {selectedHazardId === 'cyclone' ? formatPassTimeToIST(activePass.timestamp) : 'Real-Time Earth Observation'}
                     </span>
                     <button
                       onClick={() => setHighResModalOpen(true)}

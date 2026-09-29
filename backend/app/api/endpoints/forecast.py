@@ -10,15 +10,16 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
     Meteorologically grounded AI Disaster Weather & Cyclone Predictor.
     Computes monsoon wind vector fields, cyclone trajectory cones, and 72-hour disaster impact forecasts.
     """
-    now = datetime.now(timezone.utc)
+    ist = timezone(timedelta(hours=5, minutes=30))
+    now = datetime.now(ist)
 
-    # 1. Active Tropical Cyclone System: Cyclone 'DANA-PREDICT' (Bay of Bengal System)
+    # 1. Active Tropical Cyclone System: Severe Cyclonic Storm 'DANA' (VSCS-02B)
     # Modeled following standard IMD Tropical Cyclone Warning tracking conventions
     timeline_steps = [
         {
             "hour": 0,
             "label": "Now (Current Observation)",
-            "timestamp": now.strftime("%d %b, %H:%M UTC"),
+            "timestamp": now.strftime("%d %b, %I:%M %p IST"),
             "lat": 16.8,
             "lon": 88.5,
             "category": "Severe Cyclonic Storm (SCS)",
@@ -34,7 +35,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         {
             "hour": 12,
             "label": "+12 Hours",
-            "timestamp": (now + timedelta(hours=12)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now + timedelta(hours=12)).strftime("%d %b, %I:%M %p IST"),
             "lat": 18.4,
             "lon": 87.8,
             "category": "Very Severe Cyclonic Storm (VSCS)",
@@ -50,7 +51,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         {
             "hour": 24,
             "label": "+24 Hours (Landfall Window)",
-            "timestamp": (now + timedelta(hours=24)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now + timedelta(hours=24)).strftime("%d %b, %I:%M %p IST"),
             "lat": 20.6,
             "lon": 86.9,
             "category": "Very Severe Cyclonic Storm (VSCS)",
@@ -66,7 +67,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         {
             "hour": 48,
             "label": "+48 Hours (Inland Movement)",
-            "timestamp": (now + timedelta(hours=48)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now + timedelta(hours=48)).strftime("%d %b, %I:%M %p IST"),
             "lat": 22.2,
             "lon": 85.8,
             "category": "Cyclonic Storm / Deep Depression",
@@ -82,7 +83,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         {
             "hour": 72,
             "label": "+72 Hours (Dissipation)",
-            "timestamp": (now + timedelta(hours=72)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now + timedelta(hours=72)).strftime("%d %b, %I:%M %p IST"),
             "lat": 23.8,
             "lon": 84.5,
             "category": "Well-Marked Low Pressure Area (WMLP)",
@@ -209,7 +210,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
             "id": "pass_0h",
             "label": "Latest (Current Real-Time Pass)",
             "hour_offset": 0,
-            "timestamp": now.strftime("%d %b, %H:%M UTC"),
+            "timestamp": now.strftime("%d %b, %I:%M %p IST"),
             "imageSrc": "/assets/zoom_earth_pass_0h.jpg",
             "cyclone_lat": 16.8,
             "cyclone_lon": 88.5,
@@ -226,7 +227,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
             "id": "pass_3h",
             "label": "3 Hours Ago (T - 3h Pass)",
             "hour_offset": -3,
-            "timestamp": (now - timedelta(hours=3)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now - timedelta(hours=3)).strftime("%d %b, %I:%M %p IST"),
             "imageSrc": "/assets/zoom_earth_pass_3h.jpg",
             "cyclone_lat": 16.3,
             "cyclone_lon": 88.8,
@@ -243,7 +244,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
             "id": "pass_6h",
             "label": "6 Hours Ago (T - 6h Pass)",
             "hour_offset": -6,
-            "timestamp": (now - timedelta(hours=6)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now - timedelta(hours=6)).strftime("%d %b, %I:%M %p IST"),
             "imageSrc": "/assets/zoom_earth_pass_6h.jpg",
             "cyclone_lat": 15.8,
             "cyclone_lon": 89.1,
@@ -260,7 +261,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
             "id": "pass_12h",
             "label": "12 Hours Ago (T - 12h Pass)",
             "hour_offset": -12,
-            "timestamp": (now - timedelta(hours=12)).strftime("%d %b, %H:%M UTC"),
+            "timestamp": (now - timedelta(hours=12)).strftime("%d %b, %I:%M %p IST"),
             "imageSrc": "/assets/zoom_earth_pass_12h.jpg",
             "cyclone_lat": 14.9,
             "cyclone_lon": 89.6,
@@ -435,7 +436,7 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         "active_disaster_id": "cyclone",
         "multi_hazards": multi_hazards,
         "normal_routine": normal_routine,
-        "cyclone_name": "DANA-PREDICT / VSCS-02B",
+        "cyclone_name": "Severe Cyclonic Storm 'DANA' (VSCS-02B)",
         "basin": "North Indian Ocean (Bay of Bengal)",
         "current_severity": "Very Severe Cyclonic Storm Window",
         "timeline_steps": timeline_steps,
