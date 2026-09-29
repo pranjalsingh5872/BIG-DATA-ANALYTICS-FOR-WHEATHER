@@ -148,7 +148,7 @@ export default function AnalyticsHub() {
           </div>
           <div className="bg-slate-900 rounded-lg p-3 text-slate-200 font-mono text-[11px] overflow-x-auto border border-slate-800 shadow-inner">
             <div className="grid grid-cols-12 gap-2 text-[10px] text-slate-400 border-b border-slate-800 pb-1 mb-1 font-bold uppercase">
-              <span className="col-span-2">Time (UTC)</span>
+              <span className="col-span-2">Time (IST)</span>
               <span className="col-span-3">Source Channel</span>
               <span className="col-span-2">Station</span>
               <span className="col-span-2">Hazard</span>

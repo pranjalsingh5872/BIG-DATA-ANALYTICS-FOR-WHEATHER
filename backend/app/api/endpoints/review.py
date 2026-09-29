@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -8,6 +8,7 @@ from backend.app.models.event import WeatherEvent, AuditLog
 from backend.app.schemas.event_schema import WeatherEventResponse, OperatorReviewRequest
 
 router = APIRouter()
+IST = timezone(timedelta(hours=5, minutes=30))
 
 @router.get("/queue", response_model=List[WeatherEventResponse])
 def get_review_queue(db: Session = Depends(get_db)):
@@ -117,8 +118,8 @@ def seed_pending_review_events(db: Session = Depends(get_db)):
             radar_recorded_value=s["radar_recorded_value"],
             verification_status="PENDING_REVIEW",
             operator_decision="UNREVIEWED",
-            observed_at=datetime.now(timezone.utc),
-            ingested_at=datetime.now(timezone.utc)
+            observed_at=datetime.now(IST),
+            ingested_at=datetime.now(IST)
         )
         db.add(evt)
         added.append(evt_id)
@@ -165,7 +166,7 @@ def apply_operator_decision(
         previous_status=prev_status,
         new_status=new_status,
         reason=payload.reason,
-        timestamp=datetime.now(timezone.utc)
+        timestamp=datetime.now(IST)
     )
     db.add(audit)
     db.commit()

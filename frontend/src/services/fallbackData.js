@@ -12,13 +12,13 @@ export const FALLBACK_SUMMARY = {
   "sources_online": "5/5 Multi-Source",
   "ingestion_rate_recs_sec": 34.6,
   "pipeline_status": "ONLINE_HEALTHY",
-  "last_sync_utc": "19:15:52 UTC"
+  "last_sync_ist": "04:30:00 PM IST"
 };
 
 export const FALLBACK_EVENTS = [
   {
     "title": "High swell waves along Puri and Ganjam coastal belt. CWC issues advisory for fishermen not to v...",
-    "description": "High swell waves along Puri and Ganjam coastal belt. CWC issues advisory for fishermen not to venture into deep sea. #OdishaWeather #CycloneAlert (19:13 UTC)",
+    "description": "High swell waves along Puri and Ganjam coastal belt. CWC issues advisory for fishermen not to venture into deep sea. #OdishaWeather #CycloneAlert (04:30 PM IST)",
     "category": "Cyclone",
     "severity": "High",
     "latitude": 19.8135,
@@ -49,7 +49,7 @@ export const FALLBACK_EVENTS = [
   },
   {
     "title": "\u092c\u093f\u0939\u093e\u0930 \u092e\u094c\u0938\u092e \u0905\u0932\u0930\u094d\u091f: \u092a\u091f\u0928\u093e \u0914\u0930 \u0906\u0938\u092a\u093e\u0938 \u0915\u0947 \u091c\u093f\u0932\u094b\u0902 \u092e\u0947\u0902 \u092e\u0947\u0918\u0917\u0930\u094d\u091c\u0928 \u0915\u0947 \u0938\u093e\u0925 \u092d\u093e\u0930\u0940 \u092c\u093e\u0930\u093f\u0936 \u0915\u0940 \u0938\u0902\u092d\u093e\u0935\u0928\u093e\u0964 \u092a\u094d\u0930\u0936\u093e\u0938\u0928 \u0928\u0947 ...",
-    "description": "\u092c\u093f\u0939\u093e\u0930 \u092e\u094c\u0938\u092e \u0905\u0932\u0930\u094d\u091f: \u092a\u091f\u0928\u093e \u0914\u0930 \u0906\u0938\u092a\u093e\u0938 \u0915\u0947 \u091c\u093f\u0932\u094b\u0902 \u092e\u0947\u0902 \u092e\u0947\u0918\u0917\u0930\u094d\u091c\u0928 \u0915\u0947 \u0938\u093e\u0925 \u092d\u093e\u0930\u0940 \u092c\u093e\u0930\u093f\u0936 \u0915\u0940 \u0938\u0902\u092d\u093e\u0935\u0928\u093e\u0964 \u092a\u094d\u0930\u0936\u093e\u0938\u0928 \u0928\u0947 \u0938\u0924\u0930\u094d\u0915 \u0930\u0939\u0928\u0947 \u0915\u094b \u0915\u0939\u093e\u0964 #BiharWeather #IMD (19:13 UTC)",
+    "description": "\u092c\u093f\u0939\u093e\u0930 \u092e\u094c\u0938\u092e \u0905\u0932\u0930\u094d\u091f: \u092a\u091f\u0928\u093e \u0914\u0930 \u0906\u0938\u092a\u093e\u0938 \u0915\u0947 \u091c\u093f\u0932\u094b\u0902 \u092e\u0947\u0902 \u092e\u0947\u0918\u0917\u0930\u094d\u091c\u0928 \u0915\u0947 \u0938\u093e\u0925 \u092d\u093e\u0930\u0940 \u092c\u093e\u0930\u093f\u0936 \u0915\u0940 \u0938\u0902\u092d\u093e\u0935\u0928\u093e\u0964 \u092a\u094d\u0930\u0936\u093e\u0938\u0928 \u0928\u0947 \u0938\u0924\u0930\u094d\u0915 \u0930\u0939\u0928\u0947 \u0915\u094b \u0915\u0939\u093e\u0964 #BiharWeather #IMD (04:30 PM IST)",
     "category": "Rainfall",
     "severity": "Moderate",
     "latitude": 28.6139,
@@ -80,7 +80,7 @@ export const FALLBACK_EVENTS = [
   },
   {
     "title": "IMD Nowcast: Kolkata and South 24 Parganas to experience moderate spells of rainfall accompanie...",
-    "description": "IMD Nowcast: Kolkata and South 24 Parganas to experience moderate spells of rainfall accompanied with lightning strikes in next 2 hours. #KolkataRains (19:13 UTC)",
+    "description": "IMD Nowcast: Kolkata and South 24 Parganas to experience moderate spells of rainfall accompanied with lightning strikes in next 2 hours. #KolkataRains (04:30 PM IST)",
     "category": "Rainfall",
     "severity": "Moderate",
     "latitude": 22.5726,
@@ -111,7 +111,7 @@ export const FALLBACK_EVENTS = [
   },
   {
     "title": "Severe localized thunderstorm and high wind squall reported across coastal Mumbai and Thane sub...",
-    "description": "Severe localized thunderstorm and high wind squall reported across coastal Mumbai and Thane subways. Water accumulation at low spots. #MumbaiRains #WeatherAlert (19:13 UTC)",
+    "description": "Severe localized thunderstorm and high wind squall reported across coastal Mumbai and Thane subways. Water accumulation at low spots. #MumbaiRains #WeatherAlert (04:30 PM IST)",
     "category": "Rainfall",
     "severity": "Moderate",
     "latitude": 19.076,
@@ -142,7 +142,7 @@ export const FALLBACK_EVENTS = [
   },
   {
     "title": "\u092e\u094c\u0938\u092e \u0935\u093f\u092d\u093e\u0917 (IMD) \u0915\u093e \u0905\u0932\u0930\u094d\u091f: \u0926\u093f\u0932\u094d\u0932\u0940-\u090f\u0928\u0938\u0940\u0906\u0930 \u092e\u0947\u0902 \u0936\u093e\u092e \u0915\u094b \u0924\u0947\u091c \u0939\u0935\u093e\u0913\u0902 \u0915\u0947 \u0938\u093e\u0925 \u092c\u093e\u0930\u093f\u0936 \u0914\u0930 \u092c\u0942\u0902\u0926\u093e\u092c\u093e\u0902\u0926\u0940 \u0915\u0947 \u0906\u0938\u093e...",
-    "description": "\u092e\u094c\u0938\u092e \u0935\u093f\u092d\u093e\u0917 (IMD) \u0915\u093e \u0905\u0932\u0930\u094d\u091f: \u0926\u093f\u0932\u094d\u0932\u0940-\u090f\u0928\u0938\u0940\u0906\u0930 \u092e\u0947\u0902 \u0936\u093e\u092e \u0915\u094b \u0924\u0947\u091c \u0939\u0935\u093e\u0913\u0902 \u0915\u0947 \u0938\u093e\u0925 \u092c\u093e\u0930\u093f\u0936 \u0914\u0930 \u092c\u0942\u0902\u0926\u093e\u092c\u093e\u0902\u0926\u0940 \u0915\u0947 \u0906\u0938\u093e\u0930\u0964 #IMD #DelhiWeather (19:13 UTC)",
+    "description": "\u092e\u094c\u0938\u092e \u0935\u093f\u092d\u093e\u0917 (IMD) \u0915\u093e \u0905\u0932\u0930\u094d\u091f: \u0926\u093f\u0932\u094d\u0932\u0940-\u090f\u0928\u0938\u0940\u0906\u0930 \u092e\u0947\u0902 \u0936\u093e\u092e \u0915\u094b \u0924\u0947\u091c \u0939\u0935\u093e\u0913\u0902 \u0915\u0947 \u0938\u093e\u0925 \u092c\u093e\u0930\u093f\u0936 \u0914\u0930 \u092c\u0942\u0902\u0926\u093e\u092c\u093e\u0902\u0926\u0940 \u0915\u0947 \u0906\u0938\u093e\u0930\u0964 #IMD #DelhiWeather (04:30 PM IST)",
     "category": "Rainfall",
     "severity": "Moderate",
     "latitude": 28.6139,

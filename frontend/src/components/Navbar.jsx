@@ -44,7 +44,7 @@ export default function Navbar({
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Live IST Clock & Telemetry Badges */}
         <div className="hidden lg:flex items-center gap-3 bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs shadow-xs">
-          <div className="flex items-center gap-1.5 font-mono text-slate-700 font-bold" title="Indian Standard Time (UTC+5:30)">
+          <div className="flex items-center gap-1.5 font-mono text-slate-700 font-bold" title="Indian Standard Time (IST)">
             <Clock className="w-3.5 h-3.5 text-emerald-600" />
             <span>{istTime}</span>
           </div>

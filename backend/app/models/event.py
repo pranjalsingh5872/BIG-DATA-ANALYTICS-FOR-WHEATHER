@@ -1,8 +1,10 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import uuid
 from sqlalchemy import Column, String, Float, Integer, Boolean, DateTime, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from backend.app.core.database import Base
+
+IST = timezone(timedelta(hours=5, minutes=30))
 
 def generate_uuid():
     return str(uuid.uuid4())
@@ -49,8 +51,8 @@ class WeatherEvent(Base):
     duplicate_of_id = Column(String(64), nullable=True)
     
     # Timestamps
-    observed_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
-    ingested_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    observed_at = Column(DateTime, default=lambda: datetime.now(IST), index=True)
+    ingested_at = Column(DateTime, default=lambda: datetime.now(IST))
 
     # Relationships
     audits = relationship("AuditLog", back_populates="event", cascade="all, delete-orphan")
@@ -67,7 +69,7 @@ class AuditLog(Base):
     previous_status = Column(String(32), nullable=True)
     new_status = Column(String(32), nullable=False)
     reason = Column(Text, nullable=False)
-    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    timestamp = Column(DateTime, default=lambda: datetime.now(IST))
 
     event = relationship("WeatherEvent", back_populates="audits")
 
@@ -85,7 +87,7 @@ class AlertBroadcast(Base):
     instructions = Column(Text, nullable=False)
     target_channels = Column(Text, nullable=False)  # JSON string
     dispatched_by = Column(String(128), default="Senior Disaster Operations Chief")
-    sent_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    sent_at = Column(DateTime, default=lambda: datetime.now(IST))
 
 
 class Grievance(Base):
@@ -99,7 +101,7 @@ class Grievance(Base):
     description = Column(Text, nullable=False)
     status = Column(String(32), default="OPEN", index=True)  # OPEN, FLAGGED_FAKE, IN_REVIEW, RESOLVED, DISMISSED
     resolution_note = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=lambda: datetime.now(IST))
     resolved_at = Column(DateTime, nullable=True)
 
     # 55-45 AI Verification & Fraud Detection Fields

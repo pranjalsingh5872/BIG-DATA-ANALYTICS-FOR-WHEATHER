@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import uuid
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
@@ -10,6 +10,7 @@ from backend.app.services.ai_verifier import evaluate_trust_score, detect_catego
 from backend.app.services.deduplication import check_duplicate
 
 router = APIRouter()
+IST = timezone(timedelta(hours=5, minutes=30))
 
 @router.post("/citizen", response_model=WeatherEventResponse)
 def submit_citizen_report(
@@ -68,8 +69,8 @@ def submit_citizen_report(
         operator_decision="VERIFIED" if (not is_dup and eval_res["verification_status"] == "VERIFIED") else "UNREVIEWED",
         operator_notes=f"Near-duplicate of {dup_id}" if is_dup else f"Precision satellite & vision AI evaluated: TrustScore {eval_res['trust_score']}% ({eval_res['verification_status']}).",
         duplicate_of_id=dup_id,
-        observed_at=report.observed_at or datetime.now(timezone.utc),
-        ingested_at=datetime.now(timezone.utc)
+        observed_at=report.observed_at or datetime.now(IST),
+        ingested_at=datetime.now(IST)
     )
 
     db.add(new_event)

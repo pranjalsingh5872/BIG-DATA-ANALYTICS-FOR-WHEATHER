@@ -1,13 +1,15 @@
 import os
 import re
 import requests
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import uuid
 from typing import List, Dict, Any, Optional
 from backend.app.core.config import settings
 from backend.app.core.database import SessionLocal
 from backend.app.models.event import WeatherEvent, AuditLog
 from backend.app.services.h3_spatial import lat_lng_to_h3
+
+IST = timezone(timedelta(hours=5, minutes=30))
 from backend.app.services.ai_verifier import evaluate_trust_score, detect_category
 from backend.app.services.deduplication import check_duplicate
 
@@ -81,7 +83,7 @@ def get_live_public_weather_tweets() -> List[Dict[str, Any]]:
     Real-time public meteorological Twitter stream for India.
     Ingests live weather updates matching #IMD, #Mausam, and regional warnings.
     """
-    now = datetime.now(timezone.utc).strftime("%H:%M UTC")
+    now = datetime.now(IST).strftime("%I:%M %p IST")
     return [
         {
             "id": f"tw-{uuid.uuid4().hex[:10]}",
@@ -136,7 +138,7 @@ def ingest_twitter_weather_feed() -> Dict[str, Any]:
     ingested_events = []
     try:
         recent_events = db.query(WeatherEvent).order_by(WeatherEvent.observed_at.desc()).limit(100).all()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(IST)
 
         for tw in raw_tweets:
             geo = extract_city_from_tweet(tw["text"])

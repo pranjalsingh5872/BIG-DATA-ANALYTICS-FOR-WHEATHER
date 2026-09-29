@@ -1,9 +1,11 @@
 import io
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+IST = timezone(timedelta(hours=5, minutes=30))
 
 def generate_incident_brief_pdf(event, audits) -> bytes:
     """Generates an official National Weather Incident Brief in PDF."""
@@ -44,10 +46,22 @@ def generate_incident_brief_pdf(event, audits) -> bytes:
         textColor=colors.HexColor('#1e293b')
     )
 
+    # Format observation timestamp in Indian Standard Time (IST)
+    obs_str = str(event.observed_at)
+    if isinstance(event.observed_at, datetime):
+        obs_str = event.observed_at.strftime('%d %b %Y, %I:%M %p IST')
+    elif obs_str and 'T' in obs_str:
+        try:
+            dt = datetime.fromisoformat(obs_str.replace('Z', '+00:00'))
+            dt_ist = dt.astimezone(IST) if dt.tzinfo else dt + timedelta(hours=5, minutes=30)
+            obs_str = dt_ist.strftime('%d %b %Y, %I:%M %p IST')
+        except Exception:
+            obs_str = f"{obs_str} IST"
+
     # Header
     story.append(Paragraph("GOVERNMENT OF INDIA · NATIONAL DISASTER MANAGEMENT AUTHORITY", subtitle_style))
     story.append(Paragraph("OPERATIONAL WEATHER INCIDENT BRIEF", title_style))
-    story.append(Paragraph(f"Reference ID: <b>{event.id}</b> · Generated at: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}", subtitle_style))
+    story.append(Paragraph(f"Reference ID: <b>{event.id}</b> · Generated at: {datetime.now(IST).strftime('%d %b %Y, %I:%M %p IST')}", subtitle_style))
     story.append(Spacer(1, 10))
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#0284c7'), spaceAfter=12))
 
@@ -57,7 +71,7 @@ def generate_incident_brief_pdf(event, audits) -> bytes:
         [Paragraph("<b>Category & Severity</b>", body_style), Paragraph(f"{event.category} · <b>{event.severity}</b>", body_style)],
         [Paragraph("<b>Location</b>", body_style), Paragraph(f"{event.city}, {event.state} (Lat: {event.latitude:.4f}, Lng: {event.longitude:.4f})", body_style)],
         [Paragraph("<b>Uber H3 Index</b>", body_style), Paragraph(f"<code>{event.h3_index}</code> (Resolution 7)", body_style)],
-        [Paragraph("<b>Observed Timestamp</b>", body_style), Paragraph(str(event.observed_at), body_style)],
+        [Paragraph("<b>Observed Timestamp</b>", body_style), Paragraph(obs_str, body_style)],
         [Paragraph("<b>Source & Provenance</b>", body_style), Paragraph(f"{event.source} (Author: {event.source_author or 'Anonymous'})", body_style)],
         [Paragraph("<b>Verification Status</b>", body_style), Paragraph(f"<b>{event.verification_status}</b> (TrustScore: {event.trust_score}%)", body_style)],
         [Paragraph("<b>Operator Decision</b>", body_style), Paragraph(f"<b>{event.operator_decision}</b>", body_style)]
@@ -104,8 +118,9 @@ def generate_incident_brief_pdf(event, audits) -> bytes:
     ]]
     if audits:
         for a in audits:
+            audit_ts = a.timestamp.strftime('%d %b, %I:%M %p IST') if hasattr(a.timestamp, 'strftime') else f"{a.timestamp} IST"
             audit_rows.append([
-                Paragraph(a.timestamp.strftime('%Y-%m-%d %H:%M'), body_style),
+                Paragraph(audit_ts, body_style),
                 Paragraph(a.operator_name, body_style),
                 Paragraph(f"<b>{a.action}</b>", body_style),
                 Paragraph(a.reason, body_style)

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Megaphone, BellRing, Radio, CheckCircle, ShieldAlert, Send } from 'lucide-react';
 import { api } from '../../services/api';
+import { formatIST } from '../../utils/time';
 
 export default function CapBroadcast({ events, onAlertDispatched }) {
   const [history, setHistory] = useState([]);
@@ -255,7 +256,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
                   <p className="text-[11px] text-slate-600 leading-tight">{h.instructions}</p>
                   <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-200">
                     <span>Sender: {h.sender}</span>
-                    <span>{new Date(h.sent_at).toLocaleTimeString()}</span>
+                    <span>{formatIST(h.sent_at)}</span>
                   </div>
                 </div>
               ))

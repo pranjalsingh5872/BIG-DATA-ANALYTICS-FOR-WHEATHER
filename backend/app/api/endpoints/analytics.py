@@ -7,12 +7,14 @@ from backend.app.models.event import WeatherEvent, Grievance, AuditLog
 
 router = APIRouter()
 
+IST = timezone(timedelta(hours=5, minutes=30))
+
 @router.get("/summary")
 def get_analytics_summary(db: Session = Depends(get_db)):
     total = db.query(WeatherEvent).count()
     
-    # Events today
-    now = datetime.utcnow()
+    # Events today in IST
+    now = datetime.now(IST)
     today_start = datetime(now.year, now.month, now.day)
     today_count = db.query(WeatherEvent).filter(WeatherEvent.observed_at >= today_start).count()
 
@@ -34,7 +36,7 @@ def get_analytics_summary(db: Session = Depends(get_db)):
         "sources_online": "5/5 Multi-Source",
         "ingestion_rate_recs_sec": 34.6,
         "pipeline_status": "ONLINE_HEALTHY",
-        "last_sync_utc": now.strftime("%H:%M:%S UTC")
+        "last_sync_ist": now.strftime("%I:%M:%S %p IST")
     }
 
 @router.get("/charts")
@@ -91,7 +93,7 @@ def get_chart_analytics(db: Session = Depends(get_db)):
             "severity": ev.severity,
             "status": ev.verification_status,
             "trust": ev.trust_score,
-            "time": ev.ingested_at.strftime("%H:%M:%S") if ev.ingested_at else "04:44:00"
+            "time": ev.ingested_at.strftime("%I:%M:%S %p IST") if ev.ingested_at else "04:44:00 PM IST"
         })
 
     return {

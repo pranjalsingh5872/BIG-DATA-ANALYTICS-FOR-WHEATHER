@@ -5,6 +5,7 @@ import {
   XCircle, Lock, Unlock, HelpCircle, MapPin, AlertTriangle
 } from 'lucide-react';
 import { api } from '../../services/api';
+import { formatIST } from '../../utils/time';
 
 export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitted }) {
   const [grievances, setGrievances] = useState([]);
@@ -587,7 +588,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
                         )}
                         <span>Filer: <b className="text-stone-900">{g.complainant_name}</b> ({g.contact_email})</span>
                       </div>
-                      <span className="font-mono text-[10px]">Filed: {new Date(g.created_at).toLocaleString()}</span>
+                      <span className="font-mono text-[10px]">Filed: {formatIST(g.created_at)}</span>
                     </div>
 
                     {/* Flagged Fake Warning Banner & Appeal Trigger */}

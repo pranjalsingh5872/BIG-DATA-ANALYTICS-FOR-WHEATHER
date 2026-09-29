@@ -341,7 +341,8 @@ def fetch_and_ingest_live_weather(wipe_old: bool = True) -> Dict[str, Any]:
             db.commit()
 
         ingested_count = 0
-        now = datetime.now(timezone.utc)
+        ist = timezone(timedelta(hours=5, minutes=30))
+        now = datetime.now(ist)
 
         # 1. Ingest 38 National Physical Meteorological Stations (Doppler, INSAT, AWS)
         for i, station in enumerate(ALL_INDIAN_STATIONS):

@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -8,6 +8,8 @@ from backend.app.core.database import get_db
 from backend.app.models.event import Grievance, WeatherEvent, AuditLog
 from backend.app.schemas.event_schema import GrievanceCreate, GrievanceResponse, GrievanceAppealRequest
 from backend.app.services.grievance_verifier import verify_grievance_authenticity
+
+IST = timezone(timedelta(hours=5, minutes=30))
 
 router = APIRouter()
 
@@ -56,7 +58,7 @@ def submit_grievance(payload: GrievanceCreate, db: Session = Depends(get_db)):
         verification_breakdown=ver_res["verification_breakdown"],
         satellite_concurrence=ver_res["satellite_concurrence"],
         vision_concurrence=ver_res["vision_concurrence"],
-        created_at=datetime.now(timezone.utc)
+        created_at=datetime.now(IST)
     )
     db.add(grv)
     db.commit()
@@ -73,7 +75,7 @@ def submit_grievance(payload: GrievanceCreate, db: Session = Depends(get_db)):
             f"Authenticity score: {grv.authenticity_score}% (Citizen: {ver_res['vision_concurrence']}%, "
             f"Satellite: {ver_res['satellite_concurrence']}%). Status: {grv.status}."
         ),
-        timestamp=datetime.now(timezone.utc)
+        timestamp=datetime.now(IST)
     )
     db.add(audit)
     db.commit()
@@ -105,7 +107,7 @@ def resolve_grievance(grievance_id: str, payload: GrievanceResolveRequest, db: S
 
     grv.status = payload.status
     grv.resolution_note = payload.resolution_note
-    grv.resolved_at = datetime.now(timezone.utc)
+    grv.resolved_at = datetime.now(IST)
 
     # Log to audit trail
     audit = AuditLog(
@@ -115,7 +117,7 @@ def resolve_grievance(grievance_id: str, payload: GrievanceResolveRequest, db: S
         previous_status=None,
         new_status=payload.status,
         reason=f"Grievance [{grv.grievance_type}] resolved: {payload.resolution_note}",
-        timestamp=datetime.now(timezone.utc)
+        timestamp=datetime.now(IST)
     )
     db.add(audit)
     db.commit()
@@ -141,7 +143,7 @@ def appeal_grievance(grievance_id: str, payload: GrievanceAppealRequest, db: Ses
         previous_status="FLAGGED_FAKE",
         new_status="APPEALED_PENDING_REVIEW",
         reason=f"Complainant filed appeal on flagged fake dispute: {payload.appeal_note}",
-        timestamp=datetime.now(timezone.utc)
+        timestamp=datetime.now(IST)
     )
     db.add(audit)
     db.commit()

@@ -23,7 +23,7 @@ export function formatIST(dateInput, options = {}) {
     const formatted = new Intl.DateTimeFormat('en-IN', defaultOptions).format(d);
     return `${formatted} IST`;
   } catch (e) {
-    return `${new Date().toLocaleTimeString()} IST`;
+    return `${new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`;
   }
 }
 
