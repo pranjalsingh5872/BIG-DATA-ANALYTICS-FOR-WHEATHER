@@ -6,6 +6,7 @@ import {
   Eye,
   RotateCcw
 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 // Free, reliable basemaps with NO API KEY REQUIRED
 const BASEMAP_TILES = {
@@ -169,6 +170,7 @@ function MapViewController({ bounds }) {
 }
 
 export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
+  const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   // Default to OSM (100% free, no API key, exactly matching user reference photo)
   const [selectedStyle, setSelectedStyle] = useState('osm');
   const [showH3, setShowH3] = useState(true);
@@ -221,10 +223,10 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-blue-600" />
           <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-            Live Event Map
+            {tr('Live Event Map', 'लाइव घटना मानचित्र')}
           </span>
           <span className="text-[10px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200 font-mono font-bold">
-            {filteredEvents.length} Active Events Visible
+            {filteredEvents.length} {tr('Active Events Visible', 'सक्रिय घटनाएं दृश्यमान')}
           </span>
         </div>
 
@@ -240,7 +242,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Street (OSM)
+              {tr('Street (OSM)', 'सड़क (OSM)')}
             </button>
             <button
               onClick={() => setSelectedStyle('satellite')}
@@ -250,7 +252,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Satellite
+              {tr('Satellite', 'उपग्रह')}
             </button>
           </div>
 
@@ -262,7 +264,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                 : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
             }`}
           >
-            <span>H3 Hex</span>
+            <span>{tr('H3 Hex', 'H3 हेक्स')}</span>
             <span className="text-[9px] px-1 rounded bg-slate-100 font-mono">{filteredClusters.length}</span>
           </button>
           <button
@@ -273,7 +275,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                 : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
             }`}
           >
-            <span>Pins</span>
+            <span>{tr('Pins', 'पिन मार्कर')}</span>
             <span className="text-[9px] px-1 rounded bg-slate-100 font-mono">{filteredEvents.length}</span>
           </button>
         </div>
@@ -383,11 +385,11 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
 
                     <div className="grid grid-cols-2 gap-1 text-[10px] bg-slate-50 p-1.5 rounded border border-slate-200 font-mono">
                       <div>
-                        <span className="text-slate-500">Source: </span>
+                        <span className="text-slate-500">{tr('Source:', 'स्रोत: ')} </span>
                         <span className="text-slate-900 font-semibold">{ev.source}</span>
                       </div>
                       <div>
-                        <span className="text-slate-500">Trust: </span>
+                        <span className="text-slate-500">{tr('Trust:', 'विश्वसनीयता: ')} </span>
                         <span className="text-emerald-700 font-bold">{ev.trust_score}%</span>
                       </div>
                     </div>
@@ -397,7 +399,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                       className="w-full mt-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-[11px] flex items-center justify-center gap-1.5 transition-colors shadow-sm"
                     >
                       <Eye className="w-3.5 h-3.5" />
-                      <span>Inspect AI Truth & Evidence</span>
+                      <span>{t('inspectAiTruth')}</span>
                     </button>
                   </div>
                 </Popup>
@@ -444,13 +446,13 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
             <Popup>
               <div className="text-xs space-y-1.5 min-w-[210px] p-1">
                 <div className="font-extrabold text-red-700 flex items-center gap-1.5 uppercase text-[11px] border-b border-red-200 pb-1">
-                  <span>🌀 Severe Cyclonic Storm 'DANA' (VSCS-02B)</span>
+                  <span>🌀 {tr("Severe Cyclonic Storm 'DANA' (VSCS-02B)", "गंभीर चक्रवाती तूफान 'दाना' (VSCS-02B)")}</span>
                 </div>
-                <div className="text-slate-800">Coordinates: <b className="font-mono">16.8°N, 88.5°E (Bay of Bengal)</b></div>
-                <div className="text-slate-800">Peak Gusts: <b className="text-red-700 font-mono">105 km/h</b> (984 hPa)</div>
-                <div className="text-slate-800">Track: <b className="text-amber-800">Northwest towards Odisha Coast</b></div>
+                <div className="text-slate-800">{tr('Coordinates:', 'निर्देशांक:')} <b className="font-mono">16.8°N, 88.5°E ({tr('Bay of Bengal', 'बंगाल की खाड़ी')})</b></div>
+                <div className="text-slate-800">{tr('Peak Gusts:', 'अधिकतम झोंके:')} <b className="text-red-700 font-mono">105 km/h</b> (984 hPa)</div>
+                <div className="text-slate-800">{tr('Track:', 'प्रक्षेपित मार्ग:')} <b className="text-amber-800">{tr('Northwest towards Odisha Coast', 'उत्तर-पश्चिम ओडिशा तट की ओर')}</b></div>
                 <div className="text-[10px] text-slate-500 font-mono bg-slate-50 p-1 rounded border border-slate-200">
-                  INSAT-3DR Multispectral Optical Lock Active
+                  {tr('INSAT-3DR Multispectral Optical Lock Active', 'इनसैट-3डीआर मल्टीस्पेक्ट्रल ऑप्टिकल ट्रैक सक्रिय')}
                 </div>
               </div>
             </Popup>
@@ -462,7 +464,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
           {/* Header with Title & Reset Button */}
           <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
             <span className="text-xs font-bold text-slate-900 tracking-wide">
-              Event Types
+              {t('eventTypes')}
             </span>
             {activeCategory !== 'ALL' && (
               <button
@@ -471,7 +473,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                 title="Reset to view all events"
               >
                 <RotateCcw className="w-2.5 h-2.5" />
-                <span>Show All</span>
+                <span>{t('showAll')}</span>
               </button>
             )}
           </div>
@@ -514,7 +516,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                         dangerouslySetInnerHTML={{ __html: getCategorySvgLogo(type.name, type.color) }}
                       />
                     </svg>
-                    <span className="truncate">{type.name}</span>
+                    <span className="truncate">{translateCategory(type.name)}</span>
                   </div>
                   {count > 0 && (
                     <span className={`text-[9px] font-mono ml-1 ${isSelected ? 'text-blue-800 font-bold' : 'text-slate-500'}`}>

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Search, Filter, FileDown, Eye, ShieldAlert, Sparkles, MapPin, Calendar } from 'lucide-react';
 import { api } from '../../services/api';
 import { formatIST } from '../../utils/time';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function EventTable({ events, onSelectEvent, onFilterChange }) {
+  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource } = useLanguage();
   const [filters, setFilters] = useState({
     category: 'All',
     severity: 'All',
@@ -56,11 +58,11 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-blue-600" />
             <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-              Multi-Source Meteorological Event Query Desk
+              {t('filterDesk')}
             </h3>
           </div>
           <span className="text-xs text-slate-500 font-mono">
-            Showing <b className="text-blue-700">{filteredEvents.length}</b> of {events?.length || 0} events
+            {tr('Showing', 'प्रदर्शित')} <b className="text-blue-700">{filteredEvents.length}</b> {tr('of', 'कुल')} {events?.length || 0} {tr('events', 'घटनाएं')}
           </span>
         </div>
 
@@ -68,60 +70,60 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
           {/* Category */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">Event Type</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Event Type', 'घटना प्रकार')}</label>
             <select
               value={filters.category}
               onChange={(e) => handleFilterChange('category', e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
             >
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+              {categories.map((c) => <option key={c} value={c}>{c === 'All' ? tr('All', 'सभी') : translateCategory(c)}</option>)}
             </select>
           </div>
 
           {/* Severity */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">Severity</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Severity', 'गंभीरता')}</label>
             <select
               value={filters.severity}
               onChange={(e) => handleFilterChange('severity', e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
             >
-              {severities.map((s) => <option key={s} value={s}>{s}</option>)}
+              {severities.map((s) => <option key={s} value={s}>{s === 'All' ? tr('All', 'सभी') : translateSeverity(s)}</option>)}
             </select>
           </div>
 
           {/* Status */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">Verification Status</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Verification Status', 'सत्यापन स्थिति')}</label>
             <select
               value={filters.verification_status}
               onChange={(e) => handleFilterChange('verification_status', e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
             >
-              {statuses.map((st) => <option key={st} value={st}>{st}</option>)}
+              {statuses.map((st) => <option key={st} value={st}>{st === 'All' ? tr('All', 'सभी') : translateStatus(st)}</option>)}
             </select>
           </div>
 
           {/* Source */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">Data Source</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Data Source', 'आगमन स्रोत')}</label>
             <select
               value={filters.source}
               onChange={(e) => handleFilterChange('source', e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
             >
-              {sources.map((src) => <option key={src} value={src}>{src}</option>)}
+              {sources.map((src) => <option key={src} value={src}>{src === 'All' ? tr('All', 'सभी') : translateSource(src)}</option>)}
             </select>
           </div>
 
           {/* Keyword Search */}
           <div className="col-span-2">
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">Search Keywords / City</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Search Keywords / City', 'खोज कीवर्ड / शहर')}</label>
             <div className="relative">
               <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
               <input
                 type="text"
-                placeholder="Search description, city or Hindi alert..."
+                placeholder={t('searchPlaceholder')}
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:border-blue-500 outline-none"
@@ -137,20 +139,20 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 text-[10px] uppercase font-bold tracking-wider sticky top-0 z-10 shadow-xs">
               <tr>
-                <th className="px-4 py-3">Event & Observation</th>
-                <th className="px-4 py-3">Type / Severity</th>
-                <th className="px-4 py-3">Location & H3</th>
-                <th className="px-4 py-3">Source Provenance</th>
-                <th className="px-4 py-3 text-center">AI TrustScore™</th>
-                <th className="px-4 py-3 text-center">Status</th>
-                <th className="px-4 py-3 text-right">Actions</th>
+                <th className="px-4 py-3">{t('eventTitleCol')}</th>
+                <th className="px-4 py-3">{t('typeSeverityCol')}</th>
+                <th className="px-4 py-3">{t('locationH3Col')}</th>
+                <th className="px-4 py-3">{t('sourceCol')}</th>
+                <th className="px-4 py-3 text-center">{t('trustCol')}</th>
+                <th className="px-4 py-3 text-center">{t('statusCol')}</th>
+                <th className="px-4 py-3 text-right">{t('actionsCol')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredEvents.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
-                    No weather events match current filter conditions.
+                    {t('noEventsFound')}
                   </td>
                 </tr>
               ) : (
@@ -161,20 +163,20 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                       <div className="font-bold text-slate-900 mb-0.5 line-clamp-1">{ev.title}</div>
                       <div className="text-[11px] text-slate-600 line-clamp-1">{ev.description}</div>
                       <div className="text-[10px] text-slate-500 font-mono mt-0.5">
-                        Observed: {formatIST(ev.observed_at)}
+                        {tr('Observed:', 'अवलोकन समय:')} {formatIST(ev.observed_at)}
                       </div>
                     </td>
 
                     {/* Category & Severity */}
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="font-bold text-blue-700">{ev.category}</div>
+                      <div className="font-bold text-blue-700">{translateCategory(ev.category)}</div>
                       <span className={`inline-block mt-1 px-1.5 py-0.5 rounded text-[10px] font-bold ${
                         ev.severity === 'Critical' ? 'bg-red-100 text-red-700 border border-red-200' :
                         ev.severity === 'High' ? 'bg-amber-100 text-amber-700 border border-amber-200' :
                         ev.severity === 'Moderate' ? 'bg-blue-100 text-blue-700 border border-blue-200' :
                         'bg-emerald-100 text-emerald-700 border border-emerald-200'
                       }`}>
-                        {ev.severity}
+                        {translateSeverity(ev.severity)}
                       </span>
                     </td>
 
@@ -191,9 +193,9 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
 
                     {/* Source */}
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="font-semibold text-slate-900">{ev.source}</div>
+                      <div className="font-semibold text-slate-900">{translateSource(ev.source)}</div>
                       <div className="text-[10px] text-slate-500 font-mono">
-                        {ev.source_author || 'Direct Feed'}
+                        {ev.source_author || tr('Direct Feed', 'प्रत्यक्ष सेंसर फ़ीड')}
                       </div>
                     </td>
 
@@ -217,7 +219,7 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                         ev.verification_status === 'QUARANTINED' ? 'bg-purple-100 text-purple-800 border border-purple-300' :
                         'bg-red-100 text-red-800 border border-red-300'
                       }`}>
-                        {ev.verification_status}
+                        {translateStatus(ev.verification_status)}
                       </span>
                     </td>
 
@@ -226,7 +228,7 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                       <button
                         onClick={() => onSelectEvent(ev.id)}
                         className="p-1.5 rounded bg-white hover:bg-slate-100 text-blue-600 border border-slate-200 shadow-sm transition-colors"
-                        title="Inspect AI Evidence & Audit Ledger"
+                        title={tr("Inspect AI Evidence & Audit Ledger", "AI साक्ष्य एवं ऑडिट लेज़र देखें")}
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </button>
@@ -234,7 +236,7 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                         href={api.getPdfDownloadUrl(ev.id)}
                         download
                         className="inline-block p-1.5 rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition-colors"
-                        title="Download Official Incident Brief PDF"
+                        title={tr("Download Official Incident Brief PDF", "आधिकारिक घटना सारांश PDF डाउनलोड करें")}
                       >
                         <FileDown className="w-3.5 h-3.5" />
                       </a>

@@ -421,7 +421,7 @@ function MapFocusCenter({ center, zoom = 6 }) {
 }
 
 export default function CyclonePredictor() {
-  const { lang } = useLanguage();
+  const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   const [forecastData, setForecastData] = useState(null);
   const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
   const [selectedHazardId, setSelectedHazardId] = useState('cyclone'); // 'cyclone', 'landslide', 'volcano', 'flood'
@@ -563,12 +563,12 @@ export default function CyclonePredictor() {
             {disasterMode === 'active' ? (
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-100 text-red-800 border border-red-300 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-red-600"></span>
-                <span>Active National Disaster Detected • Auto-Triaged</span>
+                <span>{tr('Active National Disaster Detected • Auto-Triaged', 'सक्रिय राष्ट्रीय आपदा पहचानी गई • AI द्वारा प्राथमिकता तय')}</span>
               </span>
             ) : (
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
-                <span>All Sectors Clear • Routine Synoptic Surveillance</span>
+                <span>{tr('All Sectors Clear • Routine Synoptic Surveillance', 'सभी क्षेत्र सामान्य • नियमित निगरानी जारी')}</span>
               </span>
             )}
             <span className="text-[10px] text-stone-600 font-mono bg-[#ede4d4] px-2 py-0.5 rounded border border-[#ded3bf]">
@@ -581,23 +581,23 @@ export default function CyclonePredictor() {
                 title="Inspect mathematical breakdown & formula weights behind this AI threat score"
               >
                 <Brain className="w-3 h-3 text-amber-900" />
-                <span>Explain Threat Score (XAI)</span>
+                <span>{tr('Explain Threat Score (XAI)', 'खतरा सूचकांक विश्लेषण (XAI)')}</span>
               </button>
             )}
           </div>
 
           <h2 className="text-lg font-black text-stone-900 tracking-tight">
             {disasterMode === 'active' ? (
-              <span>National Crisis Command: <span className="text-red-700">{currentHazard.name}</span></span>
+              <span>{tr('National Crisis Command:', 'राष्ट्रीय संकट कमान केंद्र:')} <span className="text-red-700">{currentHazard.name}</span></span>
             ) : (
-              <span>National Synoptic Surveillance: <span className="text-emerald-800">Routine Normal Conditions</span></span>
+              <span>{tr('National Synoptic Surveillance:', 'राष्ट्रीय नियमित निगरानी:')} <span className="text-emerald-800">{tr('Routine Normal Conditions', 'सामान्य मौसमी स्थितियां')}</span></span>
             )}
           </h2>
           <p className="text-xs text-stone-600">
             {disasterMode === 'active' ? (
-              <span>Autonomous AI triaging has surfaced the highest priority threat on the face. Slide below to inspect other concurrent crisis vectors.</span>
+              <span>{tr('Autonomous AI triaging has surfaced the highest priority threat on the face. Slide below to inspect other concurrent crisis vectors.', 'स्वायत्त AI विश्लेषण ने सर्वोच्च प्राथमिकता वाले खतरे को प्रदर्शित किया है। अन्य समवर्ती आपदाओं की जांच के लिए नीचे स्लाइड करें।')}</span>
             ) : (
-              <span>Continuous multi-source surveillance active across all 36 States & UTs. Zero Level-3 emergency thresholds breached across India.</span>
+              <span>{tr('Continuous multi-source surveillance active across all 36 States & UTs. Zero Level-3 emergency thresholds breached across India.', 'सभी 36 राज्यों एवं केंद्रशासित प्रदेशों में निरंतर बहु-स्रोत निगरानी सक्रिय है। भारत भर में शून्य स्तर-3 आपात स्थिति।')}</span>
             )}
           </p>
         </div>
@@ -607,7 +607,7 @@ export default function CyclonePredictor() {
           {/* Real-time Status Badge */}
           <div className="px-3 py-1.5 rounded-xl bg-red-100 border border-red-300 text-red-900 text-xs font-bold flex items-center gap-1.5 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
-            <span>Live Surveillance: Severe Cyclonic Storm Active</span>
+            <span>{tr('Live Surveillance: Severe Cyclonic Storm Active', 'लाइव निगरानी: गंभीर चक्रवाती तूफान सक्रिय')}</span>
           </div>
 
           {/* Master Reload / Atmospheric Scan */}
@@ -618,7 +618,7 @@ export default function CyclonePredictor() {
             title="Scan live atmospheric pressure, Doppler wind velocity, and satellite passes"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${reloadingAll ? 'animate-spin text-emerald-200' : 'text-emerald-200'}`} />
-            <span>{reloadingAll ? 'Scanning Atmospheric Systems...' : 'Check Atmospheric Systems (Live Scan)'}</span>
+            <span>{reloadingAll ? t('scanningAtmospheric') : t('atmosphericScanBtn')}</span>
           </button>
         </div>
       </div>
@@ -633,7 +633,7 @@ export default function CyclonePredictor() {
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-800 flex items-center gap-2">
                 <SlidersHorizontal className="w-3.5 h-3.5 text-amber-800" />
-                <span>Multi-Hazard Priority Slide Tray (Slide & Touch to Switch Active Face):</span>
+                <span>{t('slideTrayLabel')}</span>
               </span>
               <div className="flex items-center gap-1.5">
                 <button
@@ -899,7 +899,7 @@ export default function CyclonePredictor() {
           <div className="flex items-center justify-between bg-[#ede4d4] px-4 py-2.5 rounded-xl border border-[#ded3bf] text-xs">
             <span className="font-bold text-stone-800 flex items-center gap-2">
               <Eye className="w-4 h-4 text-amber-800" />
-              <span>Synchronized Presentation View:</span>
+              <span>{tr('Synchronized Presentation View:', 'समकालिक प्रस्तुति दृश्य:')}</span>
             </span>
 
             <div className="flex items-center gap-2">
@@ -911,7 +911,7 @@ export default function CyclonePredictor() {
                     : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-300'
                 }`}
               >
-                Satellite & Linked Map (Side-by-Side)
+                {tr('Satellite & Linked Map (Side-by-Side)', 'उपग्रह एवं मानचित्र (साथ-साथ)')}
               </button>
               <button
                 onClick={() => setDisplayMode('satellite_only')}
@@ -921,7 +921,7 @@ export default function CyclonePredictor() {
                     : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-300'
                 }`}
               >
-                Satellite Picture Only
+                {tr('Satellite Picture Only', 'केवल उपग्रह चित्र')}
               </button>
               <button
                 onClick={() => setDisplayMode('map_only')}
@@ -931,7 +931,7 @@ export default function CyclonePredictor() {
                     : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-300'
                 }`}
               >
-                Track Map Only
+                {tr('Track Map Only', 'केवल सामरिक मानचित्र')}
               </button>
             </div>
           </div>

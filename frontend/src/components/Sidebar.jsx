@@ -20,7 +20,7 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
 
   const publicMenuItems = [
     { id: 'overview', label: lang === 'hi' ? 'मुख्य स्थिति (Overview)' : 'National Situation', icon: Compass, badge: null },
-    { id: 'forecast', label: lang === 'hi' ? 'चक्रवात एवं वायु (Cyclone)' : 'Cyclone & Wind Tracking', icon: Wind, badge: 'LIVE TRACK', badgeColor: 'bg-teal-600' },
+    { id: 'forecast', label: lang === 'hi' ? 'चक्रवात एवं वायु (Cyclone)' : 'Cyclone & Wind Tracking', icon: Wind, badge: lang === 'hi' ? 'लाइव' : 'LIVE TRACK', badgeColor: 'bg-teal-600' },
     { id: 'events', label: lang === 'hi' ? 'घटना अंतर्ग्रहण (Events)' : 'Weather Events Registry', icon: FileSpreadsheet, badge: null },
     { id: 'analytics', label: lang === 'hi' ? 'डेटा विश्लेषण (Analytics)' : 'Platform Analytics Hub', icon: BarChart3, badge: null },
     { id: 'submit', label: lang === 'hi' ? 'नागरिक रिपोर्ट (Citizen)' : 'Citizen Field Report', icon: Send, badge: 'PWA', badgeColor: 'bg-emerald-600' },
@@ -30,8 +30,8 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
   // Operator Review Desk, CAP Alert Dispatch, and System & Engine are ONLY accessible to authenticated authorities
   const authorityMenuItems = [
     { id: 'review', label: lang === 'hi' ? 'प्राधिकरण समीक्षा' : 'AUTHORITY REVIEW', icon: CheckCircle2, badge: pendingCount > 0 ? pendingCount : null, badgeColor: 'bg-amber-600' },
-    { id: 'alerts', label: lang === 'hi' ? 'आपातकालीन चेतावनी (CAP)' : 'CAP Alert Dispatch', icon: Megaphone, badge: 'EMERGENCY', badgeColor: 'bg-rose-600' },
-    { id: 'system', label: lang === 'hi' ? 'राष्ट्रीय नोड स्वास्थ्य' : 'Node Health & Telemetry', icon: Server, badge: 'OFFICER', badgeColor: 'bg-emerald-700' }
+    { id: 'alerts', label: lang === 'hi' ? 'आपातकालीन चेतावनी (CAP)' : 'CAP Alert Dispatch', icon: Megaphone, badge: lang === 'hi' ? 'आपातकाल' : 'EMERGENCY', badgeColor: 'bg-rose-600' },
+    { id: 'system', label: lang === 'hi' ? 'राष्ट्रीय नोड स्वास्थ्य' : 'Node Health & Telemetry', icon: Server, badge: lang === 'hi' ? 'अधिकारी' : 'OFFICER', badgeColor: 'bg-emerald-700' }
   ];
 
   return (
@@ -174,7 +174,7 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
         ) : (
           <div className="flex items-center justify-between text-xs text-slate-600 font-medium">
             <span>{lang === 'hi' ? 'सार्वजनिक मोड' : 'Public Access'}</span>
-            <span className="text-[11px] font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Read-Only</span>
+            <span className="text-[11px] font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">{lang === 'hi' ? 'केवल पढ़ने योग्य' : 'Read-Only'}</span>
           </div>
         )}
       </div>

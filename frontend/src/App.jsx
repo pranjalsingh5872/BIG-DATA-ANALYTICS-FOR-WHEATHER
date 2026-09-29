@@ -16,8 +16,10 @@ import CyclonePredictor from './components/Forecast/CyclonePredictor';
 import AuthorityLoginModal from './components/Auth/AuthorityLoginModal';
 import { Lock } from 'lucide-react';
 import { api } from './services/api';
+import { useLanguage } from './context/LanguageContext';
 
 export default function App() {
+  const { lang, tr, t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
   const [summary, setSummary] = useState(null);
   const [events, setEvents] = useState([]);
@@ -176,13 +178,13 @@ export default function App() {
                   </div>
                   <div>
                     <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
-                      <span>ACTIVE CYCLONE DETECTED: SEVERE CYCLONIC STORM 'DANA' (VSCS-02B)</span>
+                      <span>{t('activeCycloneBanner')}</span>
                       <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
                         105 km/h · 984 hPa
                       </span>
                     </div>
                     <div className="text-[11px] text-red-100 mt-0.5">
-                      Vortex Eye locked at 16.8°N, 88.5°E (Bay of Bengal). Threat cone & wind radii plotted live on National Tactical Map below.
+                      {t('cycloneBannerDesc')}
                     </div>
                   </div>
                 </div>
@@ -190,7 +192,7 @@ export default function App() {
                   onClick={() => setActiveTab('forecast')}
                   className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
                 >
-                  Inspect Cyclone & Wind Trajectory →
+                  {t('inspectCycloneBtn')}
                 </button>
               </div>
 
@@ -240,16 +242,16 @@ export default function App() {
                   <Lock className="w-7 h-7" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area · Operator Review Desk</h3>
+                  <h3 className="text-base font-black text-slate-900">{t('restrictedAreaTitle')}</h3>
                   <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    Meteorological incident triage, report verification, and operational queue curation are strictly restricted to verified disaster authorities and IMD duty officers to prevent unauthorized status changes.
+                    {t('restrictedAreaDesc')}
                   </p>
                 </div>
                 <button
                   onClick={() => setAuthModalOpen(true)}
                   className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
                 >
-                  Sign In with Official Officer Credentials
+                  {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
                 </button>
               </div>
             )
@@ -275,16 +277,16 @@ export default function App() {
                   <Lock className="w-7 h-7" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area · CAP Alert Dispatch</h3>
+                  <h3 className="text-base font-black text-slate-900">{tr('Restricted Authority Area · CAP Alert Dispatch', 'प्रतिबंधित प्राधिकरण क्षेत्र · आपातकालीन चेतावनी (CAP)')}</h3>
                   <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    Broadcasting Common Alerting Protocol (CAP v1.2) emergency warnings to public sirens, cell broadcasts, and NDMA feeds requires verified authority credentials.
+                    {tr('Broadcasting Common Alerting Protocol (CAP v1.2) emergency warnings to public sirens, cell broadcasts, and NDMA feeds requires verified authority credentials.', 'सार्वजनिक सायरन, सेल ब्रॉडकास्ट एवं एनडीएमए फीड पर आपातकालीन चेतावनी जारी करने हेतु अधिकृत पहचान आवश्यक है।')}
                   </p>
                 </div>
                 <button
                   onClick={() => setAuthModalOpen(true)}
                   className="px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all"
                 >
-                  Sign In with Official Officer Credentials
+                  {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
                 </button>
               </div>
             )
@@ -299,16 +301,16 @@ export default function App() {
                   <Lock className="w-7 h-7" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-900">Restricted Authority Area</h3>
+                  <h3 className="text-base font-black text-slate-900">{tr('Restricted Authority Area · Node Health', 'प्रतिबंधित प्राधिकरण क्षेत्र · नोड स्वास्थ्य')}</h3>
                   <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    System runtime engine, telemetry microservices, and big data pipeline nodes are restricted to verified disaster authorities and IMD command officers.
+                    {tr('System runtime engine, telemetry microservices, and big data pipeline nodes are restricted to verified disaster authorities and IMD command officers.', 'सिस्टम रनटाइम इंजन, टेलीमेट्री माइक्रोसर्विसेज एवं बिग डेटा नोड्स केवल अधिकृत आपदा प्रबंधन एवं आईएमडी कमान अधिकारियों के लिए सीमित हैं।')}
                   </p>
                 </div>
                 <button
                   onClick={() => setAuthModalOpen(true)}
                   className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
                 >
-                  Sign In with Official Officer Credentials
+                  {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
                 </button>
               </div>
             )

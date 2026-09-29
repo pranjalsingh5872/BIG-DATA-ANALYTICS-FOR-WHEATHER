@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle2, XCircle, ShieldAlert, Radio, Check, ChevronRight, RefreshCw, Clock } from 'lucide-react';
 import { api } from '../../services/api';
 import { formatIST } from '../../utils/time';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function OperatorDesk({ onEventUpdated }) {
+  const { lang, tr, t, translateCategory, translateSeverity, translateStatus } = useLanguage();
   const [queue, setQueue] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [decision, setDecision] = useState('VERIFIED');
@@ -96,23 +98,26 @@ export default function OperatorDesk({ onEventUpdated }) {
         <div>
           <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
             <ShieldAlert className="w-5 h-5 text-amber-600" />
-            <span>AUTHORITY REVIEW</span>
+            <span>{lang === 'hi' ? 'प्राधिकरण समीक्षा' : 'AUTHORITY REVIEW'}</span>
           </h2>
           <p className="text-xs text-slate-500">
-            Official incident triage, report verification, and operational queue curation
+            {tr(
+              'Official incident triage, report verification, and operational queue curation',
+              'आधिकारिक घटना समीक्षा, रिपोर्ट सत्यापन एवं परिचालन कतार प्रबंधन'
+            )}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => loadQueue(selectedEvent?.id)}
-            title="Refresh review queue"
+            title={tr('Refresh review queue', 'समीक्षा कतार ताज़ा करें')}
             className="p-1.5 rounded-lg border border-slate-300 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 text-xs flex items-center gap-1 shadow-xs transition-colors"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">Refresh Queue</span>
+            <span className="hidden sm:inline">{tr('Refresh Queue', 'कतार ताज़ा करें')}</span>
           </button>
           <span className="text-xs px-2.5 py-1 rounded bg-amber-100 border border-amber-300 text-amber-800 font-mono font-bold">
-            Queue Size: {queue.length} Pending
+            {tr('Queue Size:', 'कतार आकार:')} {queue.length} {tr('Pending', 'लंबित')}
           </span>
         </div>
       </div>
@@ -127,7 +132,7 @@ export default function OperatorDesk({ onEventUpdated }) {
       {loading && queue.length === 0 ? (
         <div className="p-12 text-center text-slate-500 bg-white rounded-xl border border-slate-200 shadow-xs">
           <Radio className="w-8 h-8 text-emerald-600 animate-spin mx-auto mb-2" />
-          <span>Connecting to Real-Time Authority Review Queue...</span>
+          <span>{tr('Connecting to Real-Time Authority Review Queue...', 'रियल-टाइम प्राधिकरण समीक्षा कतार से जुड़ रहे हैं...')}</span>
         </div>
       ) : queue.length === 0 ? (
         <div className="p-12 text-center bg-white rounded-xl border border-slate-200 text-slate-500 space-y-3 shadow-xs">
@@ -135,9 +140,12 @@ export default function OperatorDesk({ onEventUpdated }) {
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900">All Live Reports Triaged & Verified</h3>
+            <h3 className="text-base font-bold text-slate-900">{tr('All Live Reports Triaged & Verified', 'सभी लाइव रिपोर्ट की समीक्षा एवं सत्यापन पूर्ण')}</h3>
             <p className="text-xs text-slate-500 max-w-md mx-auto mt-1">
-              No unreviewed reports in queue. When citizens or field sensors submit new ground observations, they will appear here in real-time for official authority dispatch.
+              {tr(
+                'No unreviewed reports in queue. When citizens or field sensors submit new ground observations, they will appear here in real-time for official authority dispatch.',
+                'कतार में कोई असमीक्षित रिपोर्ट नहीं है। जब नागरिक या फील्ड सेंसर नए अवलोकन प्रस्तुत करेंगे, तो वे यहां लाइव दिखाई देंगे।'
+              )}
             </p>
           </div>
           <div className="pt-1">
@@ -146,7 +154,7 @@ export default function OperatorDesk({ onEventUpdated }) {
               className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-colors flex items-center gap-2 mx-auto"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Poll Incoming Observations</span>
+              <span>{tr('Poll Incoming Observations', 'आगामी अवलोकनों की जांच करें')}</span>
             </button>
           </div>
         </div>

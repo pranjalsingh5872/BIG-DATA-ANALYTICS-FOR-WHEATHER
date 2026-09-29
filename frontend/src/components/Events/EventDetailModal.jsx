@@ -5,7 +5,7 @@ import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function EventDetailModal({ eventId, initialEvent, onClose, onOpenGrievance }) {
-  const { lang } = useLanguage();
+  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource } = useLanguage();
   const [data, setData] = useState(() => {
     if (initialEvent) {
       return { event: initialEvent, boundary_coords: [], audits: [] };
@@ -66,14 +66,14 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-400">
-                WEATHERNEXUS · AI Inspection & Evidence Desk
+                {tr('WEATHERNEXUS · AI Inspection & Evidence Desk', 'वेदरनेक्सस · AI अन्वेषण एवं साक्ष्य डेस्क')}
               </span>
               <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-300 font-mono font-bold border border-cyan-500/40">
                 {eventId}
               </span>
             </div>
             <h2 className="text-base font-black text-white mt-0.5">
-              {data?.event?.title || 'Loading Weather Event...'}
+              {data?.event?.title || tr('Loading Weather Event...', 'मौसम घटना लोड हो रही है...')}
             </h2>
           </div>
           <button
@@ -121,12 +121,12 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
                 {progress === 100 ? (
                   <>
                     <CheckCircle className="w-4 h-4 text-emerald-600" />
-                    <span>Multi-Source Verification Complete</span>
+                    <span>{tr('Multi-Source Verification Complete', 'बहु-स्रोत सत्यापन पूर्ण')}</span>
                   </>
                 ) : (
                   <>
                     <Radio className="w-3.5 h-3.5 text-blue-600 animate-spin" />
-                    <span>Verifying Evidence Channels...</span>
+                    <span>{tr('Verifying Evidence Channels...', 'साक्ष्य चैनलों का सत्यापन जारी...')}</span>
                   </>
                 )}
               </div>
@@ -137,9 +137,9 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
           </div>
 
           <div className="hidden sm:block text-right">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block font-mono">Telemetry Standard</span>
+            <span className="text-[10px] uppercase font-bold text-slate-400 block font-mono">{tr('Telemetry Standard', 'टेलीमेट्री मानक')}</span>
             <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-              Indian Standard Time (IST) Synchronized
+              {tr('Indian Standard Time (IST) Synchronized', 'भारतीय मानक समय (IST) समकालिक')}
             </span>
           </div>
         </div>
@@ -150,29 +150,29 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
             {/* Top Overview Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
               <div>
-                <span className="text-slate-500 block text-[10px] uppercase font-bold">Category & Severity</span>
-                <span className="font-bold text-slate-900 text-sm">{data.event.category}</span>
-                <span className="ml-2 text-xs font-mono font-bold text-amber-600">[{data.event.severity}]</span>
+                <span className="text-slate-500 block text-[10px] uppercase font-bold">{tr('Category & Severity', 'प्रकार एवं गंभीरता')}</span>
+                <span className="font-bold text-slate-900 text-sm">{translateCategory(data.event.category)}</span>
+                <span className="ml-2 text-xs font-mono font-bold text-amber-600">[{translateSeverity(data.event.severity)}]</span>
               </div>
               <div>
-                <span className="text-slate-500 block text-[10px] uppercase font-bold">Location</span>
+                <span className="text-slate-500 block text-[10px] uppercase font-bold">{tr('Location', 'स्थान')}</span>
                 <span className="font-semibold text-slate-900">{data.event.city}, {data.event.state}</span>
                 <span className="text-[10px] text-emerald-700 block font-mono">H3: {data.event.h3_index}</span>
               </div>
               <div>
-                <span className="text-slate-500 block text-[10px] uppercase font-bold">Source Provenance</span>
-                <span className="font-semibold text-slate-900">{data.event.source}</span>
-                <span className="text-[10px] text-slate-500 block">{data.event.source_author || 'Direct Feed'}</span>
+                <span className="text-slate-500 block text-[10px] uppercase font-bold">{tr('Source Provenance', 'आगमन स्रोत')}</span>
+                <span className="font-semibold text-slate-900">{translateSource(data.event.source)}</span>
+                <span className="text-[10px] text-slate-500 block">{data.event.source_author || tr('Direct Feed', 'प्रत्यक्ष सेंसर फ़ीड')}</span>
               </div>
               <div>
-                <span className="text-slate-500 block text-[10px] uppercase font-bold">AI TrustScore™</span>
+                <span className="text-slate-500 block text-[10px] uppercase font-bold">{t('trustScore')}</span>
                 <span className={`text-xl font-mono font-black ${
                   data.event.trust_score >= 75 ? 'text-emerald-700' :
                   data.event.trust_score >= 40 ? 'text-amber-700' : 'text-red-700'
                 }`}>
                   {data.event.trust_score}%
                 </span>
-                <span className="text-[10px] text-slate-500 block">{data.event.verification_status}</span>
+                <span className="text-[10px] text-slate-500 block">{translateStatus(data.event.verification_status)}</span>
               </div>
             </div>
 
@@ -368,7 +368,7 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
                 className="flex items-center gap-2 text-xs font-bold text-purple-700 hover:text-purple-800 px-3 py-2 rounded-lg bg-purple-50 border border-purple-200 transition-colors shadow-xs"
               >
                 <Scale className="w-3.5 h-3.5" />
-                <span>File Grievance / Dispute Report</span>
+                <span>{t('fileGrievance')}</span>
               </button>
 
               <a
@@ -377,7 +377,7 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
                 className="flex items-center gap-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg shadow-xs transition-all"
               >
                 <FileDown className="w-4 h-4" />
-                <span>Download Official Incident Brief PDF</span>
+                <span>{t('downloadPdf')}</span>
               </a>
             </div>
           </div>

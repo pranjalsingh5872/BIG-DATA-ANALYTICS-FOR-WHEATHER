@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Lock, AlertCircle, X, KeyRound, UserCheck } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess }) {
+  const { lang, tr, t } = useLanguage();
   const [officerId, setOfficerId] = useState('officer.imd@gov.in');
   const [pin, setPin] = useState('imd2026');
   const [error, setError] = useState('');
@@ -47,9 +49,9 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
             </div>
             <div>
               <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                Restricted Access
+                {tr('Restricted Access', 'प्रतिबंधित पहुंच')}
               </span>
-              <h3 className="text-base font-black text-slate-900 mt-1">Disaster Authority Sign-In</h3>
+              <h3 className="text-base font-black text-slate-900 mt-1">{tr('Disaster Authority Sign-In', 'आपदा प्रबंधन अधिकारी लॉगिन')}</h3>
             </div>
           </div>
           <button
@@ -61,7 +63,10 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
         </div>
 
         <p className="text-xs text-slate-600 leading-relaxed">
-          Authorized sign-in for <b>IMD Duty Officers, National Disaster Management Authorities (NDMA), and District Collectors</b>. Unlocks the System & Engine diagnostic telemetry, CAP broadcasting, and authoritative verification pass.
+          {tr(
+            'Authorized sign-in for IMD Duty Officers, National Disaster Management Authorities (NDMA), and District Collectors. Unlocks System telemetry, CAP broadcasting, and authoritative verification pass.',
+            'आईएमडी ड्यूटी अधिकारियों, राष्ट्रीय आपदा प्रबंधन प्राधिकरण (NDMA) एवं जिला अधिकारियों हेतु अधिकृत लॉगिन। सिस्टम टेलीमेट्री, आपातकालीन चेतावनी (CAP) एवं समीक्षा डेस्क को अनलॉक करता है।'
+          )}
         </p>
 
         {error && (
@@ -74,7 +79,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
         <form onSubmit={handleSubmit} className="space-y-3.5">
           <div>
             <label className="block text-[11px] uppercase font-bold text-slate-700 mb-1">
-              Official Email / Officer ID
+              {tr('Official Email / Officer ID', 'आधिकारिक ईमेल / अधिकारी आईडी')}
             </label>
             <input
               type="text"
@@ -88,7 +93,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
 
           <div>
             <label className="block text-[11px] uppercase font-bold text-slate-700 mb-1">
-              Authority Security PIN / Password
+              {tr('Authority Security PIN / Password', 'सुरक्षा पिन / पासवर्ड')}
             </label>
             <input
               type="password"
@@ -106,7 +111,7 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
               className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2"
             >
               <KeyRound className="w-4 h-4" />
-              <span>Authenticate Authority Clearance</span>
+              <span>{tr('Authenticate Authority Clearance', 'अधिकारी पहचान प्रमाणित करें')}</span>
             </button>
 
             <button
@@ -115,13 +120,13 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
               className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-bold text-xs transition-colors flex items-center justify-center gap-1.5"
             >
               <UserCheck className="w-3.5 h-3.5 text-emerald-700" />
-              <span>1-Click Evaluator Sign-In (IMD Officer)</span>
+              <span>{tr('1-Click Evaluator Sign-In (IMD Officer)', '1-क्लिक मूल्यांकनकर्ता लॉगिन (IMD अधिकारी)')}</span>
             </button>
           </div>
         </form>
 
         <div className="text-[10px] text-center text-slate-500 font-mono border-t border-slate-200 pt-3">
-          Authorized under National Disaster Management Act 2005 · Official Government Seal
+          {tr('Authorized under National Disaster Management Act 2005 · Official Government Seal', 'राष्ट्रीय आपदा प्रबंधन अधिनियम 2005 के अंतर्गत अधिकृत · आधिकारिक सरकारी मुहर')}
         </div>
       </div>
     </div>

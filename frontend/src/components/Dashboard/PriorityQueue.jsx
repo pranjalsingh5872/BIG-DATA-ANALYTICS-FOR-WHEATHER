@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertCircle, Flame, Droplets, Wind, CloudLightning, ShieldCheck, ChevronRight } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const getCategoryIcon = (category) => {
   switch (category) {
@@ -20,6 +21,7 @@ const getCategoryIcon = (category) => {
 };
 
 export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
+  const { lang, tr, t, translateSeverity, translateSource } = useLanguage();
   // Filter critical or high severity events
   const priorityList = events
     ?.filter((ev) => ev.severity === 'Critical' || ev.severity === 'High')
@@ -32,14 +34,14 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-            Operational Priority Queue
+            {t('operationalPriorityQueue')}
           </h3>
         </div>
         <button
           onClick={() => onSwitchTab('events')}
           className="text-[11px] text-blue-600 hover:underline font-semibold flex items-center gap-0.5"
         >
-          <span>View All</span>
+          <span>{t('viewAll')}</span>
           <ChevronRight className="w-3 h-3" />
         </button>
       </div>
@@ -49,7 +51,7 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
         {priorityList.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-slate-500 text-xs">
             <ShieldCheck className="w-8 h-8 mb-2 text-emerald-600 opacity-60" />
-            <span>No active critical alerts in queue</span>
+            <span>{t('noActiveAlerts')}</span>
           </div>
         ) : (
           priorityList.map((ev) => {
@@ -81,14 +83,14 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
                         : 'bg-amber-100 text-amber-700 border border-amber-200'
                     }`}
                   >
-                    {ev.severity}
+                    {translateSeverity(ev.severity)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] text-slate-500 mt-1">
                   <span>{ev.city}, {ev.state}</span>
                   <span className="font-mono text-[10px] text-blue-700 font-semibold bg-white px-1.5 py-0.5 rounded border border-slate-200">
-                    {ev.source}
+                    {translateSource(ev.source)}
                   </span>
                 </div>
               </div>
