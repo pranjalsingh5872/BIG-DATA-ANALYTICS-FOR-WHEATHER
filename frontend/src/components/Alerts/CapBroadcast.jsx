@@ -5,7 +5,7 @@ import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function CapBroadcast({ events, onAlertDispatched }) {
-  const { tr, translateSeverity } = useLanguage();
+  const { tr, translateSeverity, translateCity, translateState, translateReportTitle } = useLanguage();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -114,7 +114,7 @@ export default function CapBroadcast({ events, onAlertDispatched }) {
             >
               {events?.map((ev, idx) => (
                 <option key={ev.id || `ev-opt-${idx}`} value={ev.id}>
-                  {ev.id} - {ev.title} ({ev.city}, {ev.state})
+                  {ev.id} - {translateReportTitle(ev.title)} ({translateCity(ev.city)}, {translateState(ev.state)})
                 </option>
               ))}
             </select>

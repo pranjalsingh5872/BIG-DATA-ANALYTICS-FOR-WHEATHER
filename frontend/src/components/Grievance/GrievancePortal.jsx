@@ -9,7 +9,7 @@ import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitted }) {
-  const { tr } = useLanguage();
+  const { tr, translateReportDescription } = useLanguage();
   const [grievances, setGrievances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('list'); // 'list' or 'file'
@@ -531,7 +531,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
 
                     {/* Dispute Body */}
                     <p className="text-xs text-stone-800 font-medium leading-relaxed">
-                      {g.description}
+                      {translateReportDescription(g.description)}
                     </p>
 
                     {/* 55-45 Dual Gauge Bar */}

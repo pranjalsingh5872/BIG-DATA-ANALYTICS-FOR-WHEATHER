@@ -5,7 +5,7 @@ import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function EventTable({ events, onSelectEvent, onFilterChange }) {
-  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource } = useLanguage();
+  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
   const [filters, setFilters] = useState({
     category: 'All',
     severity: 'All',
@@ -160,8 +160,8 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                   <tr key={ev.id} className="hover:bg-slate-50/70 transition-colors">
                     {/* Event Title */}
                     <td className="px-4 py-3 max-w-sm">
-                      <div className="font-bold text-slate-900 mb-0.5 line-clamp-1">{ev.title}</div>
-                      <div className="text-[11px] text-slate-600 line-clamp-1">{ev.description}</div>
+                      <div className="font-bold text-slate-900 mb-0.5 line-clamp-1">{translateReportTitle(ev.title)}</div>
+                      <div className="text-[11px] text-slate-600 line-clamp-1">{translateReportDescription(ev.description)}</div>
                       <div className="text-[10px] text-slate-500 font-mono mt-0.5">
                         {tr('Observed:', 'अवलोकन समय:')} {formatIST(ev.observed_at)}
                       </div>
@@ -184,7 +184,7 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="font-semibold text-slate-900 flex items-center gap-1">
                         <MapPin className="w-3 h-3 text-slate-400" />
-                        <span>{ev.city}, {ev.state}</span>
+                        <span>{translateCity(ev.city)}, {translateState(ev.state)}</span>
                       </div>
                       <div className="text-[10px] text-slate-500 font-mono mt-0.5">
                         H3: <code className="text-blue-600">{ev.h3_index.slice(0, 8)}...</code>

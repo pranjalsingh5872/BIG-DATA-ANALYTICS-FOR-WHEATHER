@@ -170,7 +170,7 @@ function MapViewController({ bounds }) {
 }
 
 export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
-  const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
+  const { lang, tr, t, translateCategory, translateSeverity, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
   // Default to OSM (100% free, no API key, exactly matching user reference photo)
   const [selectedStyle, setSelectedStyle] = useState('osm');
   const [showH3, setShowH3] = useState(true);
@@ -369,18 +369,18 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                             : 'bg-emerald-100 text-emerald-700 border border-emerald-200'
                         }`}
                       >
-                        {ev.severity}
+                        {translateSeverity(ev.severity)}
                       </span>
                     </div>
 
                     <div>
-                      <h4 className="font-bold text-slate-900 text-xs leading-tight mb-1">{ev.title}</h4>
-                      <p className="text-[11px] text-slate-600 line-clamp-2">{ev.description}</p>
+                      <h4 className="font-bold text-slate-900 text-xs leading-tight mb-1">{translateReportTitle(ev.title)}</h4>
+                      <p className="text-[11px] text-slate-600 line-clamp-2">{translateReportDescription(ev.description)}</p>
                     </div>
 
                     <div className="flex items-center gap-1 text-[10px] text-slate-500">
                       <MapPin className="w-3 h-3 text-red-500" />
-                      <span>{ev.city}, {ev.state}</span>
+                      <span>{translateCity(ev.city)}, {translateState(ev.state)}</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-1 text-[10px] bg-slate-50 p-1.5 rounded border border-slate-200 font-mono">

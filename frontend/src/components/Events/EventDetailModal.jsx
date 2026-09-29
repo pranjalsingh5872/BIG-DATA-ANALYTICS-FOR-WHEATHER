@@ -5,7 +5,7 @@ import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function EventDetailModal({ eventId, initialEvent, onClose, onOpenGrievance }) {
-  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource } = useLanguage();
+  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
   const [data, setData] = useState(() => {
     if (initialEvent) {
       return { event: initialEvent, boundary_coords: [], audits: [] };
@@ -73,7 +73,7 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
               </span>
             </div>
             <h2 className="text-base font-black text-white mt-0.5">
-              {data?.event?.title || tr('Loading Weather Event...', 'मौसम घटना लोड हो रही है...')}
+              {translateReportTitle(data?.event?.title) || tr('Loading Weather Event...', 'मौसम घटना लोड हो रही है...')}
             </h2>
           </div>
           <button
@@ -156,7 +156,7 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px] uppercase font-bold">{tr('Location', 'स्थान')}</span>
-                <span className="font-semibold text-slate-900">{data.event.city}, {data.event.state}</span>
+                <span className="font-semibold text-slate-900">{translateCity(data.event.city)}, {translateState(data.event.state)}</span>
                 <span className="text-[10px] text-emerald-700 block font-mono">H3: {data.event.h3_index}</span>
               </div>
               <div>
@@ -179,12 +179,12 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
             {/* Description Text & Timestamp */}
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
               <div className="flex items-center justify-between mb-1">
-                <h4 className="text-xs uppercase font-bold text-slate-500">Observation Description</h4>
+                <h4 className="text-xs uppercase font-bold text-slate-500">{tr('Observation Description', 'अवलोकन विवरण')}</h4>
                 <span className="text-[11px] font-mono text-slate-600 font-bold">
                   {formatIST(data.event.observed_at)}
                 </span>
               </div>
-              <p className="text-sm text-slate-800 leading-relaxed">{data.event.description}</p>
+              <p className="text-sm text-slate-800 leading-relaxed">{translateReportDescription(data.event.description)}</p>
             </div>
 
             {/* 55-45 EVIDENCE ATTRIBUTION RATIO & CITIZEN BILINGUAL EXPLAINER */}

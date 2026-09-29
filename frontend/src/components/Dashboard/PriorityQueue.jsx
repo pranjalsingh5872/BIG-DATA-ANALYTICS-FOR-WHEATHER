@@ -21,7 +21,7 @@ const getCategoryIcon = (category) => {
 };
 
 export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
-  const { lang, tr, t, translateSeverity, translateSource } = useLanguage();
+  const { lang, tr, t, translateSeverity, translateSource, translateCity, translateState, translateReportTitle } = useLanguage();
   // Filter critical or high severity events
   const priorityList = events
     ?.filter((ev) => ev.severity === 'Critical' || ev.severity === 'High')
@@ -73,7 +73,7 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
                       <Icon className="w-3 h-3" />
                     </span>
                     <span className="text-xs font-bold text-slate-900 truncate group-hover:text-blue-600 transition-colors">
-                      {ev.title}
+                      {translateReportTitle(ev.title)}
                     </span>
                   </div>
                   <span
@@ -88,7 +88,7 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] text-slate-500 mt-1">
-                  <span>{ev.city}, {ev.state}</span>
+                  <span>{translateCity(ev.city)}, {translateState(ev.state)}</span>
                   <span className="font-mono text-[10px] text-blue-700 font-semibold bg-white px-1.5 py-0.5 rounded border border-slate-200">
                     {translateSource(ev.source)}
                   </span>

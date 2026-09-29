@@ -5,7 +5,7 @@ import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function OperatorDesk({ onEventUpdated }) {
-  const { lang, tr, t, translateCategory, translateSeverity, translateStatus } = useLanguage();
+  const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
   const [queue, setQueue] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [decision, setDecision] = useState('VERIFIED');
@@ -186,9 +186,9 @@ export default function OperatorDesk({ onEventUpdated }) {
                       {translateSeverity(ev.severity)}
                     </span>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-900 line-clamp-1 mb-1">{ev.title}</h4>
+                  <h4 className="text-xs font-bold text-slate-900 line-clamp-1 mb-1">{translateReportTitle(ev.title)}</h4>
                   <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
-                    <span>{ev.city}, {ev.state}</span>
+                    <span>{translateCity(ev.city)}, {translateState(ev.state)}</span>
                     <span className="text-amber-700 font-bold">{tr('Trust:', 'विश्वास:')} {ev.trust_score}%</span>
                   </div>
                   <div className="text-[9px] text-slate-400 mt-1 font-mono flex items-center gap-1">
@@ -212,8 +212,8 @@ export default function OperatorDesk({ onEventUpdated }) {
                     {selectedEvent.id}
                   </span>
                 </div>
-                <h3 className="text-sm font-black text-slate-900 mt-2">{selectedEvent.title}</h3>
-                <p className="text-xs text-slate-600 mt-1 leading-relaxed">{selectedEvent.description}</p>
+                <h3 className="text-sm font-black text-slate-900 mt-2">{translateReportTitle(selectedEvent.title)}</h3>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">{translateReportDescription(selectedEvent.description)}</p>
                 <div className="text-[10px] text-slate-500 mt-1 font-mono">
                   {tr('Timestamp:', 'समय-मुहर:')} {formatIST(selectedEvent.observed_at)}
                 </div>
@@ -227,7 +227,7 @@ export default function OperatorDesk({ onEventUpdated }) {
                   <div><b>{tr('Category:', 'श्रेणी:')}</b> {translateCategory(selectedEvent.category)}</div>
                   <div><b>{tr('Source:', 'स्रोत:')}</b> {selectedEvent.source} ({selectedEvent.source_author || tr('Citizen', 'नागरिक')})</div>
                   <div><b>{tr('Coordinates:', 'निर्देशांक:')}</b> {selectedEvent.latitude?.toFixed(4)}, {selectedEvent.longitude?.toFixed(4)}</div>
-                  <div><b>{tr('City/State:', 'शहर / राज्य:')}</b> {selectedEvent.city}, {selectedEvent.state}</div>
+                  <div><b>{tr('City/State:', 'शहर / राज्य:')}</b> {translateCity(selectedEvent.city)}, {translateState(selectedEvent.state)}</div>
                   <div><b>{tr('H3 Cell:', 'H3 सेल:')}</b> <code className="text-emerald-700 text-[10px] font-bold">{selectedEvent.h3_index}</code></div>
                 </div>
 
