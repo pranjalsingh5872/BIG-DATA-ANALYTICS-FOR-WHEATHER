@@ -83,8 +83,8 @@ export default function App() {
 
   useEffect(() => {
     fetchData();
-    // Auto-refresh telemetry every 30 seconds
-    const interval = setInterval(fetchData, 30000);
+    // Auto-refresh telemetry every 15 minutes (900,000 ms) in background
+    const interval = setInterval(fetchData, 15 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -156,8 +156,8 @@ export default function App() {
           />
         </div>
 
-        {/* Dynamic Center Stage */}
-        <main className="flex-1 p-5 overflow-y-auto max-h-[calc(100vh-65px)]">
+        {/* Dynamic Center Stage - Full Screen Command Deck */}
+        <main className="flex-1 p-3 sm:p-5 overflow-y-auto max-h-[calc(100vh-62px)] w-full">
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
               <span className="text-red-600 font-bold">⚠ CONNECTION ERROR:</span>
@@ -167,7 +167,33 @@ export default function App() {
           )}
 
           {activeTab === 'overview' && (
-            <div className="space-y-5">
+            <div className="space-y-4">
+              {/* Active Cyclone Threat Alert Banner */}
+              <div className="bg-gradient-to-r from-red-600 to-rose-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
+                    🌀
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                      <span>ACTIVE CYCLONE DETECTED: SEVERE CYCLONIC STORM (BOB-02)</span>
+                      <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+                        105 km/h · 984 hPa
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-red-100 mt-0.5">
+                      Vortex Eye locked at 16.8°N, 88.5°E (Bay of Bengal). Threat cone & wind radii plotted live on National Tactical Map below.
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveTab('forecast')}
+                  className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                >
+                  Inspect Cyclone & Wind Trajectory →
+                </button>
+              </div>
+
               {/* Top KPI Cards */}
               <MetricCards summary={summary} />
 
@@ -294,6 +320,7 @@ export default function App() {
       {selectedEventId && (
         <EventDetailModal
           eventId={selectedEventId}
+          initialEvent={events.find((e) => e.id === selectedEventId)}
           onClose={() => setSelectedEventId(null)}
           onOpenGrievance={handleOpenGrievance}
         />

@@ -41,9 +41,9 @@ export default function SystemStatus({ summary }) {
     <div className="space-y-5">
       {/* Header */}
       <div>
-        <h2 className="text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
-          <Server className="w-5 h-5 text-blue-600" />
-          <span>Platform Service Boundaries & Operational Engine Telemetry</span>
+        <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+          <Server className="w-5 h-5 text-emerald-600" />
+          <span>National Weather Intelligence Node Health</span>
         </h2>
         <p className="text-xs text-slate-500">
           Architecture topology, operational microservice health, and big data runtime metrics

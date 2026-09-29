@@ -23,10 +23,10 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
   // Filter critical or high severity events
   const priorityList = events
     ?.filter((ev) => ev.severity === 'Critical' || ev.severity === 'High')
-    .slice(0, 7) || [];
+    .slice(0, 10) || [];
 
   return (
-    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs p-4 flex flex-col h-[520px]">
+    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs p-4 flex flex-col h-[620px] lg:h-[calc(100vh-230px)] min-h-[520px]">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-3">
         <div className="flex items-center gap-2">

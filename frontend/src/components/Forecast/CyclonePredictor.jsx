@@ -477,39 +477,23 @@ export default function CyclonePredictor() {
           </p>
         </div>
 
-        {/* Action Controls: Mode Switcher & Master Reload */}
+        {/* Action Controls: Live Status & Atmospheric Scan */}
         <div className="flex items-center gap-2.5 self-start lg:self-auto shrink-0 flex-wrap">
-          {/* Mode Switcher Toggle: Active Disaster vs Normal Baseline */}
-          <button
-            onClick={() => setDisasterMode(disasterMode === 'active' ? 'normal' : 'active')}
-            className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 shadow-sm ${
-              disasterMode === 'active'
-                ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300'
-                : 'bg-red-50 hover:bg-red-100 text-red-900 border-red-300'
-            }`}
-            title="Toggle between Active Crisis mode and Normal Routine Surveillance"
-          >
-            {disasterMode === 'active' ? (
-              <>
-                <Sun className="w-4 h-4 text-amber-700" />
-                <span>Simulate: Normal Routine (No Disaster)</span>
-              </>
-            ) : (
-              <>
-                <ShieldAlert className="w-4 h-4 text-red-700" />
-                <span>Simulate: Active National Disaster</span>
-              </>
-            )}
-          </button>
+          {/* Real-time Status Badge */}
+          <div className="px-3 py-1.5 rounded-xl bg-red-100 border border-red-300 text-red-900 text-xs font-bold flex items-center gap-1.5 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+            <span>Live Surveillance: Severe Cyclonic Storm Active</span>
+          </div>
 
-          {/* Master Reload All Data */}
+          {/* Master Reload / Atmospheric Scan */}
           <button
             onClick={handleReloadAllData}
             disabled={reloadingAll}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-amber-100 text-xs font-bold shadow-md transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-xs transition-all disabled:opacity-50"
+            title="Scan live atmospheric pressure, Doppler wind velocity, and satellite passes"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${reloadingAll ? 'animate-spin text-amber-400' : 'text-amber-400'}`} />
-            <span>{reloadingAll ? 'Reloading All Feeds...' : 'Refresh & Reload All Data'}</span>
+            <RefreshCw className={`w-3.5 h-3.5 ${reloadingAll ? 'animate-spin text-emerald-200' : 'text-emerald-200'}`} />
+            <span>{reloadingAll ? 'Scanning Atmospheric Systems...' : 'Check Atmospheric Systems (Live Scan)'}</span>
           </button>
         </div>
       </div>

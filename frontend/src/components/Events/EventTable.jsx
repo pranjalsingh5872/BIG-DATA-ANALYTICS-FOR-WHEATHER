@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Filter, FileDown, Eye, ShieldAlert, Sparkles, MapPin, Calendar } from 'lucide-react';
 import { api } from '../../services/api';
+import { formatIST } from '../../utils/time';
 
 export default function EventTable({ events, onSelectEvent, onFilterChange }) {
   const [filters, setFilters] = useState({
@@ -130,11 +131,11 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
         </div>
       </div>
 
-      {/* Events Registry Table */}
-      <div className="bg-command-card border border-command-border rounded-xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* Events Registry Table with Smooth Vertical Scroll */}
+      <div className="bg-command-card border border-command-border rounded-xl shadow-xs overflow-hidden">
+        <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-270px)] min-h-[500px]">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 text-[10px] uppercase font-bold tracking-wider">
+            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 text-[10px] uppercase font-bold tracking-wider sticky top-0 z-10 shadow-xs">
               <tr>
                 <th className="px-4 py-3">Event & Observation</th>
                 <th className="px-4 py-3">Type / Severity</th>
@@ -160,7 +161,7 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                       <div className="font-bold text-slate-900 mb-0.5 line-clamp-1">{ev.title}</div>
                       <div className="text-[11px] text-slate-600 line-clamp-1">{ev.description}</div>
                       <div className="text-[10px] text-slate-500 font-mono mt-0.5">
-                        Observed: {new Date(ev.observed_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                        Observed: {formatIST(ev.observed_at)}
                       </div>
                     </td>
 

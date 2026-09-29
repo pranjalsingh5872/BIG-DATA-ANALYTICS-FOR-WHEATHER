@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, Circle, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import {
   MapPin,
@@ -108,6 +108,23 @@ const createMarkerIcon = (category, trustScore, status, isSelected = false) => {
     className: 'custom-map-pin-logo-marker',
     iconSize: [width, height],
     iconAnchor: [width / 2, height] // Anchors directly on the bottom tip of the pin!
+  });
+};
+
+const createCycloneVortexIcon = () => {
+  const html = `
+    <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+      <div style="position: absolute; width: 44px; height: 44px; border-radius: 50%; background: rgba(239, 68, 68, 0.35); animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #b91c1c, #dc2626); border: 2.5px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 16px; font-weight: bold;">
+        🌀
+      </div>
+    </div>
+  `;
+  return L.divIcon({
+    html,
+    className: 'custom-cyclone-vortex-marker',
+    iconSize: [44, 44],
+    iconAnchor: [22, 22]
   });
 };
 
@@ -262,14 +279,14 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
         </div>
       </div>
 
-      {/* Leaflet Map Canvas with Fixed Pixel Height (Prevents 0px Flex Collapse) */}
-      <div className="w-full h-[530px] min-h-[500px] relative bg-[#f8fafc] overflow-hidden">
+      {/* Leaflet Map Canvas with Responsive Full Height */}
+      <div className="w-full h-[620px] lg:h-[calc(100vh-230px)] min-h-[520px] relative bg-[#f8fafc] overflow-hidden">
         <MapContainer
           center={[22.5, 80.0]}
           zoom={5}
           maxZoom={currentBasemap.maxZoom}
           scrollWheelZoom={true}
-          style={{ width: '100%', height: '530px', minHeight: '500px' }}
+          style={{ width: '100%', height: '100%', minHeight: '520px' }}
         >
           {/* Map Initializer: Forces invalidateSize() so canvas renders immediately */}
           <MapInitializer />
@@ -386,6 +403,58 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
                 </Popup>
               </Marker>
             ))}
+
+          {/* 🌀 ACTIVE CYCLONE VORTEX TRACKING (BAY OF BENGAL SECTOR) 🌀 */}
+          <Circle
+            center={[16.8, 88.5]}
+            radius={160000}
+            pathOptions={{
+              color: '#ef4444',
+              fillColor: '#ef4444',
+              fillOpacity: 0.14,
+              weight: 2,
+              dashArray: '6, 6'
+            }}
+          />
+          <Circle
+            center={[16.8, 88.5]}
+            radius={55000}
+            pathOptions={{
+              color: '#b91c1c',
+              fillColor: '#dc2626',
+              fillOpacity: 0.35,
+              weight: 2.5
+            }}
+          />
+          <Polyline
+            positions={[
+              [15.8, 89.1],
+              [16.3, 88.8],
+              [16.8, 88.5],
+              [17.8, 87.2],
+              [19.1, 85.8]
+            ]}
+            pathOptions={{
+              color: '#ea580c',
+              weight: 3,
+              dashArray: '6, 6'
+            }}
+          />
+          <Marker position={[16.8, 88.5]} icon={createCycloneVortexIcon()}>
+            <Popup>
+              <div className="text-xs space-y-1.5 min-w-[210px] p-1">
+                <div className="font-extrabold text-red-700 flex items-center gap-1.5 uppercase text-[11px] border-b border-red-200 pb-1">
+                  <span>🌀 Severe Cyclonic Storm (BOB-02)</span>
+                </div>
+                <div className="text-slate-800">Coordinates: <b className="font-mono">16.8°N, 88.5°E (Bay of Bengal)</b></div>
+                <div className="text-slate-800">Peak Gusts: <b className="text-red-700 font-mono">105 km/h</b> (984 hPa)</div>
+                <div className="text-slate-800">Track: <b className="text-amber-800">Northwest towards Odisha Coast</b></div>
+                <div className="text-[10px] text-slate-500 font-mono bg-slate-50 p-1 rounded border border-slate-200">
+                  INSAT-3DR Multispectral Optical Lock Active
+                </div>
+              </div>
+            </Popup>
+          </Marker>
         </MapContainer>
 
         {/* 🌟 FLOATING "EVENT TYPES" BOX (MATCHING USER SCREENSHOT) 🌟 */}
