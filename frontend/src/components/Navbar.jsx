@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Radio, RefreshCw, Satellite, BellRing, Lock, LogOut, ShieldCheck, Globe, Clock, FileDown } from 'lucide-react';
+import { Radio, RefreshCw, Satellite, BellRing, Lock, LogOut, ShieldCheck, Globe, Clock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { formatISTTimeOnly } from '../utils/time';
 
@@ -98,19 +98,6 @@ export default function Navbar({
             <span>हिन्दी</span>
           </button>
         </div>
-
-        {/* Direct 1-Tap Download Official SIH Project Report PDF Button */}
-        <a
-          href="/WEATHERNEXUS_SIH_Project_Report.pdf"
-          download="WEATHERNEXUS_SIH_Project_Report.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold text-xs px-2.5 sm:px-3 py-1.5 rounded-xl shadow-xs transition-all active:scale-95"
-          title={lang === 'hi' ? 'आधिकारिक SIH प्रोजेक्ट रिपोर्ट PDF डाउनलोड करें' : 'Download Official SIH Project Report PDF'}
-        >
-          <FileDown className="w-3.5 h-3.5 text-blue-600" />
-          <span className="hidden sm:inline">{lang === 'hi' ? 'रिपोर्ट PDF' : 'Report PDF'}</span>
-        </a>
 
         {/* 1-Click CAP Emergency Broadcast Trigger - Authorities Only */}
         {authorityUser && (
