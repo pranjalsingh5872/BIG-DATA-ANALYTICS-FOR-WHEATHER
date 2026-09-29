@@ -2,6 +2,7 @@ import requests
 from datetime import datetime, timezone, timedelta
 import uuid
 from typing import List, Dict, Any
+from sqlalchemy import or_
 from backend.app.core.database import SessionLocal
 from backend.app.models.event import WeatherEvent, AuditLog
 from backend.app.services.h3_spatial import lat_lng_to_h3
@@ -334,15 +335,31 @@ def fetch_and_ingest_live_weather(wipe_old: bool = True) -> Dict[str, Any]:
 
     db = SessionLocal()
     try:
+        ist = timezone(timedelta(hours=5, minutes=30))
+        now = datetime.now(ist)
+        cutoff_24h = now - timedelta(hours=24)
+
         if wipe_old:
             # Clear previous entries to rebuild complete multi-source ledger
             db.query(AuditLog).delete()
             db.query(WeatherEvent).delete()
             db.commit()
+        else:
+            # Purge ended / dismissed / low-impact events older than 24 hours
+            try:
+                db.query(WeatherEvent).filter(
+                    WeatherEvent.observed_at < cutoff_24h,
+                    or_(
+                        WeatherEvent.operator_decision.in_(["REJECTED", "DISMISSED", "RESOLVED"]),
+                        WeatherEvent.verification_status == "REJECTED",
+                        WeatherEvent.severity.in_(["Low", "Moderate"])
+                    )
+                ).delete(synchronize_session=False)
+                db.commit()
+            except Exception:
+                db.rollback()
 
         ingested_count = 0
-        ist = timezone(timedelta(hours=5, minutes=30))
-        now = datetime.now(ist)
 
         # 1. Ingest 38 National Physical Meteorological Stations (Doppler, INSAT, AWS)
         for i, station in enumerate(ALL_INDIAN_STATIONS):

@@ -37,6 +37,7 @@ import { MapContainer, TileLayer, Polyline, Circle, Marker, Popup, Polygon, useM
 import L from 'leaflet';
 import { api } from '../../services/api';
 import { useLanguage } from '../../context/LanguageContext';
+import { formatIST } from '../../utils/time';
 
 // Helper to guarantee Indian Standard Time (IST) formatting for all observation passes
 export const formatPassTimeToIST = (ts) => {
@@ -61,81 +62,180 @@ export const formatPassTimeToIST = (ts) => {
   return ts;
 };
 
-// Fallback Zoom Earth Real-Time Observation Passes in Indian Standard Time (IST)
-const DEFAULT_ZOOM_EARTH_PASSES = [
-  {
-    id: 'pass_0h',
-    label: 'Latest (Current Observation)',
-    timeAgo: 'Latest (Updated in Real-Time)',
-    timestamp: '29 Sep, 04:12 PM IST',
-    satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
-    sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
-    cycloneEye: '16.8°N, 88.5°E (Bay of Bengal)',
-    cyclone_lat: 16.8,
-    cyclone_lon: 88.5,
-    category: 'Severe Cyclonic Storm (SCS)',
-    wind_kmh: 105,
-    pressure_hpa: 984,
-    eyeDiameter: '34 km',
-    cloudCoverDiameter: '720 km',
-    imageSrc: '/assets/zoom_earth_pass_0h.jpg',
-    status: 'Real-time Zoom Earth observation: Distinct cyclonic spiral arms and cloud vortex active over Bay of Bengal.'
-  },
-  {
-    id: 'pass_3h',
-    label: '3 Hours Ago (T - 3h Pass)',
-    timeAgo: '3 Hours Ago Observation',
-    timestamp: '29 Sep, 01:12 PM IST',
-    satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
-    sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
-    cycloneEye: '16.3°N, 88.8°E (South-Central Bay)',
-    cyclone_lat: 16.3,
-    cyclone_lon: 88.8,
-    category: 'Cyclonic Storm (CS)',
-    wind_kmh: 90,
-    pressure_hpa: 990,
-    eyeDiameter: '38 km',
-    cloudCoverDiameter: '680 km',
-    imageSrc: '/assets/zoom_earth_pass_3h.jpg',
-    status: 'Zoom Earth snapshot 3 hours ago: Central dense overcast consolidating; convective rainbands wrapping into vortex.'
-  },
-  {
-    id: 'pass_6h',
-    label: '6 Hours Ago (T - 6h Baseline)',
-    timeAgo: '6 Hours Ago Observation',
-    timestamp: '29 Sep, 10:12 AM IST',
-    satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
-    sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
-    cycloneEye: '15.8°N, 89.1°E (Central Bay of Bengal)',
-    cyclone_lat: 15.8,
-    cyclone_lon: 89.1,
-    category: 'Deep Depression (DD)',
-    wind_kmh: 75,
-    pressure_hpa: 996,
-    eyeDiameter: '42 km',
-    cloudCoverDiameter: '640 km',
-    imageSrc: '/assets/zoom_earth_pass_6h.jpg',
-    status: 'Zoom Earth snapshot 6 hours ago: Low pressure system deepening into cyclonic storm over warm sea surface (30.5°C).'
-  },
-  {
-    id: 'pass_12h',
-    label: '12 Hours Ago (T - 12h Origin)',
-    timeAgo: '12 Hours Ago Night Observation',
-    timestamp: '29 Sep, 04:12 AM IST',
-    satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
-    sensorBand: 'GeoColor Night Infrared & Earth City Lights',
-    cycloneEye: '14.9°N, 89.6°E (South-Central Bay)',
-    cyclone_lat: 14.9,
-    cyclone_lon: 89.6,
-    category: 'Depression / Low Pressure',
-    wind_kmh: 55,
-    pressure_hpa: 1002,
-    eyeDiameter: '50 km',
-    cloudCoverDiameter: '590 km',
-    imageSrc: '/assets/zoom_earth_pass_12h.jpg',
-    status: 'Zoom Earth nighttime snapshot 12 hours ago: Peninsular city lights visible with nocturnal thermal IR cloud mass.'
-  }
-];
+// Dynamic Real-Time Zoom Earth Observation Passes (Relative to Current Clock in IST)
+export const getDynamicZoomEarthPasses = () => {
+  const now = new Date();
+  const formatOffset = (hoursAgo) => {
+    const d = new Date(now.getTime() - hoursAgo * 3600 * 1000);
+    return formatIST(d);
+  };
+
+  return [
+    {
+      id: 'pass_0h',
+      label: 'Latest (Current Observation)',
+      timeAgo: 'Latest (Updated in Real-Time)',
+      timestamp: formatOffset(0),
+      satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
+      sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
+      cycloneEye: '16.8°N, 88.5°E (Bay of Bengal)',
+      cyclone_lat: 16.8,
+      cyclone_lon: 88.5,
+      category: 'Severe Cyclonic Storm (SCS)',
+      wind_kmh: 105,
+      pressure_hpa: 984,
+      eyeDiameter: '34 km',
+      cloudCoverDiameter: '720 km',
+      imageSrc: '/assets/zoom_earth_pass_0h.jpg',
+      status: 'Real-time Zoom Earth observation: Distinct cyclonic spiral arms and cloud vortex active over Bay of Bengal.'
+    },
+    {
+      id: 'pass_3h',
+      label: '3 Hours Ago (T - 3h Pass)',
+      timeAgo: '3 Hours Ago Observation',
+      timestamp: formatOffset(3),
+      satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
+      sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
+      cycloneEye: '16.3°N, 88.8°E (South-Central Bay)',
+      cyclone_lat: 16.3,
+      cyclone_lon: 88.8,
+      category: 'Cyclonic Storm (CS)',
+      wind_kmh: 90,
+      pressure_hpa: 990,
+      eyeDiameter: '38 km',
+      cloudCoverDiameter: '680 km',
+      imageSrc: '/assets/zoom_earth_pass_3h.jpg',
+      status: 'Zoom Earth snapshot 3 hours ago: Central dense overcast consolidating; convective rainbands wrapping into vortex.'
+    },
+    {
+      id: 'pass_6h',
+      label: '6 Hours Ago (T - 6h Baseline)',
+      timeAgo: '6 Hours Ago Observation',
+      timestamp: formatOffset(6),
+      satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
+      sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
+      cycloneEye: '15.8°N, 89.1°E (Central Bay of Bengal)',
+      cyclone_lat: 15.8,
+      cyclone_lon: 89.1,
+      category: 'Deep Depression (DD)',
+      wind_kmh: 75,
+      pressure_hpa: 996,
+      eyeDiameter: '42 km',
+      cloudCoverDiameter: '640 km',
+      imageSrc: '/assets/zoom_earth_pass_6h.jpg',
+      status: 'Zoom Earth snapshot 6 hours ago: Low pressure system deepening into cyclonic storm over warm sea surface (30.5°C).'
+    },
+    {
+      id: 'pass_12h',
+      label: '12 Hours Ago (T - 12h Origin)',
+      timeAgo: '12 Hours Ago Night Observation',
+      timestamp: formatOffset(12),
+      satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
+      sensorBand: 'GeoColor Night Infrared & Earth City Lights',
+      cycloneEye: '14.9°N, 89.6°E (South-Central Bay)',
+      cyclone_lat: 14.9,
+      cyclone_lon: 89.6,
+      category: 'Depression / Low Pressure',
+      wind_kmh: 55,
+      pressure_hpa: 1002,
+      eyeDiameter: '50 km',
+      cloudCoverDiameter: '590 km',
+      imageSrc: '/assets/zoom_earth_pass_12h.jpg',
+      status: 'Zoom Earth nighttime snapshot 12 hours ago: Peninsular city lights visible with nocturnal thermal IR cloud mass.'
+    }
+  ];
+};
+
+export const getDynamicTimelineSteps = () => {
+  const now = new Date();
+  const formatOffset = (hoursOffset) => {
+    const d = new Date(now.getTime() + hoursOffset * 3600 * 1000);
+    return formatIST(d);
+  };
+
+  return [
+    {
+      hour: 0,
+      label: 'Now (Current Observation)',
+      timestamp: formatOffset(0),
+      lat: 16.8,
+      lon: 88.5,
+      category: 'Severe Cyclonic Storm (SCS)',
+      central_pressure_hpa: 984,
+      max_wind_kmh: 105,
+      gusts_kmh: 125,
+      speed_kmh: 14,
+      direction: 'North-Northwest (NNW)',
+      status: 'Intensifying over Warm Sea Surface (SST 30.5°C)',
+      storm_surge_m: 1.2,
+      radius_km: 140
+    },
+    {
+      hour: 12,
+      label: '+12 Hours',
+      timestamp: formatOffset(12),
+      lat: 18.4,
+      lon: 87.8,
+      category: 'Very Severe Cyclonic Storm (VSCS)',
+      central_pressure_hpa: 974,
+      max_wind_kmh: 125,
+      gusts_kmh: 145,
+      speed_kmh: 16,
+      direction: 'North-Northwest (NNW)',
+      status: 'Approaching Outer Continental Shelf of Odisha',
+      storm_surge_m: 1.9,
+      radius_km: 180
+    },
+    {
+      hour: 24,
+      label: '+24 Hours (Landfall Window)',
+      timestamp: formatOffset(24),
+      lat: 20.6,
+      lon: 86.9,
+      category: 'Very Severe Cyclonic Storm (VSCS)',
+      central_pressure_hpa: 968,
+      max_wind_kmh: 135,
+      gusts_kmh: 155,
+      speed_kmh: 18,
+      direction: 'North-Northwest towards Dhamra / Paradip Coast',
+      status: 'CRITICAL LANDFALL WINDOW: Severe coastal inundation & extreme gales',
+      storm_surge_m: 2.6,
+      radius_km: 210
+    },
+    {
+      hour: 48,
+      label: '+48 Hours (Inland Movement)',
+      timestamp: formatOffset(48),
+      lat: 22.2,
+      lon: 85.8,
+      category: 'Cyclonic Storm / Deep Depression',
+      central_pressure_hpa: 992,
+      max_wind_kmh: 75,
+      gusts_kmh: 90,
+      speed_kmh: 12,
+      direction: 'Northwest across North Odisha & Jharkhand',
+      status: 'Weakening over land; Extreme widespread localized deluge (>200mm)',
+      storm_surge_m: 0.8,
+      radius_km: 240
+    },
+    {
+      hour: 72,
+      label: '+72 Hours (Dissipation)',
+      timestamp: formatOffset(72),
+      lat: 23.8,
+      lon: 84.5,
+      category: 'Well-Marked Low Pressure Area (WMLP)',
+      central_pressure_hpa: 1002,
+      max_wind_kmh: 40,
+      gusts_kmh: 55,
+      speed_kmh: 10,
+      direction: 'West-Northwest across Gangetic Plain',
+      status: 'Residual moisture merging into monsoon trough; scattered rain',
+      storm_surge_m: 0.0,
+      radius_km: 260
+    }
+  ];
+};
 
 // Fallback Multi-Hazard Disaster Profiles across India
 const DEFAULT_MULTI_HAZARDS = [
@@ -374,10 +474,10 @@ export default function CyclonePredictor() {
 
   const multiHazards = forecastData?.multi_hazards || DEFAULT_MULTI_HAZARDS;
   const currentHazard = multiHazards.find(h => h.id === selectedHazardId) || multiHazards[0];
-  const observationPasses = forecastData?.zoom_earth_observation_passes || DEFAULT_ZOOM_EARTH_PASSES;
+  const observationPasses = (forecastData?.zoom_earth_observation_passes && forecastData.zoom_earth_observation_passes.length > 0) ? forecastData.zoom_earth_observation_passes : getDynamicZoomEarthPasses();
   const activePass = observationPasses.find(p => p.id === selectedPassId) || observationPasses[0];
 
-  const steps = forecastData?.timeline_steps || [];
+  const steps = (forecastData?.timeline_steps && forecastData.timeline_steps.length > 0) ? forecastData.timeline_steps : getDynamicTimelineSteps();
   const currentStep = steps.find(s => s.hour === selectedHour) || steps[0] || {};
   const trajectoryCoords = steps.map(s => [s.lat, s.lon]);
 

@@ -9,7 +9,7 @@ export default function MetricCards({ summary }) {
     {
       title: lang === 'hi' ? 'कुल अंतर्ग्रहण' : 'TOTAL INGESTED',
       value: summary?.total_events || 53,
-      subtext: lang === 'hi' ? 'मल्टी-सोर्स भंडार' : 'Multi-source store',
+      subtext: lang === 'hi' ? '24 घंटे का रियल-टाइम स्ट्रीम' : '24h real-time stream',
       icon: Activity,
       color: 'text-blue-700',
       bgColor: 'bg-blue-50',

@@ -1,5 +1,5 @@
 from typing import Optional, List
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_, desc
@@ -10,6 +10,7 @@ from backend.app.services.h3_spatial import aggregate_events_by_h3, get_h3_bound
 import json
 
 router = APIRouter()
+IST = timezone(timedelta(hours=5, minutes=30))
 
 @router.get("/", response_model=List[WeatherEventResponse])
 def get_events(
@@ -26,7 +27,39 @@ def get_events(
     offset: int = 0,
     db: Session = Depends(get_db)
 ):
+    cutoff_24h = datetime.now(IST) - timedelta(hours=24)
+    # Purge ended / dismissed / low-impact events older than 24 hours to preserve strict real-time window
+    try:
+        db.query(WeatherEvent).filter(
+            WeatherEvent.observed_at < cutoff_24h,
+            or_(
+                WeatherEvent.operator_decision.in_(["REJECTED", "DISMISSED", "RESOLVED"]),
+                WeatherEvent.verification_status == "REJECTED",
+                WeatherEvent.severity.in_(["Low", "Moderate"])
+            )
+        ).delete(synchronize_session=False)
+        db.commit()
+    except Exception:
+        db.rollback()
+
     query = db.query(WeatherEvent)
+
+    # Restrict to active 24-hour operational window unless explicit historical filter requested
+    if not start_date:
+        query = query.filter(WeatherEvent.observed_at >= cutoff_24h)
+    else:
+        try:
+            dt_start = datetime.fromisoformat(start_date)
+            query = query.filter(WeatherEvent.observed_at >= dt_start)
+        except Exception:
+            pass
+
+    if end_date:
+        try:
+            dt_end = datetime.fromisoformat(end_date)
+            query = query.filter(WeatherEvent.observed_at <= dt_end)
+        except Exception:
+            pass
 
     if category and category != "All":
         query = query.filter(WeatherEvent.category == category)
@@ -48,18 +81,6 @@ def get_events(
             WeatherEvent.city.ilike(s),
             WeatherEvent.state.ilike(s)
         ))
-    if start_date:
-        try:
-            dt_start = datetime.fromisoformat(start_date)
-            query = query.filter(WeatherEvent.observed_at >= dt_start)
-        except Exception:
-            pass
-    if end_date:
-        try:
-            dt_end = datetime.fromisoformat(end_date)
-            query = query.filter(WeatherEvent.observed_at <= dt_end)
-        except Exception:
-            pass
 
     return query.order_by(desc(WeatherEvent.observed_at)).offset(offset).limit(limit).all()
 
