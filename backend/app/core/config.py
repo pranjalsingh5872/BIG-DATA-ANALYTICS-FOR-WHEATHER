@@ -1,7 +1,7 @@
 import os
 
 class Settings:
-    PROJECT_NAME: str = "National Weather Big Data Analytics Platform (SIH-26069)"
+    PROJECT_NAME: str = "WEATHERNEXUS · National Weather Big Data Analytics Platform (SIH-26069)"
     VERSION: str = "2.0.0-PROD"
     API_V1_STR: str = "/api/v1"
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./weather_bigdata.db")
