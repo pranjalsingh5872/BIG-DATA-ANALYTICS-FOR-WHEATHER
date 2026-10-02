@@ -9,7 +9,6 @@ import {
   Megaphone,
   Server,
   Wind,
-  Brain,
   Lock,
   ShieldCheck,
   KeyRound
@@ -22,7 +21,6 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
   const publicMenuItems = [
     { id: 'overview', label: lang === 'hi' ? 'मुख्य स्थिति (Overview)' : 'National Situation', icon: Compass, badge: null },
     { id: 'forecast', label: lang === 'hi' ? 'आपदा एवं जोखिम ट्रैकिंग (Disasters)' : 'Disasters & Hazard Tracking', icon: Wind, badge: lang === 'hi' ? 'लाइव' : 'LIVE TRACK', badgeColor: 'bg-teal-600' },
-    { id: 'ai-planner', label: lang === 'hi' ? 'एआई आपदा वर्गीकरण एवं योजना' : 'AI Classifier & Plan', icon: Brain, badge: 'AI PLAN', badgeColor: 'bg-purple-600' },
     { id: 'events', label: lang === 'hi' ? 'घटना अंतर्ग्रहण (Events)' : 'Weather Events Registry', icon: FileSpreadsheet, badge: null },
     { id: 'analytics', label: lang === 'hi' ? 'डेटा विश्लेषण (Analytics)' : 'Platform Analytics Hub', icon: BarChart3, badge: null },
     { id: 'submit', label: lang === 'hi' ? 'नागरिक रिपोर्ट (Citizen)' : 'Citizen Field Report', icon: Send, badge: 'PWA', badgeColor: 'bg-emerald-600' },

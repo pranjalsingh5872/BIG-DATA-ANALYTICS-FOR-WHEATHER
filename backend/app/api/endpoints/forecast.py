@@ -1,12 +1,6 @@
 from datetime import datetime, timezone, timedelta
-from fastapi import APIRouter, Body
-from typing import Dict, Any, List, Optional
-from backend.app.services.ai_disaster_planner import (
-    PRESET_DISASTERS,
-    classify_disaster,
-    synthesize_individual_mitigation_plan,
-    compute_hazard_what_if_simulation
-)
+from fastapi import APIRouter
+from typing import Dict, Any, List
 
 router = APIRouter()
 
@@ -461,69 +455,5 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         "district_risk_matrix": district_risk_matrix,
         "state_forecasts": state_forecasts,
         "zoom_earth_observation_passes": zoom_earth_observation_passes
-    }
-
-
-@router.get("/disaster-presets")
-def get_disaster_presets() -> List[Dict[str, Any]]:
-    """Returns curated high-stakes disaster presets with telemetry and what-if defaults."""
-    return PRESET_DISASTERS
-
-
-@router.post("/classify-and-plan")
-def run_ai_classification_and_plan(payload: Dict[str, Any] = Body(...)) -> Dict[str, Any]:
-    """
-    Intelligent AI Classification & Individual Disaster Action Planner.
-    Classifies hazard archetype, generates an individualized operational plan,
-    and calculates hazard-specific What-If physics simulations.
-    """
-    text = payload.get("text", "")
-    telemetry = payload.get("telemetry", {})
-    category_hint = payload.get("category_hint")
-    location = payload.get("location", "Target Hazard Sector")
-
-    # 1. Run Classification Engine
-    classification = classify_disaster(text=text, telemetry=telemetry, category_hint=category_hint)
-    classified_class = classification["classified_class"]
-    mhsi_score = classification["mhsi_score"]
-
-    # 2. Synthesize Individual Mitigation Master Plan
-    plan = synthesize_individual_mitigation_plan(
-        classified_class=classified_class,
-        mhsi_score=mhsi_score,
-        telemetry=telemetry,
-        location_name=location
-    )
-
-    # 3. Compute Hazard-Specific What-If Simulation
-    # Check if custom simulation parameters were passed
-    preset_match = next((p for p in PRESET_DISASTERS if p["category_hint"] == classified_class), PRESET_DISASTERS[0])
-    defaults = preset_match.get("what_if_defaults", {})
-
-    param1 = float(payload.get("what_if_param1", defaults.get("param1_val", 50.0)))
-    param2 = float(payload.get("what_if_param2", defaults.get("param2_val", 30.0)))
-
-    what_if = compute_hazard_what_if_simulation(
-        classified_class=classified_class,
-        param1=param1,
-        param2=param2
-    )
-
-    return {
-        "status": "success",
-        "processed_at": datetime.now(timezone(timedelta(hours=5, minutes=30))).isoformat(),
-        "classification": classification,
-        "individual_plan": plan,
-        "what_if_simulation": what_if,
-        "what_if_controls": {
-            "param1_name": defaults.get("param1_name", "Primary Hazard Vector"),
-            "param1_val": param1,
-            "param1_min": defaults.get("param1_min", 0.0),
-            "param1_max": defaults.get("param1_max", 100.0),
-            "param2_name": defaults.get("param2_name", "Secondary Shear / Proximity Vector"),
-            "param2_val": param2,
-            "param2_min": defaults.get("param2_min", 0.0),
-            "param2_max": defaults.get("param2_max", 100.0)
-        }
     }
 

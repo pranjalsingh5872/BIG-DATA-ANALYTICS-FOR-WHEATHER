@@ -13,7 +13,6 @@ import GrievancePortal from './components/Grievance/GrievancePortal';
 import CapBroadcast from './components/Alerts/CapBroadcast';
 import SystemStatus from './components/System/SystemStatus';
 import CyclonePredictor from './components/Forecast/CyclonePredictor';
-import DisasterPlanAI from './components/AIPlanner/DisasterPlanAI';
 import AuthorityLoginModal from './components/Auth/AuthorityLoginModal';
 import { Lock, ArrowRight } from 'lucide-react';
 import { api } from './services/api';
@@ -193,21 +192,12 @@ export default function App() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 ml-auto shrink-0 flex-wrap">
-                    <button
-                      onClick={() => setActiveTab('ai-planner')}
-                      className="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-3.5 py-2 rounded-full shadow-xs transition-all active:scale-95 flex items-center gap-1.5"
-                    >
-                      <span>🧠</span>
-                      <span>{tr('AI Strategic Plan & What-If →', 'एआई सामरिक योजना एवं सिमुलेशन →')}</span>
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('forecast')}
-                      className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-3.5 py-2 rounded-full shadow-xs transition-all active:scale-95 flex items-center shrink-0"
-                    >
-                      {tr('Inspect Threat Trajectory →', 'आपदा प्रक्षेपवक्र देखें →')}
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setActiveTab('forecast')}
+                    className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-4 py-2 rounded-full shadow-xs transition-all active:scale-95 ml-auto flex items-center shrink-0"
+                  >
+                    {tr('Inspect Active Disaster Trajectory →', 'सक्रिय आपदा प्रक्षेपवक्र देखें →')}
+                  </button>
                 </div>
               ) : topHazard && topHazard.mhsi_score >= 40 ? (
                 <div
@@ -291,11 +281,7 @@ export default function App() {
           )}
 
           {activeTab === 'forecast' && (
-            <CyclonePredictor onNavigate={(tab) => setActiveTab(tab)} />
-          )}
-
-          {activeTab === 'ai-planner' && (
-            <DisasterPlanAI onNavigate={(tab) => setActiveTab(tab)} />
+            <CyclonePredictor />
           )}
 
           {activeTab === 'events' && (

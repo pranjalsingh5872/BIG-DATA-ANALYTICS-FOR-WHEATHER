@@ -7,12 +7,6 @@ import {
   FALLBACK_REVIEW_QUEUE
 } from './fallbackData';
 import { formatIST, formatISTTimeOnly } from '../utils/time';
-import {
-  PRESET_DISASTERS,
-  classifyDisaster,
-  synthesizeIndividualMitigationPlan,
-  computeHazardWhatIfSimulation
-} from '../utils/aiDisasterEngine';
 
 // Priority backend resolution:
 const API_BASE = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port === '5173' ? 'http://127.0.0.1:8000/api/v1' : 'https://weather-backend-onve.onrender.com/api/v1');
@@ -447,63 +441,6 @@ export const api = {
   // PDF Incident Brief URL
   getPdfDownloadUrl: (eventId) => {
     return `${API_BASE}/export/pdf/${eventId}`;
-  },
-
-  // Intelligent Disaster Classifier & Strategic Action Planner
-  getDisasterPresets: async () => {
-    try {
-      const res = await axios.get(`${API_BASE}/forecast/disaster-presets`, { timeout: 3500 });
-      if (Array.isArray(res.data) && res.data.length > 0) return res.data;
-    } catch (e) {}
-    return PRESET_DISASTERS;
-  },
-
-  classifyAndPlanDisaster: async (payload) => {
-    try {
-      const res = await axios.post(`${API_BASE}/forecast/classify-and-plan`, payload, { timeout: 5000 });
-      if (res.data && res.data.classification && res.data.individual_plan) return res.data;
-    } catch (e) {}
-
-    // Autonomous client-side fallthrough engine
-    const text = payload.text || '';
-    const telemetry = payload.telemetry || {};
-    const categoryHint = payload.category_hint;
-    const location = payload.location || 'Target Hazard Sector';
-
-    const classification = classifyDisaster(text, telemetry, categoryHint);
-    const plan = synthesizeIndividualMitigationPlan(
-      classification.classified_class,
-      classification.mhsi_score,
-      telemetry,
-      location
-    );
-
-    const presetMatch = PRESET_DISASTERS.find(p => p.category_hint === classification.classified_class) || PRESET_DISASTERS[0];
-    const defaults = presetMatch.what_if_defaults || {};
-    const param1 = Number(payload.what_if_param1 !== undefined ? payload.what_if_param1 : defaults.param1_val);
-    const param2 = Number(payload.what_if_param2 !== undefined ? payload.what_if_param2 : defaults.param2_val);
-
-    const whatIf = computeHazardWhatIfSimulation(classification.classified_class, param1, param2);
-
-    return {
-      status: 'success',
-      processed_at: new Date().toISOString(),
-      classification,
-      individual_plan: plan,
-      what_if_simulation: whatIf,
-      what_if_controls: {
-        param1_name: defaults.param1_name || 'Primary Factor',
-        param1_val: param1,
-        param1_min: defaults.param1_min || 0,
-        param1_max: defaults.param1_max || 100,
-        param1_step: defaults.param1_step || 1,
-        param2_name: defaults.param2_name || 'Secondary Factor',
-        param2_val: param2,
-        param2_min: defaults.param2_min || 0,
-        param2_max: defaults.param2_max || 100,
-        param2_step: defaults.param2_step || 1
-      }
-    };
   }
 };
 
