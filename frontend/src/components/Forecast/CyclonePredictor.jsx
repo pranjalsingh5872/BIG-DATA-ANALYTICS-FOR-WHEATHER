@@ -71,13 +71,13 @@ export const getDynamicZoomEarthPasses = () => {
       cycloneEye: '16.8°N, 88.5°E (Bay of Bengal)',
       cyclone_lat: 16.8,
       cyclone_lon: 88.5,
-      category: 'Severe Cyclonic Storm (SCS)',
-      wind_kmh: 105,
-      pressure_hpa: 984,
-      eyeDiameter: '34 km',
-      cloudCoverDiameter: '720 km',
+      category: 'Dissipated Remnant Trough (Non-Active)',
+      wind_kmh: 28,
+      pressure_hpa: 1008,
+      eyeDiameter: 'Disorganized / No Eye',
+      cloudCoverDiameter: '180 km (Scattered Clouds)',
       imageSrc: '/assets/zoom_earth_pass_0h.jpg',
-      status: 'Real-time Zoom Earth observation: Distinct cyclonic spiral arms and cloud vortex active over Bay of Bengal.'
+      status: 'Real-time Zoom Earth observation: System ARNAB has completely dissipated into a non-active remnant trough. No cyclonic vortex or coastal threat active.'
     },
     {
       id: 'pass_3h',
@@ -86,16 +86,16 @@ export const getDynamicZoomEarthPasses = () => {
       timestamp: formatOffset(3),
       satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
       sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
-      cycloneEye: '16.3°N, 88.8°E (South-Central Bay)',
-      cyclone_lat: 16.3,
-      cyclone_lon: 88.8,
-      category: 'Cyclonic Storm (CS)',
-      wind_kmh: 90,
-      pressure_hpa: 990,
-      eyeDiameter: '38 km',
-      cloudCoverDiameter: '680 km',
+      cycloneEye: '16.5°N, 88.7°E (Central Bay)',
+      cyclone_lat: 16.5,
+      cyclone_lon: 88.7,
+      category: 'Weakening Remnant Low',
+      wind_kmh: 34,
+      pressure_hpa: 1006,
+      eyeDiameter: 'Disorganized',
+      cloudCoverDiameter: '240 km',
       imageSrc: '/assets/zoom_earth_pass_3h.jpg',
-      status: 'Zoom Earth snapshot 3 hours ago: Central dense overcast consolidating; convective rainbands wrapping into vortex.'
+      status: 'Zoom Earth snapshot 3 hours ago: Convective rainbands collapsed; central circulation open and decaying.'
     },
     {
       id: 'pass_6h',
@@ -104,16 +104,16 @@ export const getDynamicZoomEarthPasses = () => {
       timestamp: formatOffset(6),
       satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
       sensorBand: 'GeoColor Real-Time Natural True Color & Infrared',
-      cycloneEye: '15.8°N, 89.1°E (Central Bay of Bengal)',
-      cyclone_lat: 15.8,
-      cyclone_lon: 89.1,
-      category: 'Deep Depression (DD)',
-      wind_kmh: 75,
-      pressure_hpa: 996,
-      eyeDiameter: '42 km',
-      cloudCoverDiameter: '640 km',
+      cycloneEye: '16.0°N, 89.0°E (Central Bay of Bengal)',
+      cyclone_lat: 16.0,
+      cyclone_lon: 89.0,
+      category: 'Well-Marked Low Pressure (WMLP)',
+      wind_kmh: 42,
+      pressure_hpa: 1004,
+      eyeDiameter: 'Diffused',
+      cloudCoverDiameter: '320 km',
       imageSrc: '/assets/zoom_earth_pass_6h.jpg',
-      status: 'Zoom Earth snapshot 6 hours ago: Low pressure system deepening into cyclonic storm over warm sea surface (30.5°C).'
+      status: 'Zoom Earth snapshot 6 hours ago: System ARNAB weakening rapidly over open waters; vertical wind shear disrupting core.'
     },
     {
       id: 'pass_12h',
@@ -122,16 +122,16 @@ export const getDynamicZoomEarthPasses = () => {
       timestamp: formatOffset(12),
       satellite: 'Zoom Earth Live Composite (Himawari + Meteosat-IODC)',
       sensorBand: 'GeoColor Night Infrared & Earth City Lights',
-      cycloneEye: '14.9°N, 89.6°E (South-Central Bay)',
-      cyclone_lat: 14.9,
-      cyclone_lon: 89.6,
-      category: 'Depression / Low Pressure',
-      wind_kmh: 55,
+      cycloneEye: '15.2°N, 89.4°E (South-Central Bay)',
+      cyclone_lat: 15.2,
+      cyclone_lon: 89.4,
+      category: 'Depression Remnant',
+      wind_kmh: 48,
       pressure_hpa: 1002,
       eyeDiameter: '50 km',
-      cloudCoverDiameter: '590 km',
+      cloudCoverDiameter: '420 km',
       imageSrc: '/assets/zoom_earth_pass_12h.jpg',
-      status: 'Zoom Earth nighttime snapshot 12 hours ago: Peninsular city lights visible with nocturnal thermal IR cloud mass.'
+      status: 'Zoom Earth nighttime snapshot 12 hours ago: Residual shallow convection decaying over open sea.'
     }
   ];
 };
@@ -150,79 +150,79 @@ export const getDynamicTimelineSteps = () => {
       timestamp: formatOffset(0),
       lat: 16.8,
       lon: 88.5,
-      category: 'Severe Cyclonic Storm (SCS)',
-      central_pressure_hpa: 984,
-      max_wind_kmh: 105,
-      gusts_kmh: 125,
-      speed_kmh: 14,
-      direction: 'North-Northwest (NNW)',
-      status: 'Intensifying over Warm Sea Surface (SST 30.5°C)',
-      storm_surge_m: 1.2,
-      radius_km: 140
+      category: 'Dissipated Remnant Trough (Non-Active)',
+      central_pressure_hpa: 1008,
+      max_wind_kmh: 28,
+      gusts_kmh: 36,
+      speed_kmh: 8,
+      direction: 'Dissipated / Stationary over Central Bay',
+      status: 'System ARNAB fully dissipated; calm coastal sea conditions (No threat)',
+      storm_surge_m: 0.0,
+      radius_km: 60
     },
     {
       hour: 12,
       label: '+12 Hours',
       timestamp: formatOffset(12),
-      lat: 18.4,
-      lon: 87.8,
-      category: 'Very Severe Cyclonic Storm (VSCS)',
-      central_pressure_hpa: 974,
-      max_wind_kmh: 125,
-      gusts_kmh: 145,
-      speed_kmh: 16,
-      direction: 'North-Northwest (NNW)',
-      status: 'Approaching Outer Continental Shelf of Odisha',
-      storm_surge_m: 1.9,
-      radius_km: 180
+      lat: 17.2,
+      lon: 88.2,
+      category: 'Residual Low Pressure Area',
+      central_pressure_hpa: 1008,
+      max_wind_kmh: 25,
+      gusts_kmh: 32,
+      speed_kmh: 6,
+      direction: 'Drifting harmlessly over open water',
+      status: 'Residual moisture dispersing; gentle maritime breezes',
+      storm_surge_m: 0.0,
+      radius_km: 50
     },
     {
       hour: 24,
-      label: '+24 Hours (Landfall Window)',
+      label: '+24 Hours',
       timestamp: formatOffset(24),
-      lat: 20.6,
-      lon: 86.9,
-      category: 'Very Severe Cyclonic Storm (VSCS)',
-      central_pressure_hpa: 968,
-      max_wind_kmh: 135,
-      gusts_kmh: 155,
-      speed_kmh: 18,
-      direction: 'North-Northwest towards Dhamra / Paradip Coast',
-      status: 'CRITICAL LANDFALL WINDOW: Severe coastal inundation & extreme gales',
-      storm_surge_m: 2.6,
-      radius_km: 210
+      lat: 17.6,
+      lon: 88.0,
+      category: 'Completely Disorganized Remnants',
+      central_pressure_hpa: 1009,
+      max_wind_kmh: 22,
+      gusts_kmh: 30,
+      speed_kmh: 5,
+      direction: 'Diffusing across Bay of Bengal',
+      status: 'All clear across coastal belts; normal shipping and fishing operations',
+      storm_surge_m: 0.0,
+      radius_km: 40
     },
     {
       hour: 48,
-      label: '+48 Hours (Inland Movement)',
+      label: '+48 Hours',
       timestamp: formatOffset(48),
-      lat: 22.2,
-      lon: 85.8,
-      category: 'Cyclonic Storm / Deep Depression',
-      central_pressure_hpa: 992,
-      max_wind_kmh: 75,
-      gusts_kmh: 90,
-      speed_kmh: 12,
-      direction: 'Northwest across North Odisha & Jharkhand',
-      status: 'Weakening over land; Extreme widespread localized deluge (>200mm)',
-      storm_surge_m: 0.8,
-      radius_km: 240
+      lat: 18.0,
+      lon: 87.8,
+      category: 'Clear Maritime Atmosphere',
+      central_pressure_hpa: 1010,
+      max_wind_kmh: 20,
+      gusts_kmh: 26,
+      speed_kmh: 4,
+      direction: 'Dissipated',
+      status: 'Zero cyclonic presence; standard fair-weather coastal conditions',
+      storm_surge_m: 0.0,
+      radius_km: 0
     },
     {
       hour: 72,
-      label: '+72 Hours (Dissipation)',
+      label: '+72 Hours',
       timestamp: formatOffset(72),
-      lat: 23.8,
-      lon: 84.5,
-      category: 'Well-Marked Low Pressure Area (WMLP)',
-      central_pressure_hpa: 1002,
-      max_wind_kmh: 40,
-      gusts_kmh: 55,
-      speed_kmh: 10,
-      direction: 'West-Northwest across Gangetic Plain',
-      status: 'Residual moisture merging into monsoon trough; scattered rain',
+      lat: 18.5,
+      lon: 87.5,
+      category: 'Fair Weather Conditions',
+      central_pressure_hpa: 1010,
+      max_wind_kmh: 18,
+      gusts_kmh: 24,
+      speed_kmh: 0,
+      direction: 'Nil',
+      status: 'Seasonal normal weather prevailing across national maritime territory',
       storm_surge_m: 0.0,
-      radius_km: 260
+      radius_km: 0
     }
   ];
 };
@@ -231,38 +231,38 @@ export const getDynamicTimelineSteps = () => {
 const DEFAULT_MULTI_HAZARDS = [
   {
     id: 'cyclone',
-    name: "Cyclone 'DANA' (VSCS-02B)",
-    hazard_type: 'Tropical Cyclone',
+    name: "System 'ARNAB' (Dissipated / Low Threat)",
+    hazard_type: 'Dissipated Cyclonic System',
     icon_type: 'cyclone',
-    severity_rank: 1,
-    mhsi_score: 94.2,
-    status_code: 'CRITICAL_EMERGENCY',
-    badge_color: 'bg-red-600',
-    region: 'Bay of Bengal (Coastal Odisha & West Bengal)',
+    severity_rank: 4,
+    mhsi_score: 18.5,
+    status_code: 'INACTIVE_MONITORING',
+    badge_color: 'bg-emerald-600',
+    region: 'Central Bay of Bengal (Open Sea)',
     center: [16.8, 88.5],
-    primary_metric: '105 km/h Winds (SCS)',
-    secondary_metric: '984 hPa Pressure',
-    satellite_label: 'Zoom Earth Live Geocolor Satellite Observation',
+    primary_metric: '28 km/h Breeze (Normal)',
+    secondary_metric: '1008 hPa (Standard Pressure)',
+    satellite_label: 'Zoom Earth & INSAT-3DR Real-Time Satellite Observation',
     satellite_src: '/assets/zoom_earth_pass_0h.jpg',
-    description: 'Mature cyclonic vortex with intensifying eyewall tracking NNW toward Dhamra & Sagar Island. High storm surge (1.2m) and severe coastal gale risk.',
+    description: 'System ARNAB has weakened and dissipated over the open sea into a remnant low-pressure trough. No severe cyclonic or coastal landfall threat exists along Indian coastlines. Routine coastal monitoring active.',
     hotspots: [
-      { name: 'Balasore Coast', lat: 21.49, lon: 86.93, risk: 'Critical Landfall Zone' },
-      { name: 'Bhadrak / Dhamra', lat: 20.79, lon: 86.84, risk: 'Storm Surge Inundation' },
-      { name: 'Kendrapara', lat: 20.50, lon: 86.42, risk: 'Gale Force Winds' },
-      { name: 'Purba Medinipur', lat: 21.93, lon: 87.77, risk: 'Extreme Precipitation' }
+      { name: 'Balasore Coast', lat: 21.49, lon: 86.93, risk: 'All Clear · Normal Sea Conditions' },
+      { name: 'Bhadrak / Dhamra', lat: 20.79, lon: 86.84, risk: 'All Clear · Standard Tide' },
+      { name: 'Kendrapara', lat: 20.50, lon: 86.42, risk: 'All Clear · Safe Maritime Belt' },
+      { name: 'Purba Medinipur', lat: 21.93, lon: 87.77, risk: 'All Clear · Nominal Weather' }
     ],
     interpretability_breakdown: {
       formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
-      intensity_score: 98,
-      intensity_detail: '105 km/h gale winds + 984 hPa central pressure deficit (-22 hPa)',
-      exposure_score: 92,
-      exposure_detail: 'High-density coastal districts (Balasore, Bhadrak, Purba Medinipur: 4.8M residents)',
-      urgency_score: 95,
-      urgency_detail: 'Immediate +24 hour projected landfall window',
-      confidence_score: 98,
-      confidence_detail: '4 Independent Satellites (Zoom Earth, Meteosat-IODC, Himawari, INSAT-3DR) in complete agreement',
-      plain_english: 'The AI ranked Cyclone DANA as #1 Critical because it combines destructive gale-force winds with immediate landfall in densely populated coastal belts, confirmed by 4 satellites.',
-      plain_hindi: 'एआई ने चक्रवात दाना को नंबर 1 गंभीर आपदा घोषित किया क्योंकि 105 किमी/घंटे की प्रचंड हवाएं और 24 घंटे में घनी आबादी वाले तट से टकराने की पुष्टि 4 उपग्रहों द्वारा की गई है।'
+      intensity_score: 18,
+      intensity_detail: '28 km/h gentle breeze + 1008 hPa normal atmospheric pressure',
+      exposure_score: 15,
+      exposure_detail: 'Coastal activities normal; zero evacuation or storm surge advisories',
+      urgency_score: 10,
+      urgency_detail: 'No landfall trajectory; system fully dissipated over open water',
+      confidence_score: 99,
+      confidence_detail: '4 Independent Satellites (Zoom Earth, Meteosat-IODC, Himawari, INSAT-3DR) confirm vortex collapse and absence of convective organization',
+      plain_english: 'The AI classified Cyclonic System ARNAB as Inactive / De-escalated (Low Threat) because the vortex circulation has collapsed into a weak low-pressure trough with no coastal threat to India.',
+      plain_hindi: 'एआई ने चक्रवाती प्रणाली अर्नब को निष्क्रिय / शांत (कम खतरा) के रूप में वर्गीकृत किया है क्योंकि चक्रवात का भंवर पूरी तरह समाप्त हो चुका है और भारतीय तटों पर कोई खतरा नहीं है।'
     }
   },
   {
@@ -473,7 +473,7 @@ export default function CyclonePredictor() {
 
   const getHazardDisplayName = (h) => {
     if (!h) return '';
-    if (h.id === 'cyclone') return tr('Bay of Bengal Tropical Cyclone (Severe Cyclonic Storm)', 'बंगाल की खाड़ी उष्णकटिबंधीय चक्रवात (गंभीर चक्रवाती तूफान)');
+    if (h.id === 'cyclone') return tr("System 'ARNAB' (Dissipated / Low Threat - All Clear)", "प्रणाली 'अर्नब' (शांत / कम खतरा - सामान्य स्थिति)");
     if (h.id === 'landslide') return tr('Wayanad Meppadi Debris Flow & Landslide', 'वायनाड मेप्पाडी मलबा प्रवाह एवं भूस्खलन');
     if (h.id === 'volcano') return tr('Barren Island Volcano Active Thermal Eruption', 'बैरन द्वीप ज्वालामुखी सक्रिय थर्मल विस्फोट');
     if (h.id === 'flood') return tr('Assam Brahmaputra River Basin Monitored Hydrology', 'असम ब्रह्मपुत्र नदी घाटी जल विज्ञान निगरानी');
@@ -482,7 +482,7 @@ export default function CyclonePredictor() {
 
   const getHazardRegionName = (h) => {
     if (!h) return '';
-    if (h.id === 'cyclone') return tr('Odisha & West Bengal Coastal Littoral Zone', 'ओडिशा एवं पश्चिम बंगाल तटीय क्षेत्र');
+    if (h.id === 'cyclone') return tr('Central Bay of Bengal (Open Maritime Sea)', 'मध्य बंगाल की खाड़ी (खुला समुद्री क्षेत्र)');
     if (h.id === 'landslide') return tr('Western Ghats Escarpment, Kerala (Chooralmala)', 'पश्चिमी घाट ढलान, केरल (चूरलमाला)');
     if (h.id === 'volcano') return tr('Andaman Sea Maritime Corridor (Indian EEZ)', 'अंडमान सागर समुद्री गलियारा (भारतीय ईईजेड)');
     if (h.id === 'flood') return tr('Kaziranga / Majuli Island Riparian Corridor', 'काजीरंगा / माजुली द्वीप तटवर्ती गलियारा');

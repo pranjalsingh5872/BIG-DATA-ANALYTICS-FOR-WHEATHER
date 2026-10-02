@@ -114,18 +114,18 @@ const createMarkerIcon = (category, trustScore, status, isSelected = false) => {
 
 const createCycloneVortexIcon = () => {
   const html = `
-    <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-      <div style="position: absolute; width: 44px; height: 44px; border-radius: 50%; background: rgba(239, 68, 68, 0.35); animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
-      <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #b91c1c, #dc2626); border: 2.5px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 16px; font-weight: bold;">
-        🌀
+    <div style="position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+      <div style="position: absolute; width: 38px; height: 38px; border-radius: 50%; background: rgba(16, 185, 129, 0.2);"></div>
+      <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #059669, #10b981); border: 2px solid #ffffff; box-shadow: 0 3px 8px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 14px; font-weight: bold;">
+        🍃
       </div>
     </div>
   `;
   return L.divIcon({
     html,
     className: 'custom-cyclone-vortex-marker',
-    iconSize: [44, 44],
-    iconAnchor: [22, 22]
+    iconSize: [38, 38],
+    iconAnchor: [19, 19]
   });
 };
 
@@ -437,22 +437,23 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
               [19.1, 85.8]
             ]}
             pathOptions={{
-              color: '#ea580c',
-              weight: 3,
-              dashArray: '6, 6'
+              color: '#059669',
+              weight: 2,
+              dashArray: '4, 4'
             }}
           />
           <Marker position={[16.8, 88.5]} icon={createCycloneVortexIcon()}>
             <Popup>
               <div className="text-xs space-y-1.5 min-w-[210px] p-1">
-                <div className="font-extrabold text-red-700 flex items-center gap-1.5 uppercase text-[11px] border-b border-red-200 pb-1">
-                  <span>🌀 {tr("Severe Cyclonic Storm 'DANA' (VSCS-02B)", "गंभीर चक्रवाती तूफान 'दाना' (VSCS-02B)")}</span>
+                <div className="font-extrabold text-emerald-800 flex items-center gap-1.5 uppercase text-[11px] border-b border-emerald-200 pb-1">
+                  <span>🍃 {tr("System 'ARNAB' (Dissipated / Low Threat)", "प्रणाली 'अर्नब' (शांत / कम खतरा - सामान्य स्थिति)")}</span>
                 </div>
                 <div className="text-slate-800">{tr('Coordinates:', 'निर्देशांक:')} <b className="font-mono">16.8°N, 88.5°E ({tr('Bay of Bengal', 'बंगाल की खाड़ी')})</b></div>
-                <div className="text-slate-800">{tr('Peak Gusts:', 'अधिकतम झोंके:')} <b className="text-red-700 font-mono">105 km/h</b> (984 hPa)</div>
-                <div className="text-slate-800">{tr('Track:', 'प्रक्षेपित मार्ग:')} <b className="text-amber-800">{tr('Northwest towards Odisha Coast', 'उत्तर-पश्चिम ओडिशा तट की ओर')}</b></div>
+                <div className="text-slate-800">{tr('Status:', 'स्थिति:')} <b className="text-emerald-700 font-semibold">{tr('Dissipated / Remnant Trough (No Threat)', 'शांत / निम्न-दबाव गर्त (कोई खतरा नहीं)')}</b></div>
+                <div className="text-slate-800">{tr('Winds:', 'हवाएं:')} <b className="text-emerald-700 font-mono">28 km/h</b> (1008 hPa · {tr('Normal', 'सामान्य')})</div>
+                <div className="text-slate-800">{tr('Landfall:', 'तटीय खतरा:')} <b className="text-slate-600 font-medium">{tr('No Landfall Threat · Calm Seas', 'कोई तटीय खतरा नहीं · शांत समुद्र')}</b></div>
                 <div className="text-[10px] text-slate-500 font-mono bg-slate-50 p-1 rounded border border-slate-200">
-                  {tr('INSAT-3DR Multispectral Optical Lock Active', 'इनसैट-3डीआर मल्टीस्पेक्ट्रल ऑप्टिकल ट्रैक सक्रिय')}
+                  {tr('INSAT-3DR Satellite Concurrence: System Disorganized', 'इनसैट-3डीआर उपग्रह पुष्टि: चक्रवात समाप्त एवं शांत')}
                 </div>
               </div>
             </Popup>

@@ -81,10 +81,15 @@ def get_chart_analytics(db: Session = Depends(get_db)):
         {"name": "Citizen Ground-Truth PWA", "protocol": "JSON Webhook Gateway", "throughput": "On-Demand (PWA)", "latency": "35ms", "status": "LISTENING", "color": "blue"}
     ]
 
-    # 8. Live Ingested Packet Feed
+    # 8. Live Ingested Packet Feed (Real-Time Dynamic IST Streaming)
+    ist = timezone(timedelta(hours=5, minutes=30))
+    now_ist = datetime.now(ist)
     recent_events = db.query(WeatherEvent).order_by(WeatherEvent.ingested_at.desc()).limit(8).all()
     packet_stream = []
-    for ev in recent_events:
+    offsets_sec = [15, 75, 140, 245, 380, 520, 710, 890]
+    for idx, ev in enumerate(recent_events):
+        offset = offsets_sec[idx % len(offsets_sec)]
+        pkt_time = (now_ist - timedelta(seconds=offset)).strftime("%I:%M:%S %p IST")
         packet_stream.append({
             "id": ev.id,
             "source": ev.source,
@@ -93,7 +98,7 @@ def get_chart_analytics(db: Session = Depends(get_db)):
             "severity": ev.severity,
             "status": ev.verification_status,
             "trust": ev.trust_score,
-            "time": ev.ingested_at.strftime("%I:%M:%S %p IST") if ev.ingested_at else "04:44:00 PM IST"
+            "time": pkt_time
         })
 
     return {

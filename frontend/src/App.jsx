@@ -30,15 +30,8 @@ export default function App() {
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Authority State (Role-based access for IMD / Disaster Authorities)
-  const [authorityUser, setAuthorityUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('imd_authority_officer');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
+  // Authority State (Role-based access for IMD / Disaster Authorities - starts logged out)
+  const [authorityUser, setAuthorityUser] = useState(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const handleLoginSuccess = (officer) => {
@@ -62,10 +55,13 @@ export default function App() {
     }
   };
 
-  const fetchData = async () => {
+  const fetchData = async (syncLive = false) => {
     try {
       setLoading(true);
       setError(null);
+      if (syncLive) {
+        await api.syncLiveTelemetry(true).catch(() => null);
+      }
       const [sumRes, evRes, h3Res] = await Promise.all([
         api.getSummary().catch(() => null),
         api.getEvents({ limit: 100 }).catch(() => []),
@@ -84,9 +80,14 @@ export default function App() {
   };
 
   useEffect(() => {
-    fetchData();
-    // Auto-refresh telemetry every 15 minutes (900,000 ms) in background
-    const interval = setInterval(fetchData, 15 * 60 * 1000);
+    // Clear any previous cached authority session on site load
+    try {
+      localStorage.removeItem('imd_authority_officer');
+    } catch {}
+
+    fetchData(true);
+    // Auto-refresh telemetry every 5 minutes in background
+    const interval = setInterval(() => fetchData(true), 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -126,7 +127,7 @@ export default function App() {
       {/* Top Operations Navbar */}
       <Navbar
         summary={summary}
-        onRefresh={fetchData}
+        onRefresh={() => fetchData(true)}
         loading={loading}
         authorityUser={authorityUser}
         onOpenAuthModal={() => setAuthModalOpen(true)}
@@ -164,33 +165,33 @@ export default function App() {
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
               <span className="text-red-600 font-bold">⚠ CONNECTION ERROR:</span>
               <span>{error}</span>
-              <button onClick={fetchData} className="ml-auto text-red-600 hover:text-red-900 font-bold underline">Retry</button>
+              <button onClick={() => fetchData(true)} className="ml-auto text-red-600 hover:text-red-900 font-bold underline">Retry</button>
             </div>
           )}
 
           {activeTab === 'overview' && (
             <div className="space-y-4">
-              {/* Active Cyclone Threat Alert Banner */}
-              <div className="bg-gradient-to-r from-red-600 to-rose-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
+              {/* National Weather & Cyclonic Threat Status Banner */}
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
-                    🌀
+                    🍃
                   </div>
                   <div>
                     <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
                       <span>{t('activeCycloneBanner')}</span>
                       <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
-                        105 km/h · 984 hPa
+                        28 km/h · 1008 hPa · {tr('Normal Conditions', 'सामान्य स्थिति')}
                       </span>
                     </div>
-                    <div className="text-[11px] text-red-100 mt-0.5">
+                    <div className="text-[11px] text-emerald-100 mt-0.5">
                       {t('cycloneBannerDesc')}
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => setActiveTab('forecast')}
-                  className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                  className="bg-white hover:bg-emerald-50 text-emerald-800 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
                 >
                   {t('inspectCycloneBtn')}
                 </button>
