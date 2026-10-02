@@ -396,13 +396,19 @@ export const translations = {
 
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
-    return localStorage.getItem('weathernexus_lang') || 'en';
+    try {
+      return localStorage.getItem('weathernexus_lang') || 'en';
+    } catch {
+      return 'en';
+    }
   });
 
   const toggleLang = () => {
     const next = lang === 'en' ? 'hi' : 'en';
     setLang(next);
-    localStorage.setItem('weathernexus_lang', next);
+    try {
+      localStorage.setItem('weathernexus_lang', next);
+    } catch {}
   };
 
   const t = (key) => {

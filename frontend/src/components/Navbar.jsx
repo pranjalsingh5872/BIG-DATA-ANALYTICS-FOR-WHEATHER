@@ -12,7 +12,7 @@ export default function Navbar({
   onLogout,
   onOpenAlertModal
 }) {
-  const { lang, setLang, toggleLang, t } = useLanguage();
+  const { lang, setLang, toggleLang, t, tr } = useLanguage();
   const [istTime, setIstTime] = useState(() => formatISTTimeOnly(new Date()));
 
   // Live ticking IST Clock
