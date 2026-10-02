@@ -77,9 +77,23 @@ let gCachedProcessedEvents = null;
 export const api = {
   // Summary & KPIs
   getSummary: async () => {
+    let queueCount = FALLBACK_REVIEW_QUEUE.length;
+    try {
+      const local = localStorage.getItem('sih_review_queue');
+      if (local) {
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed)) queueCount = parsed.length;
+      }
+    } catch {}
+
     try {
       const res = await axios.get(`${API_BASE}/analytics/summary`, { timeout: 4000 });
-      if (res.data && res.data.total_events > 0) return res.data;
+      if (res.data && res.data.total_events > 0) {
+        return {
+          ...res.data,
+          pending_review: queueCount
+        };
+      }
     } catch (e) {}
 
     const events = await api.getEvents();
@@ -87,6 +101,7 @@ export const api = {
       ...FALLBACK_SUMMARY,
       total_events: events.length,
       today_events: events.length,
+      pending_review: queueCount,
       last_sync_ist: formatISTTimeOnly(new Date())
     };
   },

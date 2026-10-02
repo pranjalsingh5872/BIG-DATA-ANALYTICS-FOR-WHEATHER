@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, FileDown, Eye, ShieldAlert, Sparkles, MapPin, Calendar } from 'lucide-react';
+import { Search, Filter, FileDown, Eye, ShieldAlert, Sparkles, MapPin, Calendar, RotateCcw } from 'lucide-react';
 import { api } from '../../services/api';
 import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
@@ -7,6 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 export default function EventTable({ events, onSelectEvent, onFilterChange }) {
   const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
   const [filters, setFilters] = useState({
+    date: '',
     category: 'All',
     severity: 'All',
     state: 'All',
@@ -27,24 +28,42 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
     'Citizen PWA Reports'
   ];
 
+  const uniqueStates = ['All', ...Array.from(new Set(events?.map(e => e.state).filter(Boolean))).sort()];
+
   const handleFilterChange = (key, val) => {
     const updated = { ...filters, [key]: val };
     setFilters(updated);
     if (onFilterChange) onFilterChange(updated);
   };
 
-  // Filter local events
+  const handleResetFilters = () => {
+    const reset = {
+      date: '',
+      category: 'All',
+      severity: 'All',
+      state: 'All',
+      verification_status: 'All',
+      source: 'All',
+      search: ''
+    };
+    setFilters(reset);
+    if (onFilterChange) onFilterChange(reset);
+  };
+
+  // Filter local events with complete 6-dimensional operational criteria
   const filteredEvents = events?.filter((ev) => {
+    if (filters.date && !ev.observed_at?.startsWith(filters.date)) return false;
     if (filters.category !== 'All' && ev.category !== filters.category) return false;
     if (filters.severity !== 'All' && ev.severity !== filters.severity) return false;
+    if (filters.state !== 'All' && ev.state !== filters.state) return false;
     if (filters.verification_status !== 'All' && ev.verification_status !== filters.verification_status) return false;
     if (filters.source !== 'All' && ev.source !== filters.source) return false;
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      const match = ev.title.toLowerCase().includes(q) ||
-                    ev.description.toLowerCase().includes(q) ||
-                    ev.city.toLowerCase().includes(q) ||
-                    ev.state.toLowerCase().includes(q);
+      const match = ev.title?.toLowerCase().includes(q) ||
+                    ev.description?.toLowerCase().includes(q) ||
+                    ev.city?.toLowerCase().includes(q) ||
+                    ev.state?.toLowerCase().includes(q);
       if (!match) return false;
     }
     return true;
@@ -54,12 +73,21 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
     <div className="space-y-4">
       {/* 7-Parameter Filter Toolbar */}
       <div className="bg-command-card border border-command-border rounded-xl p-4 shadow-sm space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-blue-600" />
             <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
               {t('filterDesk')}
             </h3>
+            {(filters.date || filters.category !== 'All' || filters.severity !== 'All' || filters.state !== 'All' || filters.verification_status !== 'All' || filters.source !== 'All' || filters.search) && (
+              <button
+                onClick={handleResetFilters}
+                className="text-[11px] text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1 px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-100 transition-colors ml-2 cursor-pointer"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>{tr('Reset Filters', 'फ़िल्टर हटाएं')}</span>
+              </button>
+            )}
           </div>
           <span className="text-xs text-slate-500 font-mono">
             {tr('Showing', 'प्रदर्शित')} <b className="text-blue-700">{filteredEvents.length}</b> {tr('of', 'कुल')} {events?.length || 0} {tr('events', 'घटनाएं')}
@@ -67,20 +95,65 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
         </div>
 
         {/* Filter Selectors Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
-          {/* Category */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          {/* 1. Date-wise filtering */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Event Type', 'घटना प्रकार')}</label>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1 flex items-center gap-1">
+              <Calendar className="w-3 h-3 text-blue-600" />
+              <span>{tr('Date-wise Filter', 'तारीख फ़िल्टर')}</span>
+            </label>
+            <input
+              type="date"
+              value={filters.date}
+              onChange={(e) => handleFilterChange('date', e.target.value)}
+              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
+            />
+          </div>
+
+          {/* 2. Event-wise filtering (Category) */}
+          <div>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Event-wise Filter', 'घटना प्रकार')}</label>
             <select
               value={filters.category}
               onChange={(e) => handleFilterChange('category', e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
             >
-              {categories.map((c) => <option key={c} value={c}>{c === 'All' ? tr('All', 'सभी') : translateCategory(c)}</option>)}
+              {categories.map((c) => <option key={c} value={c}>{c === 'All' ? tr('All Events', 'सभी घटनाएं') : translateCategory(c)}</option>)}
             </select>
           </div>
 
-          {/* Severity */}
+          {/* 3. Location-wise filtering (State / Region) */}
+          <div>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1 flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-blue-600" />
+              <span>{tr('Location / State', 'स्थान / राज्य')}</span>
+            </label>
+            <select
+              value={filters.state}
+              onChange={(e) => handleFilterChange('state', e.target.value)}
+              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
+            >
+              <option value="All">{tr('All Locations', 'सभी राज्य / स्थान')}</option>
+              {uniqueStates.filter(s => s !== 'All').map((st) => <option key={st} value={st}>{translateState(st)}</option>)}
+            </select>
+          </div>
+
+          {/* 4. Verification Status Tracking */}
+          <div>
+            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1 flex items-center gap-1">
+              <ShieldAlert className="w-3 h-3 text-blue-600" />
+              <span>{tr('Verification Status', 'सत्यापन स्थिति')}</span>
+            </label>
+            <select
+              value={filters.verification_status}
+              onChange={(e) => handleFilterChange('verification_status', e.target.value)}
+              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
+            >
+              {statuses.map((st) => <option key={st} value={st}>{st === 'All' ? tr('All Statuses', 'सभी स्थितियां') : translateStatus(st)}</option>)}
+            </select>
+          </div>
+
+          {/* 5. Severity */}
           <div>
             <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Severity', 'गंभीरता')}</label>
             <select
@@ -88,36 +161,12 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
               onChange={(e) => handleFilterChange('severity', e.target.value)}
               className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
             >
-              {severities.map((s) => <option key={s} value={s}>{s === 'All' ? tr('All', 'सभी') : translateSeverity(s)}</option>)}
+              {severities.map((s) => <option key={s} value={s}>{s === 'All' ? tr('All Severities', 'सभी गंभीरता') : translateSeverity(s)}</option>)}
             </select>
           </div>
 
-          {/* Status */}
+          {/* 6. Keyword / City Search */}
           <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Verification Status', 'सत्यापन स्थिति')}</label>
-            <select
-              value={filters.verification_status}
-              onChange={(e) => handleFilterChange('verification_status', e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
-            >
-              {statuses.map((st) => <option key={st} value={st}>{st === 'All' ? tr('All', 'सभी') : translateStatus(st)}</option>)}
-            </select>
-          </div>
-
-          {/* Source */}
-          <div>
-            <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Data Source', 'आगमन स्रोत')}</label>
-            <select
-              value={filters.source}
-              onChange={(e) => handleFilterChange('source', e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 outline-none"
-            >
-              {sources.map((src) => <option key={src} value={src}>{src === 'All' ? tr('All', 'सभी') : translateSource(src)}</option>)}
-            </select>
-          </div>
-
-          {/* Keyword Search */}
-          <div className="col-span-2">
             <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">{tr('Search Keywords / City', 'खोज कीवर्ड / शहर')}</label>
             <div className="relative">
               <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
@@ -131,6 +180,55 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
             </div>
           </div>
         </div>
+
+        {/* Dynamic Active Filter Chips Bar */}
+        {(filters.date || filters.category !== 'All' || filters.severity !== 'All' || filters.state !== 'All' || filters.verification_status !== 'All' || filters.source !== 'All' || filters.search) && (
+          <div className="pt-2 border-t border-slate-200 flex items-center gap-1.5 flex-wrap text-xs">
+            <span className="text-[11px] font-bold text-slate-500 mr-1">{tr('Active Filters:', 'सक्रिय फ़िल्टर:')}</span>
+            {filters.date && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-medium border border-blue-200 shadow-2xs">
+                <span>📅 {filters.date}</span>
+                <button onClick={() => handleFilterChange('date', '')} className="hover:text-blue-950 font-bold ml-0.5 cursor-pointer">✕</button>
+              </span>
+            )}
+            {filters.category !== 'All' && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[11px] font-medium border border-indigo-200 shadow-2xs">
+                <span>⚡ {translateCategory(filters.category)}</span>
+                <button onClick={() => handleFilterChange('category', 'All')} className="hover:text-indigo-950 font-bold ml-0.5 cursor-pointer">✕</button>
+              </span>
+            )}
+            {filters.state !== 'All' && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-medium border border-emerald-200 shadow-2xs">
+                <span>📍 {translateState(filters.state)}</span>
+                <button onClick={() => handleFilterChange('state', 'All')} className="hover:text-emerald-950 font-bold ml-0.5 cursor-pointer">✕</button>
+              </span>
+            )}
+            {filters.verification_status !== 'All' && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-medium border border-amber-200 shadow-2xs">
+                <span>🛡️ {translateStatus(filters.verification_status)}</span>
+                <button onClick={() => handleFilterChange('verification_status', 'All')} className="hover:text-amber-950 font-bold ml-0.5 cursor-pointer">✕</button>
+              </span>
+            )}
+            {filters.severity !== 'All' && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[11px] font-medium border border-red-200 shadow-2xs">
+                <span>⚠️ {translateSeverity(filters.severity)}</span>
+                <button onClick={() => handleFilterChange('severity', 'All')} className="hover:text-red-950 font-bold ml-0.5 cursor-pointer">✕</button>
+              </span>
+            )}
+            {filters.search && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-800 text-[11px] font-medium border border-slate-300 shadow-2xs">
+                <span>🔍 "{filters.search}"</span>
+                <button onClick={() => handleFilterChange('search', '')} className="hover:text-slate-950 font-bold ml-0.5 cursor-pointer">✕</button>
+              </span>
+            )}
+            <button
+              onClick={handleResetFilters}
+              className="text-[11px] text-blue-600 hover:text-blue-800 font-bold underline ml-2 cursor-pointer"
+            >
+              {tr('Clear All', 'सभी हटाएं')}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Events Registry Table with Smooth Vertical Scroll */}

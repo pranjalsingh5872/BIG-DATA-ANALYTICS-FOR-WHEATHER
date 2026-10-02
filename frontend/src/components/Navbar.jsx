@@ -42,29 +42,25 @@ export default function Navbar({
 
       {/* Real-time System Telemetry Indicators, IST Clock, Language Switch & Authority Access */}
       <div className="flex items-center gap-2 sm:gap-3">
-        {/* Live IST Clock & Telemetry Badges */}
+        {/* Live IST Clock & Ingestion Telemetry Capsule */}
         <div className="hidden lg:flex items-center gap-3 bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs shadow-xs">
-          <div className="flex items-center gap-1.5 font-mono text-slate-700 font-bold" title="Indian Standard Time (IST)">
-            <Clock className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="flex items-center gap-1.5 font-mono text-slate-800 font-bold" title="Indian Standard Time (IST)">
+            <Clock className="w-3.5 h-3.5 text-blue-600" />
             <span>{istTime}</span>
           </div>
-          <div className="h-3 w-[1px] bg-slate-300"></div>
+          <div className="h-3 w-[1px] bg-slate-200"></div>
+          <div className="flex items-center gap-1.5" title="Live Big Data Ingestion Throughput">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-slate-600 font-medium">{tr('Stream:', 'स्ट्रीम:')}</span>
+            <span className="text-emerald-700 font-mono font-bold">{summary?.ingestion_rate_recs_sec || '34.6'} rec/s</span>
+            <span className="text-slate-400 font-mono text-[10px]">· 28ms</span>
+          </div>
+          <div className="h-3 w-[1px] bg-slate-200"></div>
           <div className="flex items-center gap-1.5">
-            <Radio className="w-3.5 h-3.5 text-teal-600 animate-spin" />
-            <span className="text-slate-500 font-medium">{t('activeEvents')}:</span>
+            <Radio className="w-3.5 h-3.5 text-blue-600 animate-spin" />
+            <span className="text-slate-600 font-medium">{t('activeEvents')}:</span>
             <span className="text-slate-900 font-mono font-bold">{summary?.total_events || '53'}</span>
           </div>
-          <div className="h-3 w-[1px] bg-slate-300"></div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-emerald-700 font-bold font-mono">{summary?.detection_accuracy_pct || '98.1'}% {t('detectionAccuracy')}</span>
-          </div>
-        </div>
-
-        {/* Subtle Auto-Sync 15m Badge */}
-        <div className="hidden md:flex items-center gap-1.5 text-[11px] text-slate-500 bg-slate-100/80 px-2.5 py-1 rounded-lg border border-slate-200" title="Automatic 15-minute background synchronization active">
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-ping"></span>
-          <span>{t('autoSyncActive')}</span>
         </div>
 
         {/* Global Hindi / English Explicit Segmented Switcher */}

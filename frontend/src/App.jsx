@@ -35,6 +35,7 @@ export default function App() {
   // Authority State (Role-based access for IMD / Disaster Authorities - starts logged out)
   const [authorityUser, setAuthorityUser] = useState(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(Date.now());
 
   const handleLoginSuccess = (officer) => {
     setAuthorityUser(officer);
@@ -73,6 +74,7 @@ export default function App() {
       if (sumRes) setSummary(sumRes);
       if (evRes) setEvents(evRes);
       if (h3Res?.clusters) setH3Clusters(h3Res.clusters);
+      setRefreshTrigger(Date.now());
     } catch (err) {
       console.error('Data sync failed', err);
       setError('Failed to connect to the National Command Server. Check backend status.');
@@ -172,7 +174,7 @@ export default function App() {
           )}
 
           {activeTab === 'overview' && (
-            <div className="space-y-4">
+            <div key="overview" className="tab-enter space-y-4">
               {/* National Multi-Hazard Highest MHSI Threat Status Banner */}
               {topHazard && topHazard.mhsi_score >= 65 ? (
                 <div className="bg-gradient-to-r from-red-600 to-rose-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
@@ -194,7 +196,7 @@ export default function App() {
                   </div>
                   <button
                     onClick={() => setActiveTab('forecast')}
-                    className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-4 py-2 rounded-full shadow-xs transition-all active:scale-95 ml-auto flex items-center shrink-0"
+                    className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-4 py-2 rounded-full shadow-xs transition-all active:scale-95 ml-auto flex items-center shrink-0 cursor-pointer"
                   >
                     {tr('Inspect Active Disaster Trajectory →', 'सक्रिय आपदा प्रक्षेपवक्र देखें →')}
                   </button>
@@ -222,7 +224,7 @@ export default function App() {
                   </div>
                   <button
                     onClick={() => setActiveTab('forecast')}
-                    className="bg-white hover:bg-amber-50 text-amber-900 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                    className="bg-white hover:bg-amber-50 text-amber-900 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto cursor-pointer"
                   >
                     {tr('Inspect Threat', 'खतरे की जांच करें')}
                   </button>
@@ -250,7 +252,7 @@ export default function App() {
                   </div>
                   <button
                     onClick={() => setActiveTab('forecast')}
-                    className="bg-white hover:bg-emerald-50 text-emerald-800 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                    className="bg-white hover:bg-emerald-50 text-emerald-800 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto cursor-pointer"
                   >
                     {tr('Open Hazard Center', 'आपदा केंद्र खोलें')}
                   </button>
@@ -281,100 +283,118 @@ export default function App() {
           )}
 
           {activeTab === 'forecast' && (
-            <CyclonePredictor />
+            <div key="forecast" className="tab-enter">
+              <CyclonePredictor refreshTrigger={refreshTrigger} />
+            </div>
           )}
 
           {activeTab === 'events' && (
-            <EventTable
-              events={events}
-              onSelectEvent={(id) => setSelectedEventId(id)}
-              onFilterChange={() => {}}
-            />
+            <div key="events" className="tab-enter">
+              <EventTable
+                events={events}
+                onSelectEvent={(id) => setSelectedEventId(id)}
+                onFilterChange={() => {}}
+              />
+            </div>
           )}
 
-          {activeTab === 'analytics' && <AnalyticsHub />}
+          {activeTab === 'analytics' && (
+            <div key="analytics" className="tab-enter">
+              <AnalyticsHub refreshTrigger={refreshTrigger} />
+            </div>
+          )}
 
           {activeTab === 'review' && (
-            authorityUser ? (
-              <OperatorDesk onEventUpdated={fetchData} />
-            ) : (
-              <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
-                <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
-                  <Lock className="w-7 h-7" />
+            <div key="review" className="tab-enter">
+              {authorityUser ? (
+                <OperatorDesk onEventUpdated={fetchData} />
+              ) : (
+                <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                  <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
+                    <Lock className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900">{t('restrictedAreaTitle')}</h3>
+                    <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                      {t('restrictedAreaDesc')}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAuthModalOpen(true)}
+                    className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+                  >
+                    {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
+                  </button>
                 </div>
-                <div>
-                  <h3 className="text-base font-black text-slate-900">{t('restrictedAreaTitle')}</h3>
-                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    {t('restrictedAreaDesc')}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setAuthModalOpen(true)}
-                  className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
-                >
-                  {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
-                </button>
-              </div>
-            )
+              )}
+            </div>
           )}
 
           {activeTab === 'submit' && (
-            <CitizenReportPWA onReportSubmitted={fetchData} />
+            <div key="submit" className="tab-enter">
+              <CitizenReportPWA onReportSubmitted={fetchData} />
+            </div>
           )}
 
           {activeTab === 'grievance' && (
-            <GrievancePortal
-              preselectedEventId={grievanceEventId}
-              onGrievanceSubmitted={fetchData}
-            />
+            <div key="grievance" className="tab-enter">
+              <GrievancePortal
+                preselectedEventId={grievanceEventId}
+                onGrievanceSubmitted={fetchData}
+              />
+            </div>
           )}
 
           {activeTab === 'alerts' && (
-            authorityUser ? (
-              <CapBroadcast events={events} onAlertDispatched={fetchData} />
-            ) : (
-              <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
-                <div className="w-14 h-14 rounded-full bg-red-100 border border-red-300 flex items-center justify-center text-red-700 mx-auto">
-                  <Lock className="w-7 h-7" />
+            <div key="alerts" className="tab-enter">
+              {authorityUser ? (
+                <CapBroadcast events={events} onAlertDispatched={fetchData} />
+              ) : (
+                <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                  <div className="w-14 h-14 rounded-full bg-red-100 border border-red-300 flex items-center justify-center text-red-700 mx-auto">
+                    <Lock className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900">{tr('Restricted Authority Area · CAP Alert Dispatch', 'प्रतिबंधित प्राधिकरण क्षेत्र · आपातकालीन चेतावनी (CAP)')}</h3>
+                    <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                      {tr('Broadcasting Common Alerting Protocol (CAP v1.2) emergency warnings to public sirens, cell broadcasts, and NDMA feeds requires verified authority credentials.', 'सार्वजनिक सायरन, सेल ब्रॉडकास्ट एवं एनडीएमए फीड पर आपातकालीन चेतावनी जारी करने हेतु अधिकृत पहचान आवश्यक है।')}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAuthModalOpen(true)}
+                    className="px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+                  >
+                    {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
+                  </button>
                 </div>
-                <div>
-                  <h3 className="text-base font-black text-slate-900">{tr('Restricted Authority Area · CAP Alert Dispatch', 'प्रतिबंधित प्राधिकरण क्षेत्र · आपातकालीन चेतावनी (CAP)')}</h3>
-                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    {tr('Broadcasting Common Alerting Protocol (CAP v1.2) emergency warnings to public sirens, cell broadcasts, and NDMA feeds requires verified authority credentials.', 'सार्वजनिक सायरन, सेल ब्रॉडकास्ट एवं एनडीएमए फीड पर आपातकालीन चेतावनी जारी करने हेतु अधिकृत पहचान आवश्यक है।')}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setAuthModalOpen(true)}
-                  className="px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all"
-                >
-                  {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
-                </button>
-              </div>
-            )
+              )}
+            </div>
           )}
 
           {activeTab === 'system' && (
-            authorityUser ? (
-              <SystemStatus summary={summary} />
-            ) : (
-              <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
-                <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
-                  <Lock className="w-7 h-7" />
+            <div key="system" className="tab-enter">
+              {authorityUser ? (
+                <SystemStatus summary={summary} />
+              ) : (
+                <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center max-w-lg mx-auto space-y-4 shadow-sm my-12">
+                  <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 mx-auto">
+                    <Lock className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900">{tr('Restricted Authority Area · Node Health', 'प्रतिबंधित प्राधिकरण क्षेत्र · नोड स्वास्थ्य')}</h3>
+                    <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                      {tr('System runtime engine, telemetry microservices, and big data pipeline nodes are restricted to verified disaster authorities and IMD command officers.', 'सिस्टम रनटाइम इंजन, टेलीमेट्री माइक्रोसर्विसेज एवं बिग डेटा नोड्स केवल अधिकृत आपदा प्रबंधन एवं आईएमडी कमान अधिकारियों के लिए सीमित हैं।')}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAuthModalOpen(true)}
+                    className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+                  >
+                    {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
+                  </button>
                 </div>
-                <div>
-                  <h3 className="text-base font-black text-slate-900">{tr('Restricted Authority Area · Node Health', 'प्रतिबंधित प्राधिकरण क्षेत्र · नोड स्वास्थ्य')}</h3>
-                  <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    {tr('System runtime engine, telemetry microservices, and big data pipeline nodes are restricted to verified disaster authorities and IMD command officers.', 'सिस्टम रनटाइम इंजन, टेलीमेट्री माइक्रोसर्विसेज एवं बिग डेटा नोड्स केवल अधिकृत आपदा प्रबंधन एवं आईएमडी कमान अधिकारियों के लिए सीमित हैं।')}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setAuthModalOpen(true)}
-                  className="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition-all"
-                >
-                  {tr('Sign In with Official Officer Credentials', 'अधिकृत अधिकारी क्रेडेंशियल से लॉगिन करें')}
-                </button>
-              </div>
-            )
+              )}
+            </div>
           )}
         </main>
       </div>

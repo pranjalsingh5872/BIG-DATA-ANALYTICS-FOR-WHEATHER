@@ -17,7 +17,7 @@ import {
 import { api } from '../../services/api';
 import { useLanguage } from '../../context/LanguageContext';
 
-export default function AnalyticsHub() {
+export default function AnalyticsHub({ refreshTrigger }) {
   const { tr, translateSeverity, translateCategory, translateSource } = useLanguage();
   const [charts, setCharts] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,6 +46,12 @@ export default function AnalyticsHub() {
     const timer = setInterval(() => loadCharts(false), 30000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (refreshTrigger) {
+      loadCharts(false);
+    }
+  }, [refreshTrigger]);
 
   if (loading && !charts) {
     return (

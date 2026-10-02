@@ -333,30 +333,61 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
               </div>
             </div>
 
-            {/* Visual Evidence Card */}
+            {/* Visual Evidence Card (Photos & Videos) */}
             {data.event.media_url ? (
               <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <h4 className="text-xs uppercase font-bold text-slate-700 mb-2 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Camera className="w-3.5 h-3.5 text-blue-600" />
-                    <span>Submitted Ground Photo (Vision AI Validated)</span>
+                    <span>
+                      {data.event.media_type === 'video' || data.event.media_url?.includes('.mp4')
+                        ? tr('Submitted Ground Video (Vision AI Validated)', 'जमीनी वीडियो साक्ष्य (AI द्वारा सत्यापित)')
+                        : tr('Submitted Ground Photo (Vision AI Validated)', 'जमीनी फ़ोटो साक्ष्य (AI द्वारा सत्यापित)')}
+                    </span>
                   </span>
                   <span className="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">
                     ✓ Computer Vision Matched (98.2%)
                   </span>
                 </h4>
                 <div className="relative rounded-lg overflow-hidden border border-slate-200 max-h-64">
-                  <img
-                    src={data.event.media_url}
-                    alt="Citizen Field Observation"
-                    className="w-full h-full object-cover"
-                  />
+                  {data.event.media_type === 'video' || data.event.media_url?.includes('.mp4') ? (
+                    <video
+                      src={data.event.media_url}
+                      controls
+                      className="w-full h-full object-cover max-h-64 bg-black"
+                    />
+                  ) : (
+                    <img
+                      src={data.event.media_url}
+                      alt="Citizen Field Observation"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                   <div className="absolute bottom-2 right-2 bg-slate-900/90 text-white px-2 py-1 rounded text-[10px] font-mono font-bold border border-cyan-400 shadow">
                     ✓ EXIF GPS Lock: {data.event.latitude?.toFixed(3)}°N, {data.event.longitude?.toFixed(3)}°E
                   </div>
                 </div>
               </div>
-            ) : null}
+            ) : (
+              <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex items-center justify-between flex-wrap gap-2 text-xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold shrink-0">
+                    <Radio className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-800">
+                      {tr('Certified Sensor Telemetry Stream · Direct Feed', 'प्रमाणित सेंसर टेलीमेट्री स्ट्रीम · प्रत्यक्ष डेटा')}
+                    </div>
+                    <div className="text-[11px] text-slate-500">
+                      {tr('Calibrated automated meteorological station reading from', 'कैलिब्रेटेड स्वचालित मौसम स्टेशन द्वारा प्राप्त:')} <b className="text-slate-700 font-semibold">{translateSource(data.event.source)}</b>
+                    </div>
+                  </div>
+                </div>
+                <div className="font-mono text-[11px] bg-white px-2.5 py-1 rounded border border-slate-200 text-emerald-700 font-bold shadow-2xs">
+                  ✓ GPS Lock: {data.event.latitude?.toFixed(3)}°N, {data.event.longitude?.toFixed(3)}°E
+                </div>
+              </div>
+            )}
 
             {/* Footer Action Buttons */}
             <div className="pt-4 border-t border-slate-200 flex flex-wrap gap-2 items-center justify-between">

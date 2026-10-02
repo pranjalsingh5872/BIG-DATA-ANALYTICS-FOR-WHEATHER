@@ -41,6 +41,24 @@ export default function OperatorDesk({ onEventUpdated }) {
     loadQueue();
   }, []);
 
+  // Keyboard Shortcuts (V = Verify, R = Reject)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+      if (!selectedEvent || submitting) return;
+
+      if (e.key === 'v' || e.key === 'V') {
+        e.preventDefault();
+        handleDecisionSubmit('VERIFIED');
+      } else if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        handleDecisionSubmit('REJECTED');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedEvent, submitting, queue]);
+
   const handleDecisionSubmit = async (overrideDecision = null) => {
     if (!selectedEvent) return;
     const finalDecision = overrideDecision || decision;
@@ -202,7 +220,7 @@ export default function OperatorDesk({ onEventUpdated }) {
 
           {/* Right Column: Active Inspection & Decision Desk */}
           {selectedEvent ? (
-            <div className="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
+            <div key={selectedEvent.id} className="tab-enter lg:col-span-7 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
               <div className="border-b border-slate-200 pb-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase font-bold tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
@@ -318,7 +336,7 @@ export default function OperatorDesk({ onEventUpdated }) {
                     type="button"
                     onClick={() => handleDecisionSubmit()}
                     disabled={submitting}
-                    className={`flex-1 py-3 rounded-lg text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50 ${
+                    className={`flex-1 py-3 rounded-lg text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-[0.99] ${
                       decision === 'VERIFIED'
                         ? 'bg-emerald-600 hover:bg-emerald-700'
                         : decision === 'REJECTED'
@@ -333,6 +351,9 @@ export default function OperatorDesk({ onEventUpdated }) {
                     </span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
+                </div>
+                <div className="text-[10.5px] text-slate-400 font-mono text-center pt-0.5">
+                  {tr('⚡ Power Hotkeys: Press V to Verify · Press R to Reject', '⚡ त्वरित शॉर्टकट: सत्यापित करने हेतु V दबाएं · अस्वीकार करने हेतु R दबाएं')}
                 </div>
               </div>
             </div>

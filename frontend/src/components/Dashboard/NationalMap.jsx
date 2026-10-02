@@ -4,7 +4,10 @@ import L from 'leaflet';
 import {
   MapPin,
   Eye,
-  RotateCcw
+  RotateCcw,
+  Layers,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -169,12 +172,25 @@ function MapViewController({ bounds }) {
   return null;
 }
 
+// Map Re-Center Controller
+function MapCenterController({ resetSignal }) {
+  const map = useMap();
+  useEffect(() => {
+    if (resetSignal > 0) {
+      map.flyTo([22.5, 80.0], 5, { duration: 1.0 });
+    }
+  }, [resetSignal, map]);
+  return null;
+}
+
 export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
   const { lang, tr, t, translateCategory, translateSeverity, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
   // Default to OSM (100% free, no API key, exactly matching user reference photo)
   const [selectedStyle, setSelectedStyle] = useState('osm');
   const [showH3, setShowH3] = useState(true);
   const [showPins, setShowPins] = useState(true);
+  const [centerSignal, setCenterSignal] = useState(0);
+  const [legendCollapsed, setLegendCollapsed] = useState(false);
 
   // Active filter state
   const [activeCategory, setActiveCategory] = useState('ALL');
@@ -217,9 +233,9 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
   const currentBasemap = BASEMAP_TILES[selectedStyle] || BASEMAP_TILES.osm;
 
   return (
-    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden flex flex-col h-[580px] relative">
+    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden flex flex-col h-[620px] lg:h-[calc(100vh-230px)] min-h-[520px] relative">
       {/* Map Header */}
-      <div className="px-4 py-2.5 bg-white border-b border-slate-200 flex items-center justify-between z-10 shrink-0">
+      <div className="px-4 py-2.5 bg-white border-b border-slate-200 flex items-center justify-between z-10 shrink-0 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-blue-600" />
           <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
@@ -230,7 +246,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
           </span>
         </div>
 
-        {/* Right Header Controls: Basemap Style & Overlays */}
+        {/* Right Header Controls: Basemap Style, Re-Center & Overlays */}
         <div className="flex items-center gap-2">
           {/* Quick Basemap Toggle: Detailed Street vs Satellite */}
           <div className="flex items-center bg-white rounded-lg p-0.5 border border-command-border text-[11px] shadow-sm">
@@ -255,6 +271,15 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
               {tr('Satellite', 'उपग्रह')}
             </button>
           </div>
+
+          <button
+            onClick={() => setCenterSignal((s) => s + 1)}
+            title={tr('Reset to All-India View', 'अखिल भारतीय दृश्य पर वापस जाएं')}
+            className="px-2.5 py-1 rounded text-[11px] font-semibold transition-colors flex items-center gap-1 shadow-xs bg-white text-slate-700 hover:text-blue-700 hover:bg-blue-50 border border-slate-200 cursor-pointer"
+          >
+            <RotateCcw className="w-3 h-3 text-blue-600" />
+            <span className="hidden sm:inline">{tr('Center India', 'भारत केंद्र')}</span>
+          </button>
 
           <button
             onClick={() => setShowH3(!showH3)}
@@ -282,7 +307,7 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
       </div>
 
       {/* Leaflet Map Canvas with Responsive Full Height */}
-      <div className="w-full h-[620px] lg:h-[calc(100vh-230px)] min-h-[520px] relative bg-[#f8fafc] overflow-hidden">
+      <div className="w-full flex-1 min-h-[520px] relative bg-[#f8fafc] overflow-hidden">
         <MapContainer
           center={[22.5, 80.0]}
           zoom={5}
@@ -305,6 +330,9 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
 
           {/* Auto-focus controller on filter */}
           <MapViewController bounds={targetBounds} />
+
+          {/* Re-center to All India */}
+          <MapCenterController resetSignal={centerSignal} />
 
           {/* Uber H3 Hexagonal Grid Polygons */}
           {showH3 &&
@@ -460,75 +488,102 @@ export default function NationalMap({ events, h3Clusters, onSelectEvent }) {
           </Marker>
         </MapContainer>
 
-        {/* 🌟 FLOATING "EVENT TYPES" BOX (MATCHING USER SCREENSHOT) 🌟 */}
-        <div className="absolute bottom-3 left-3 z-[400] bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-slate-200 shadow-xl w-60 sm:w-64 space-y-2">
-          {/* Header with Title & Reset Button */}
-          <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
-            <span className="text-xs font-bold text-slate-900 tracking-wide">
-              {t('eventTypes')}
+        {/* 🌟 FLOATING "EVENT TYPES" BOX (COLLAPSIBLE GLASSMORPHIC HUD) 🌟 */}
+        {legendCollapsed ? (
+          <button
+            onClick={() => setLegendCollapsed(false)}
+            className="absolute bottom-3 left-3 z-[400] bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 shadow-lg text-xs font-bold text-slate-800 hover:text-blue-700 flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
+            title="Expand Event Types Legend"
+          >
+            <Layers className="w-3.5 h-3.5 text-blue-600" />
+            <span>{t('eventTypes')}</span>
+            <span className="text-[10px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded-full font-mono font-bold">
+              {activeCategory === 'ALL' ? tr('All', 'सभी') : translateCategory(activeCategory)}
             </span>
-            {activeCategory !== 'ALL' && (
-              <button
-                onClick={() => setActiveCategory('ALL')}
-                className="text-[10px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1"
-                title="Reset to view all events"
-              >
-                <RotateCcw className="w-2.5 h-2.5" />
-                <span>{t('showAll')}</span>
-              </button>
-            )}
-          </div>
-
-          {/* 2-Column Event Types Grid matching screenshot with raised active animation */}
-          <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 text-[11px]">
-            {EVENT_TYPES.map((type) => {
-              const isSelected = activeCategory.toLowerCase() === type.name.toLowerCase();
-              const count = categoryCounts[type.name] || 0;
-
-              return (
+            <ChevronUp className="w-3 h-3 text-slate-400 ml-0.5" />
+          </button>
+        ) : (
+          <div className="absolute bottom-3 left-3 z-[400] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-xl w-60 sm:w-68 space-y-2 animate-in fade-in zoom-in-95 duration-150">
+            {/* Header with Title, Reset & Collapse Toggle */}
+            <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <div className="flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-blue-600" />
+                <span className="text-xs font-bold text-slate-900 tracking-wide">
+                  {t('eventTypes')}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {activeCategory !== 'ALL' && (
+                  <button
+                    onClick={() => setActiveCategory('ALL')}
+                    className="text-[10px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 cursor-pointer"
+                    title="Reset to view all events"
+                  >
+                    <RotateCcw className="w-2.5 h-2.5" />
+                    <span>{t('showAll')}</span>
+                  </button>
+                )}
                 <button
-                  key={type.name}
-                  onClick={() => setActiveCategory(isSelected ? 'ALL' : type.name)}
-                  className={`flex items-center justify-between px-2 py-1.5 rounded-lg transition-all duration-300 transform text-left ${
-                    isSelected
-                      ? 'bg-blue-50 text-blue-800 border border-blue-400 font-bold shadow-sm -translate-y-0.5'
-                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 hover:-translate-y-0.5'
-                  }`}
+                  onClick={() => setLegendCollapsed(true)}
+                  className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-700 cursor-pointer transition-colors"
+                  title="Collapse Legend"
                 >
-                  <div className="flex items-center gap-2 truncate">
-                    {/* Mini Map Pin Logo with Hazard Symbol */}
-                    <svg
-                      width="14"
-                      height="18"
-                      viewBox="0 0 28 36"
-                      fill="none"
-                      className="shrink-0 transition-transform duration-200"
-                      style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
-                    >
-                      <path
-                        d="M14 0.8C6.71 0.8 0.8 6.71 0.8 14C0.8 24.2 14 35.2 14 35.2C14 35.2 27.2 24.2 27.2 14C27.2 6.71 21.29 0.8 14 0.8Z"
-                        fill={type.color}
-                        stroke="#ffffff"
-                        strokeWidth="1.2"
-                      />
-                      <circle cx="14" cy="13.5" r="7.5" fill="#ffffff" />
-                      <g
-                        transform="translate(7.5, 7)"
-                        dangerouslySetInnerHTML={{ __html: getCategorySvgLogo(type.name, type.color) }}
-                      />
-                    </svg>
-                    <span className="truncate">{translateCategory(type.name)}</span>
-                  </div>
-                  {count > 0 && (
-                    <span className={`text-[9px] font-mono ml-1 ${isSelected ? 'text-blue-800 font-bold' : 'text-slate-500'}`}>
-                      {count}
-                    </span>
-                  )}
+                  <ChevronDown className="w-3.5 h-3.5" />
                 </button>
-              );
-            })}
+              </div>
+            </div>
+
+            {/* 2-Column Event Types Grid matching screenshot with raised active animation */}
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 text-[11px]">
+              {EVENT_TYPES.map((type) => {
+                const isSelected = activeCategory.toLowerCase() === type.name.toLowerCase();
+                const count = categoryCounts[type.name] || 0;
+
+                return (
+                  <button
+                    key={type.name}
+                    onClick={() => setActiveCategory(isSelected ? 'ALL' : type.name)}
+                    className={`flex items-center justify-between px-2 py-1.5 rounded-lg transition-all duration-300 transform text-left ${
+                      isSelected
+                        ? 'bg-blue-50 text-blue-800 border border-blue-400 font-bold shadow-sm -translate-y-0.5'
+                        : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 hover:-translate-y-0.5'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 truncate">
+                      {/* Mini Map Pin Logo with Hazard Symbol */}
+                      <svg
+                        width="14"
+                        height="18"
+                        viewBox="0 0 28 36"
+                        fill="none"
+                        className="shrink-0 transition-transform duration-200"
+                        style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
+                      >
+                        <path
+                          d="M14 0.8C6.71 0.8 0.8 6.71 0.8 14C0.8 24.2 14 35.2 14 35.2C14 35.2 27.2 24.2 27.2 14C27.2 6.71 21.29 0.8 14 0.8Z"
+                          fill={type.color}
+                          stroke="#ffffff"
+                          strokeWidth="1.2"
+                        />
+                        <circle cx="14" cy="13.5" r="7.5" fill="#ffffff" />
+                        <g
+                          transform="translate(7.5, 7)"
+                          dangerouslySetInnerHTML={{ __html: getCategorySvgLogo(type.name, type.color) }}
+                        />
+                      </svg>
+                      <span className="truncate">{translateCategory(type.name)}</span>
+                    </div>
+                    {count > 0 && (
+                      <span className={`text-[9px] font-mono ml-1 ${isSelected ? 'text-blue-800 font-bold' : 'text-slate-500'}`}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

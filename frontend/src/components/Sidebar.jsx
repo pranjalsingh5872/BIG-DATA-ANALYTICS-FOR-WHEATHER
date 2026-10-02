@@ -87,7 +87,7 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
         })}
 
         {/* Authority Section: ONLY rendered when signed in */}
-        {authorityUser ? (
+        {authorityUser && (
           <div className="pt-3 space-y-2 border-t border-slate-200 mt-2">
             <div className="px-3 pb-1 text-[11px] font-black uppercase tracking-wider text-amber-700 flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-amber-600" />
@@ -132,32 +132,11 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
               );
             })}
           </div>
-        ) : (
-          <div className="pt-3 border-t border-slate-200 mt-2">
-            <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
-                <Lock className="w-4 h-4 text-amber-700" />
-                <span>{lang === 'hi' ? 'प्रतिबंधित प्राधिकरण क्षेत्र' : 'Restricted Authority Area'}</span>
-              </div>
-              <p className="text-[11px] text-slate-600 leading-snug">
-                {lang === 'hi' 
-                  ? 'समीक्षा, आपातकालीन चेतावनी (CAP), और नोड हेल्थ केवल अधिकृत आपदा अधिकारियों के लिए सुरक्षित हैं।'
-                  : 'Authority Review, CAP Alert Dispatch, and Node Health are restricted to verified disaster officers.'}
-              </p>
-              <button
-                onClick={onOpenAuthModal}
-                className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5"
-              >
-                <KeyRound className="w-3.5 h-3.5" />
-                <span>{t('authoritySignIn')}</span>
-              </button>
-            </div>
-          </div>
         )}
       </div>
 
-      {/* Operator Session Footer Card */}
-      <div className="p-4 border-t border-slate-200 bg-slate-50/60">
+      {/* Operator Session / Authority Sign-in Footer Card (Anchored at Bottom) */}
+      <div className="p-3.5 border-t border-slate-200 bg-slate-50/70 space-y-2.5">
         {authorityUser ? (
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 font-bold text-xs shadow-xs shrink-0">
@@ -172,10 +151,31 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-between text-xs text-slate-600 font-medium">
-            <span>{lang === 'hi' ? 'सार्वजनिक मोड' : 'Public Access'}</span>
-            <span className="text-[11px] font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">{lang === 'hi' ? 'केवल पढ़ने योग्य' : 'Read-Only'}</span>
-          </div>
+          <>
+            <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/90 space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
+                <Lock className="w-3.5 h-3.5 text-amber-700" />
+                <span>{lang === 'hi' ? 'प्रतिबंधित प्राधिकरण क्षेत्र' : 'Restricted Authority Area'}</span>
+              </div>
+              <p className="text-[10.5px] text-slate-600 leading-snug">
+                {lang === 'hi' 
+                  ? 'समीक्षा, आपातकालीन चेतावनी (CAP), और नोड हेल्थ केवल अधिकृत आपदा अधिकारियों के लिए सुरक्षित हैं।'
+                  : 'Authority Review, CAP Alert Dispatch, and Node Health are restricted to verified disaster officers.'}
+              </p>
+              <button
+                onClick={onOpenAuthModal}
+                className="w-full py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                <span>{t('authoritySignIn')}</span>
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium px-1">
+              <span>{lang === 'hi' ? 'सार्वजनिक मोड' : 'Public Access'}</span>
+              <span className="text-[10px] font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">{lang === 'hi' ? 'केवल पढ़ने योग्य' : 'Read-Only'}</span>
+            </div>
+          </>
         )}
       </div>
     </aside>

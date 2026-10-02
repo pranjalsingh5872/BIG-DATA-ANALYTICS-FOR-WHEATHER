@@ -4,7 +4,7 @@
 export const FALLBACK_SUMMARY = {
   "total_events": 53,
   "today_events": 53,
-  "pending_review": 3,
+  "pending_review": 4,
   "verified_events": 49,
   "critical_events": 2,
   "open_grievances": 0,
@@ -3544,7 +3544,7 @@ export const FALLBACK_CHARTS = {
   "verification": [
     {
       "status": "PENDING_REVIEW",
-      "count": 3
+      "count": 4
     },
     {
       "status": "REJECTED",

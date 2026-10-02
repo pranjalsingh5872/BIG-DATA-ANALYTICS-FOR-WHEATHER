@@ -26,7 +26,7 @@ export default function MetricCards({ summary }) {
     },
     {
       title: lang === 'hi' ? 'लंबित समीक्षा' : 'PENDING REVIEW',
-      value: summary?.pending_review || 3,
+      value: summary?.pending_review !== undefined ? summary.pending_review : 4,
       subtext: lang === 'hi' ? 'नागरिक एवं सोशल कतार' : 'Citizen & social queue',
       icon: AlertTriangle,
       color: 'text-amber-700',

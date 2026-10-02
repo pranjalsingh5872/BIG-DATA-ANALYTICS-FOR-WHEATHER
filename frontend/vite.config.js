@@ -6,24 +6,6 @@ export default defineConfig({
   plugins: [react()],
   build: {
     target: 'esnext',
-    chunkSizeWarningLimit: 650,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('leaflet') || id.includes('react-leaflet')) {
-              return 'vendor-leaflet';
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-icons';
-            }
-            if (id.includes('react') || id.includes('react-dom') || id.includes('axios')) {
-              return 'vendor-core';
-            }
-            return 'vendor-misc';
-          }
-        }
-      }
-    }
+    chunkSizeWarningLimit: 1200
   }
 });
