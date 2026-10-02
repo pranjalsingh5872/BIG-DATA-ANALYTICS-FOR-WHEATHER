@@ -283,7 +283,7 @@ function MapLandfallClickHandler({ onLocationSelect, active }) {
   return null;
 }
 
-export default function CyclonePredictor() {
+export default function CyclonePredictor({ onNavigate }) {
   const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   const [forecastData, setForecastData] = useState(null);
   const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
@@ -635,6 +635,18 @@ export default function CyclonePredictor() {
             <RefreshCw className={`w-3.5 h-3.5 ${reloadingAll ? 'animate-spin text-emerald-200' : 'text-emerald-200'}`} />
             <span>{reloadingAll ? t('scanningAtmospheric') : t('atmosphericScanBtn')}</span>
           </button>
+
+          {/* AI Disaster Classifier & Strategic Planner Link */}
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('ai-planner')}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-all active:scale-95 cursor-pointer"
+              title="Open AI Disaster Classifier & Individual Strategic Action Planner"
+            >
+              <Brain className="w-3.5 h-3.5" />
+              <span>{tr('AI Classifier & Individual Planner →', 'एआई वर्गीकरण एवं योजना →')}</span>
+            </button>
+          )}
         </div>
       </div>
 
