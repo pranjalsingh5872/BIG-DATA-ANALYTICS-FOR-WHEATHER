@@ -1,3 +1,12 @@
+import sys
+from pathlib import Path
+
+# Ensure repository root is in sys.path regardless of execution working directory
+_file_path = Path(__file__).resolve()
+_root_dir = str(_file_path.parents[2])
+if _root_dir not in sys.path:
+    sys.path.insert(0, _root_dir)
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings

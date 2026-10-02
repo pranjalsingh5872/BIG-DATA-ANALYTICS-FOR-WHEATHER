@@ -270,6 +270,7 @@ function MapFocusCenter({ center, zoom = 6 }) {
 export default function CyclonePredictor() {
   const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   const [forecastData, setForecastData] = useState(null);
+  const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
   const [selectedHazardId, setSelectedHazardId] = useState('landslide'); // Defaults to first threat (Rank #1) so it opens immediately on load
   const [selectedPassId, setSelectedPassId] = useState('pass_0h'); // 'pass_0h', 'pass_3h', 'pass_6h', 'pass_12h'
   const [selectedHour, setSelectedHour] = useState(24); // Forecast timeline step
