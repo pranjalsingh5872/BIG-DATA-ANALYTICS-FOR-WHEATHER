@@ -711,7 +711,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
 
       {/* Appeal Submission Modal */}
       {appealingId && (
-        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[99999] bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-stone-50 border border-stone-300 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between border-b border-stone-200 pb-3">
               <h3 className="text-sm font-black text-stone-900 flex items-center gap-2">
@@ -770,7 +770,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
       {selectedPhotoModal && (
         <div 
           onClick={() => setSelectedPhotoModal(null)}
-          className="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[99999] bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
         >
           <div 
             onClick={(e) => e.stopPropagation()} 

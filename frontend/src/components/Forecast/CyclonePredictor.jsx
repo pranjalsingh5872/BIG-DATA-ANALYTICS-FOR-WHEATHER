@@ -1084,7 +1084,7 @@ export default function CyclonePredictor() {
                 </div>
 
                 {/* Leaflet Map */}
-                <div className="rounded-xl overflow-hidden border border-[#ded3bf] aspect-video">
+                <div className="rounded-xl overflow-hidden border border-[#ded3bf] aspect-video relative z-0 isolate">
                   <MapContainer
                     center={activeCoords}
                     zoom={selectedHazardId === 'cyclone' ? 5 : (selectedHazardId === 'volcano' ? 8 : 10)}
@@ -1263,7 +1263,7 @@ export default function CyclonePredictor() {
                 </span>
               </div>
 
-              <div className="rounded-xl overflow-hidden border border-[#ded3bf] aspect-video">
+              <div className="rounded-xl overflow-hidden border border-[#ded3bf] aspect-video relative z-0 isolate">
                 <MapContainer center={[21.5, 82.0]} zoom={4} scrollWheelZoom={false} className="w-full h-full">
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -1294,7 +1294,7 @@ export default function CyclonePredictor() {
       {highResModalOpen && (
         <div
           onClick={() => setHighResModalOpen(false)}
-          className="fixed inset-0 z-50 bg-stone-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[99999] bg-stone-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -1332,7 +1332,7 @@ export default function CyclonePredictor() {
       {xaiModalOpen && (
         <div
           onClick={() => setXaiModalOpen(false)}
-          className="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[99999] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
         >
           <div
             onClick={(e) => e.stopPropagation()}
