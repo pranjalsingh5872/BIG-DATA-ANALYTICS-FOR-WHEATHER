@@ -76,7 +76,7 @@ export const getDynamicZoomEarthPasses = () => {
       pressure_hpa: 1008,
       eyeDiameter: 'Disorganized / No Eye',
       cloudCoverDiameter: '180 km (Scattered Clouds)',
-      imageSrc: '/assets/zoom_earth_pass_0h.jpg',
+      imageSrc: '/assets/normal_synoptic_india.jpg',
       status: 'Real-time Zoom Earth observation: System ARNAB has completely dissipated into a non-active remnant trough. No cyclonic vortex or coastal threat active.'
     },
     {
@@ -94,7 +94,7 @@ export const getDynamicZoomEarthPasses = () => {
       pressure_hpa: 1006,
       eyeDiameter: 'Disorganized',
       cloudCoverDiameter: '240 km',
-      imageSrc: '/assets/zoom_earth_pass_3h.jpg',
+      imageSrc: '/assets/normal_synoptic_india.jpg',
       status: 'Zoom Earth snapshot 3 hours ago: Convective rainbands collapsed; central circulation open and decaying.'
     },
     {
@@ -112,7 +112,7 @@ export const getDynamicZoomEarthPasses = () => {
       pressure_hpa: 1004,
       eyeDiameter: 'Diffused',
       cloudCoverDiameter: '320 km',
-      imageSrc: '/assets/zoom_earth_pass_6h.jpg',
+      imageSrc: '/assets/normal_synoptic_india.jpg',
       status: 'Zoom Earth snapshot 6 hours ago: System ARNAB weakening rapidly over open waters; vertical wind shear disrupting core.'
     },
     {
@@ -130,7 +130,7 @@ export const getDynamicZoomEarthPasses = () => {
       pressure_hpa: 1002,
       eyeDiameter: '50 km',
       cloudCoverDiameter: '420 km',
-      imageSrc: '/assets/zoom_earth_pass_12h.jpg',
+      imageSrc: '/assets/normal_synoptic_india.jpg',
       status: 'Zoom Earth nighttime snapshot 12 hours ago: Residual shallow convection decaying over open sea.'
     }
   ];
@@ -227,50 +227,14 @@ export const getDynamicTimelineSteps = () => {
   ];
 };
 
-// Fallback Multi-Hazard Disaster Profiles across India
+// Fallback Multi-Hazard Disaster Profiles across India (Sorted Descending by MHSI)
 const DEFAULT_MULTI_HAZARDS = [
-  {
-    id: 'cyclone',
-    name: "System 'ARNAB' (Dissipated / Low Threat)",
-    hazard_type: 'Dissipated Cyclonic System',
-    icon_type: 'cyclone',
-    severity_rank: 4,
-    mhsi_score: 18.5,
-    status_code: 'INACTIVE_MONITORING',
-    badge_color: 'bg-emerald-600',
-    region: 'Central Bay of Bengal (Open Sea)',
-    center: [16.8, 88.5],
-    primary_metric: '28 km/h Breeze (Normal)',
-    secondary_metric: '1008 hPa (Standard Pressure)',
-    satellite_label: 'Zoom Earth & INSAT-3DR Real-Time Satellite Observation',
-    satellite_src: '/assets/zoom_earth_pass_0h.jpg',
-    description: 'System ARNAB has weakened and dissipated over the open sea into a remnant low-pressure trough. No severe cyclonic or coastal landfall threat exists along Indian coastlines. Routine coastal monitoring active.',
-    hotspots: [
-      { name: 'Balasore Coast', lat: 21.49, lon: 86.93, risk: 'All Clear · Normal Sea Conditions' },
-      { name: 'Bhadrak / Dhamra', lat: 20.79, lon: 86.84, risk: 'All Clear · Standard Tide' },
-      { name: 'Kendrapara', lat: 20.50, lon: 86.42, risk: 'All Clear · Safe Maritime Belt' },
-      { name: 'Purba Medinipur', lat: 21.93, lon: 87.77, risk: 'All Clear · Nominal Weather' }
-    ],
-    interpretability_breakdown: {
-      formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
-      intensity_score: 18,
-      intensity_detail: '28 km/h gentle breeze + 1008 hPa normal atmospheric pressure',
-      exposure_score: 15,
-      exposure_detail: 'Coastal activities normal; zero evacuation or storm surge advisories',
-      urgency_score: 10,
-      urgency_detail: 'No landfall trajectory; system fully dissipated over open water',
-      confidence_score: 99,
-      confidence_detail: '4 Independent Satellites (Zoom Earth, Meteosat-IODC, Himawari, INSAT-3DR) confirm vortex collapse and absence of convective organization',
-      plain_english: 'The AI classified Cyclonic System ARNAB as Inactive / De-escalated (Low Threat) because the vortex circulation has collapsed into a weak low-pressure trough with no coastal threat to India.',
-      plain_hindi: 'एआई ने चक्रवाती प्रणाली अर्नब को निष्क्रिय / शांत (कम खतरा) के रूप में वर्गीकृत किया है क्योंकि चक्रवात का भंवर पूरी तरह समाप्त हो चुका है और भारतीय तटों पर कोई खतरा नहीं है।'
-    }
-  },
   {
     id: 'landslide',
     name: 'Wayanad Slope Instability & Debris Flow',
     hazard_type: 'Monsoon Landslide & Mudslip',
     icon_type: 'mountain',
-    severity_rank: 2,
+    severity_rank: 1,
     mhsi_score: 78.6,
     status_code: 'HIGH_ALERT',
     badge_color: 'bg-amber-600',
@@ -297,8 +261,8 @@ const DEFAULT_MULTI_HAZARDS = [
       urgency_detail: 'Active tension cracks recorded along upper ridge lines with imminent rainfall',
       confidence_score: 95,
       confidence_detail: 'Sentinel-2 SAR Soil Moisture Index + Kerala IMD Automated Weather Stations',
-      plain_english: 'The AI ranked Wayanad as #2 High Alert due to dangerous hydraulic saturation exceeding critical slope shear limits across tea estate settlements.',
-      plain_hindi: 'एआई ने वायनाड को उच्च चेतावनी स्तर पर रखा है क्योंकि 91% मिट्टी की नमी ढलानों की सुरक्षित सीमा पार कर चुकी है और भूस्खलन का उच्च जोखिम है।'
+      plain_english: 'The AI ranked Wayanad as #1 High Alert due to dangerous hydraulic saturation exceeding critical slope shear limits across tea estate settlements.',
+      plain_hindi: 'एआई ने वायनाड को सर्वोच्च चेतावनी स्तर पर रखा है क्योंकि 91% मिट्टी की नमी ढलानों की सुरक्षित सीमा पार कर चुकी है और भूस्खलन का उच्च जोखिम है।'
     }
   },
   {
@@ -306,7 +270,7 @@ const DEFAULT_MULTI_HAZARDS = [
     name: 'Barren Island Volcanic & Thermal Emission',
     hazard_type: 'Volcanic / Thermal Anomaly',
     icon_type: 'flame',
-    severity_rank: 3,
+    severity_rank: 2,
     mhsi_score: 46.5,
     status_code: 'MONITORED_ADVISORY',
     badge_color: 'bg-orange-600',
@@ -332,8 +296,8 @@ const DEFAULT_MULTI_HAZARDS = [
       urgency_detail: 'Steady-state Strombolian eruption without paroxysmal explosive shift',
       confidence_score: 99,
       confidence_detail: 'Sentinel-2 MSI Short-Wave Infrared (SWIR) + Sentinel-5P TROPOMI UV Spectrometer',
-      plain_english: 'The AI ranked Barren Island at Rank #3 (Advisory) because despite high thermal energy, human exposure is virtually zero as the island is uninhabited.',
-      plain_hindi: 'एआई ने बैरन द्वीप को तीसरे स्थान पर रखा क्योंकि उच्च ज्वालामुखी ताप के बावजूद द्वीप निर्जन है और नागरिक जीवन पर कोई सीधा खतरा नहीं है।'
+      plain_english: 'The AI ranked Barren Island at Rank #2 (Advisory) because despite high thermal energy, human exposure is virtually zero as the island is uninhabited.',
+      plain_hindi: 'एआई ने बैरन द्वीप को दूसरे स्थान पर रखा क्योंकि उच्च ज्वालामुखी ताप के बावजूद द्वीप निर्जन है और नागरिक जीवन पर कोई सीधा खतरा नहीं है।'
     }
   },
   {
@@ -341,7 +305,7 @@ const DEFAULT_MULTI_HAZARDS = [
     name: 'Brahmaputra Valley Riverine Surveillance',
     hazard_type: 'Hydrological Basin Inundation',
     icon_type: 'waves',
-    severity_rank: 4,
+    severity_rank: 3,
     mhsi_score: 32.0,
     status_code: 'NORMAL_GUARDED',
     badge_color: 'bg-emerald-600',
@@ -367,8 +331,44 @@ const DEFAULT_MULTI_HAZARDS = [
       urgency_detail: 'Catchment precipitation tapering; receding flood crest upstream',
       confidence_score: 96,
       confidence_detail: 'Central Water Commission (CWC) telemetry gauges + Sentinel-1 C-band SAR water mask',
-      plain_english: 'The AI ranked Brahmaputra Valley at Rank #4 (Guarded) as river levels remain safely below statutory danger marks with no emergency evacuation required.',
+      plain_english: 'The AI ranked Brahmaputra Valley at Rank #3 (Guarded) as river levels remain safely below statutory danger marks with no emergency evacuation required.',
       plain_hindi: 'एआई ने ब्रह्मपुत्र घाटी को सुरक्षित निगरानी में रखा है क्योंकि नदी का जलस्तर खतरे के निशान से 0.8 मीटर नीचे है और स्थिति नियंत्रण में है।'
+    }
+  },
+  {
+    id: 'cyclone',
+    name: "System 'ARNAB' (Dissipated / Low Threat)",
+    hazard_type: 'Dissipated Cyclonic System',
+    icon_type: 'cyclone',
+    severity_rank: 4,
+    mhsi_score: 18.5,
+    status_code: 'INACTIVE_MONITORING',
+    badge_color: 'bg-emerald-600',
+    region: 'Central Bay of Bengal (Open Sea)',
+    center: [16.8, 88.5],
+    primary_metric: '28 km/h Breeze (Normal)',
+    secondary_metric: '1008 hPa (Standard Pressure)',
+    satellite_label: 'Zoom Earth & INSAT-3DR Real-Time Synoptic Observation',
+    satellite_src: '/assets/normal_synoptic_india.jpg',
+    description: 'System ARNAB has weakened and dissipated over the open sea into a remnant low-pressure trough. No severe cyclonic or coastal landfall threat exists along Indian coastlines. Routine coastal monitoring active.',
+    hotspots: [
+      { name: 'Balasore Coast', lat: 21.49, lon: 86.93, risk: 'All Clear · Normal Sea Conditions' },
+      { name: 'Bhadrak / Dhamra', lat: 20.79, lon: 86.84, risk: 'All Clear · Standard Tide' },
+      { name: 'Kendrapara', lat: 20.50, lon: 86.42, risk: 'All Clear · Safe Maritime Belt' },
+      { name: 'Purba Medinipur', lat: 21.93, lon: 87.77, risk: 'All Clear · Nominal Weather' }
+    ],
+    interpretability_breakdown: {
+      formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
+      intensity_score: 18,
+      intensity_detail: '28 km/h gentle breeze + 1008 hPa normal atmospheric pressure',
+      exposure_score: 15,
+      exposure_detail: 'Coastal activities normal; zero evacuation or storm surge advisories',
+      urgency_score: 10,
+      urgency_detail: 'No landfall trajectory; system fully dissipated over open water',
+      confidence_score: 99,
+      confidence_detail: '4 Independent Satellites (Zoom Earth, Meteosat-IODC, Himawari, INSAT-3DR) confirm vortex collapse and absence of convective organization',
+      plain_english: 'The AI classified Cyclonic System ARNAB as Inactive / De-escalated (Low Threat) because the vortex circulation has collapsed into a weak low-pressure trough with no coastal threat to India.',
+      plain_hindi: 'एआई ने चक्रवाती प्रणाली अर्नब को निष्क्रिय / शांत (कम खतरा) के रूप में वर्गीकृत किया है क्योंकि चक्रवात का भंवर पूरी तरह समाप्त हो चुका है और भारतीय तटों पर कोई खतरा नहीं है।'
     }
   }
 ];
@@ -414,10 +414,10 @@ export default function CyclonePredictor() {
   const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   const [forecastData, setForecastData] = useState(null);
   const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
-  const [selectedHazardId, setSelectedHazardId] = useState('cyclone'); // 'cyclone', 'landslide', 'volcano', 'flood'
+  const [selectedHazardId, setSelectedHazardId] = useState(null); // defaults to top MHSI hazard
   const [selectedPassId, setSelectedPassId] = useState('pass_0h'); // 'pass_0h', 'pass_3h', 'pass_6h', 'pass_12h'
   const [selectedHour, setSelectedHour] = useState(24); // Forecast timeline step
-  const [activeCoords, setActiveCoords] = useState([16.8, 88.5]);
+  const [activeCoords, setActiveCoords] = useState([11.55, 76.15]); // Wayanad coords for top hazard
   const [displayMode, setDisplayMode] = useState('split'); // 'split', 'satellite_only', 'map_only'
   const [loading, setLoading] = useState(true);
   const [reloadingAll, setReloadingAll] = useState(false);
@@ -462,8 +462,13 @@ export default function CyclonePredictor() {
     fetchForecast();
   }, []);
 
-  const multiHazards = forecastData?.multi_hazards || DEFAULT_MULTI_HAZARDS;
-  const currentHazard = multiHazards.find(h => h.id === selectedHazardId) || multiHazards[0];
+  const rawHazards = forecastData?.multi_hazards || DEFAULT_MULTI_HAZARDS;
+  // Automatically sort hazards by MHSI score descending so highest threat is Rank #1 and appears first!
+  const multiHazards = [...rawHazards]
+    .sort((a, b) => (b.mhsi_score || 0) - (a.mhsi_score || 0))
+    .map((h, idx) => ({ ...h, severity_rank: idx + 1 }));
+
+  const currentHazard = (selectedHazardId && multiHazards.find(h => h.id === selectedHazardId)) || multiHazards[0];
   const observationPasses = (forecastData?.zoom_earth_observation_passes && forecastData.zoom_earth_observation_passes.length > 0) ? forecastData.zoom_earth_observation_passes : getDynamicZoomEarthPasses();
   const activePass = observationPasses.find(p => p.id === selectedPassId) || observationPasses[0];
 
@@ -491,7 +496,7 @@ export default function CyclonePredictor() {
 
   const getHazardMetricLabel = (h) => {
     if (!h) return '';
-    if (h.id === 'cyclone') return tr('105 km/h Gale Wind', '105 किमी/घंटा तूफानी हवा');
+    if (h.id === 'cyclone') return tr('28 km/h Normal Breeze', '28 किमी/घंटा सामान्य हवा');
     if (h.id === 'landslide') return tr('91.4% Soil Saturation', '91.4% मृदा संतृप्ति');
     if (h.id === 'volcano') return tr('142 MW Radiative Power', '142 मेगावाट विकिरण शक्ति');
     if (h.id === 'flood') return tr('18,200 m³/s Discharge', '18,200 घन मी/सेकंड निर्वहन');
@@ -500,6 +505,7 @@ export default function CyclonePredictor() {
 
   const getHazardStatusLabel = (h) => {
     if (!h) return '';
+    if (h.id === 'cyclone') return tr('INACTIVE MONITORING', 'निष्क्रिय निगरानी');
     if (h.status_code === 'LANDFALL_IMMINENT') return tr('LANDFALL IMMINENT', 'तट प्रवेश आसन्न');
     if (h.status_code === 'HIGH_SATURATION') return tr('HIGH SATURATION', 'अत्यधिक संतृप्ति');
     if (h.status_code === 'CONTINUOUS_VENTING') return tr('CONTINUOUS VENTING', 'निरंतर गैस उत्सर्जन');
@@ -518,10 +524,10 @@ export default function CyclonePredictor() {
 
   const getPassStatusDesc = (p) => {
     if (!p) return '';
-    if (p.id === 'pass_0h') return tr('Latest Zoom Earth orbital pass: Active cyclonic eye and convective arms clearly observed over Bay of Bengal.', 'नवीनतम ज़ूम अर्थ कक्षीय पास: बंगाल की खाड़ी पर सक्रिय चक्रवाती आंख एवं संवहनी भुजाएं स्पष्ट रूप से देखी गईं।');
-    if (p.id === 'pass_3h') return tr('Zoom Earth snapshot 3 hours ago: Central dense overcast consolidating; convective rainbands wrapping into vortex.', '3 घंटे पहले ज़ूम अर्थ स्नैपशॉट: केंद्रीय सघन बादल संगठित हो रहे हैं; संवहनी वर्षा पट्टियां भंवर में लिपट रही हैं।');
-    if (p.id === 'pass_6h') return tr('Zoom Earth snapshot 6 hours ago: Low pressure system deepening into cyclonic storm over warm sea surface (30.5°C).', '6 घंटे पहले ज़ूम अर्थ स्नैपशॉट: गर्म समुद्र तल (30.5°C) पर कम दबाव का क्षेत्र चक्रवाती तूफान में बदल रहा है।');
-    if (p.id === 'pass_12h') return tr('Zoom Earth nighttime snapshot 12 hours ago: Peninsular city lights visible with nocturnal thermal IR cloud mass.', '12 घंटे पहले ज़ूम अर्थ रात्रि स्नैपशॉट: प्रायद्वीपीय शहर की बत्तियां रात्रि थर्मल आईआर मेघ पुंज के साथ दिखाई दे रही हैं।');
+    if (p.id === 'pass_0h') return tr("Real-time Zoom Earth observation: System 'ARNAB' completely dissipated into remnant low-pressure trough. Calm conditions across Bay of Bengal with scattered fair-weather clouds.", "रियल-टाइम ज़ूम अर्थ अवलोकन: प्रणाली 'अर्नब' निम्न-दबाव गर्त में विलीन होकर शांत हो चुकी है। बंगाल की खाड़ी में सामान्य स्थिति एवं छिटपुट बादल।");
+    if (p.id === 'pass_3h') return tr("Zoom Earth snapshot 3 hours ago: Cloud canopy disorganized; no cyclonic vortex or gale circulation over Indian waters.", "3 घंटे पूर्व ज़ूम अर्थ स्नैपशॉट: बादलों का आवरण बिखरा हुआ; भारतीय जलक्षेत्र में कोई चक्रवाती भंवर नहीं।");
+    if (p.id === 'pass_6h') return tr("Zoom Earth snapshot 6 hours ago: Remnant low pressure area decaying into general seasonal maritime airflow.", "6 घंटे पूर्व ज़ूम अर्थ स्नैपशॉट: अवशेष निम्न दबाव क्षेत्र सामान्य मौसमी हवाओं में विलीन हो रहा है।");
+    if (p.id === 'pass_12h') return tr("Zoom Earth nighttime snapshot 12 hours ago: Peninsular city lights visible with nocturnal thermal IR cloud mass.", "12 घंटे पूर्व ज़ूम अर्थ रात्रि स्नैपशॉट: प्रायद्वीपीय शहर की बत्तियां रात्रि थर्मल आईआर मेघ पुंज के साथ दिखाई दे रही हैं।");
     return p.status;
   };
 
@@ -649,9 +655,17 @@ export default function CyclonePredictor() {
         {/* Action Controls: Live Status & Atmospheric Scan */}
         <div className="flex items-center gap-2.5 self-start lg:self-auto shrink-0 flex-wrap">
           {/* Real-time Status Badge */}
-          <div className="px-3 py-1.5 rounded-xl bg-red-100 border border-red-300 text-red-900 text-xs font-bold flex items-center gap-1.5 shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
-            <span>{tr('Live Surveillance: Severe Cyclonic Storm Active', 'लाइव निगरानी: गंभीर चक्रवाती तूफान सक्रिय')}</span>
+          <div className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs ${
+            currentHazard?.status === 'HIGH_ALERT'
+              ? 'bg-red-100 border border-red-300 text-red-900'
+              : currentHazard?.status === 'MONITORED_ADVISORY'
+              ? 'bg-amber-100 border border-amber-300 text-amber-900'
+              : 'bg-emerald-100 border border-emerald-300 text-emerald-900'
+          }`}>
+            <span className={`w-2 h-2 rounded-full ${
+              currentHazard?.status === 'HIGH_ALERT' ? 'bg-red-600 animate-ping' : currentHazard?.status === 'MONITORED_ADVISORY' ? 'bg-amber-600' : 'bg-emerald-600'
+            }`}></span>
+            <span>{tr(`Live Surveillance: ${getHazardDisplayName(currentHazard)} (${getHazardStatusLabel(currentHazard?.status)})`, `लाइव निगरानी: ${getHazardDisplayName(currentHazard)}`)}</span>
           </div>
 
           {/* Master Reload / Atmospheric Scan */}
@@ -784,9 +798,9 @@ export default function CyclonePredictor() {
                   <span className="text-[11px] uppercase font-black text-stone-600 block">
                     {lang === 'hi' ? 'निरंतर हवा की गति' : 'Sustained Wind Speed'}
                   </span>
-                  <span className="text-xl font-black text-red-700 font-mono">{activePass.wind_kmh} km/h</span>
+                  <span className="text-xl font-black text-emerald-700 font-mono">{activePass.wind_kmh} km/h</span>
                   <span className="text-[10px] text-stone-500 block font-medium">
-                    {lang === 'hi' ? 'गंभीर चक्रवाती तूफान (SCS)' : 'Severe Cyclonic Storm (SCS)'}
+                    {lang === 'hi' ? 'शांत तटीय हवा (सामान्य)' : 'Gentle Coastal Breeze (Normal)'}
                   </span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
@@ -795,25 +809,25 @@ export default function CyclonePredictor() {
                   </span>
                   <span className="text-xl font-black text-stone-900 font-mono">{activePass.pressure_hpa} hPa</span>
                   <span className="text-[10px] text-stone-500 block font-medium">
-                    {lang === 'hi' ? 'दबाव कमी: -22 hPa' : 'Deficit: -22 hPa'}
+                    {lang === 'hi' ? 'मानक बैरोमीटर आधार (सामान्य)' : 'Standard Barometric Baseline'}
                   </span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
                   <span className="text-[11px] uppercase font-black text-stone-600 block">
                     {lang === 'hi' ? 'तूफानी लहर की ऊंचाई' : 'Storm Surge Height'}
                   </span>
-                  <span className="text-xl font-black text-amber-700 font-mono">1.2 - 1.8 m</span>
+                  <span className="text-xl font-black text-stone-800 font-mono">0.0 m</span>
                   <span className="text-[10px] text-stone-500 block font-medium">
-                    {lang === 'hi' ? 'उच्च ज्वार तटीय खिड़की' : 'High tide coastal window'}
+                    {lang === 'hi' ? 'सामान्य ज्वार सीमा (सुरक्षित)' : 'Normal Tidal Range (Safe)'}
                   </span>
                 </div>
                 <div className="bg-[#fbf8f1] border border-[#ded3bf] p-3.5 rounded-xl shadow-xs">
                   <span className="text-[11px] uppercase font-black text-stone-600 block">
                     {lang === 'hi' ? 'अनुमानित तट प्रवेश' : 'Projected Landfall'}
                   </span>
-                  <span className="text-xl font-black text-cyan-800 font-mono">+24 Hours</span>
+                  <span className="text-xl font-black text-emerald-800 font-mono">{lang === 'hi' ? 'कोई खतरा नहीं' : 'No Threat'}</span>
                   <span className="text-[10px] text-stone-500 block font-medium">
-                    {lang === 'hi' ? 'धामरा / सागर द्वीप सेक्टर' : 'Dhamra / Sagar Island'}
+                    {lang === 'hi' ? 'खुले समुद्र में विलीन' : 'Dissipated over Open Sea'}
                   </span>
                 </div>
               </>
