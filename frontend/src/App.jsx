@@ -175,42 +175,41 @@ export default function App() {
             <div className="space-y-4">
               {/* National Multi-Hazard Highest MHSI Threat Status Banner */}
               {topHazard && topHazard.mhsi_score >= 65 ? (
-                <div className="bg-gradient-to-r from-red-850 via-rose-800 to-red-900 text-white rounded-2xl p-4 shadow-md border border-red-500 flex items-center justify-between flex-wrap gap-3">
+                <div className="bg-gradient-to-r from-red-600 to-rose-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-xl shrink-0 shadow-inner">
+                    <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
                       🚨
                     </div>
                     <div>
-                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 flex-wrap">
-                        <span className="bg-white text-red-900 text-[10px] px-2.5 py-0.5 rounded-full font-black shadow-xs">
-                          {tr('CRITICAL RED ALERT · LEVEL 3', 'गंभीर रेड अलर्ट · स्तर 3')}
-                        </span>
-                        <span>{tr('HIGHEST PRIORITY THREAT:', 'सर्वोच्च प्राथमिकता आपदा:')} <span className="underline decoration-amber-300 decoration-2 underline-offset-2">{topHazard.name}</span></span>
-                        <span className="bg-red-950/70 text-red-200 border border-red-400/50 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                        <span>{tr('CRITICAL RED ALERT:', 'गंभीर रेड अलर्ट:')} {topHazard.name}</span>
+                        <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
                           MHSI {topHazard.mhsi_score} / 100 · {topHazard.primary_metric}
                         </span>
                       </div>
-                      <div className="text-[11px] text-red-100 mt-1 max-w-4xl leading-relaxed">
+                      <div className="text-[11px] text-red-100 mt-0.5">
                         {topHazard.description}
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={() => setActiveTab('forecast')}
-                    className="bg-white hover:bg-rose-50 text-red-900 font-black text-xs px-4 py-2 rounded-xl shadow-md transition-all active:scale-95 ml-auto flex items-center gap-1.5 shrink-0"
+                    className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
                   >
-                    <span>{tr('Inspect Hazard Command (MHSI Engine)', 'आपदा कमान केंद्र में जांचें')}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    {tr('Inspect Hazard Command (MHSI Engine) →', 'आपदा कमान केंद्र में जांचें →')}
                   </button>
                 </div>
               ) : topHazard && topHazard.mhsi_score >= 40 ? (
-                <div className="bg-gradient-to-r from-amber-700 to-orange-800 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
+                <div
+                  style={{ backgroundColor: '#c2410c' }}
+                  className="bg-gradient-to-r from-amber-700 to-orange-800 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
                       ⚠️
                     </div>
                     <div>
-                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 text-white">
                         <span>{tr('MONITORED ADVISORY:', 'निगरानी परामर्श:')} {topHazard.name}</span>
                         <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
                           MHSI {topHazard.mhsi_score} / 100
@@ -229,13 +228,16 @@ export default function App() {
                   </button>
                 </div>
               ) : (
-                <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
+                <div
+                  style={{ backgroundColor: '#059669' }}
+                  className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
                       🍃
                     </div>
                     <div>
-                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 text-white">
                         <span>{tr('NATIONAL SYNOPTIC SURVEILLANCE: ROUTINE NORMAL CONDITIONS', 'राष्ट्रीय मौसमी निगरानी: सामान्य स्थितियां')}</span>
                         <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
                           MHSI &lt; 20 · {tr('Zero Active Emergencies', 'शून्य सक्रिय आपात स्थिति')}
