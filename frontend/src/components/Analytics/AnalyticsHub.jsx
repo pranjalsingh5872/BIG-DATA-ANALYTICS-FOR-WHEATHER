@@ -15,22 +15,23 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { api } from '../../services/api';
+import { FALLBACK_CHARTS } from '../../services/fallbackData';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function AnalyticsHub({ refreshTrigger }) {
   const { tr, translateSeverity, translateCategory, translateSource } = useLanguage();
-  const [charts, setCharts] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [charts, setCharts] = useState(FALLBACK_CHARTS);
+  const [loading, setLoading] = useState(false);
   const [syncing, setSyncing] = useState(false);
 
   const loadCharts = async (withSync = false) => {
     try {
       setSyncing(true);
       if (withSync) {
-        await api.syncLiveTelemetry(true).catch(() => null);
+        api.syncLiveTelemetry(true).catch(() => null);
       }
       const res = await api.getCharts();
-      setCharts(res);
+      if (res) setCharts(res);
     } catch (err) {
       console.error('Failed to load chart analytics', err);
     } finally {
@@ -40,8 +41,8 @@ export default function AnalyticsHub({ refreshTrigger }) {
   };
 
   useEffect(() => {
-    // Automatically perform live telemetry ingestion sync on mount
-    loadCharts(true);
+    // Revalidate metrics in background without blocking render
+    loadCharts(false);
     // Auto-refresh metrics every 30 seconds
     const timer = setInterval(() => loadCharts(false), 30000);
     return () => clearInterval(timer);
@@ -53,7 +54,7 @@ export default function AnalyticsHub({ refreshTrigger }) {
     }
   }, [refreshTrigger]);
 
-  if (loading && !charts) {
+  if (!charts) {
     return (
       <div className="p-12 text-center text-slate-500">
         <Activity className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-2" />

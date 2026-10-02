@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, Circle, Marker, Popup, Polygon, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import { api } from '../../services/api';
+import { api, generateDynamicCycloneForecast } from '../../services/api';
 import { useLanguage } from '../../context/LanguageContext';
 import { formatIST } from '../../utils/time';
 import { DEFAULT_MULTI_HAZARDS, getActiveMultiHazards, MHSI_ACTIVE_THRESHOLD, getArchivedDeescalatedHazards } from '../../utils/hazardData';
@@ -275,7 +275,7 @@ function MapFocusCenter({ center, zoom = 6 }) {
 
 export default function CyclonePredictor({ refreshTrigger }) {
   const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
-  const [forecastData, setForecastData] = useState(null);
+  const [forecastData, setForecastData] = useState(() => generateDynamicCycloneForecast());
   const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
   const [selectedHazardId, setSelectedHazardId] = useState('landslide'); // Defaults to first threat (Rank #1) so it opens immediately on load
   const [selectedPassId, setSelectedPassId] = useState('pass_0h'); // 'pass_0h', 'pass_3h', 'pass_6h', 'pass_12h'
@@ -284,7 +284,7 @@ export default function CyclonePredictor({ refreshTrigger }) {
   const [activeCoords, setActiveCoords] = useState([11.55, 76.15]); // Wayanad coords for top hazard
   const [displayMode, setDisplayMode] = useState('split'); // 'split', 'satellite_only', 'map_only'
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [highResModalOpen, setHighResModalOpen] = useState(false);
   const [xaiModalOpen, setXaiModalOpen] = useState(false);
   const [xaiLang, setXaiLang] = useState('en');
@@ -293,13 +293,10 @@ export default function CyclonePredictor({ refreshTrigger }) {
 
   const fetchForecast = async () => {
     try {
-      setLoading(true);
       const data = await api.getCycloneForecast();
-      setForecastData(data);
+      if (data) setForecastData(data);
     } catch (err) {
       console.error('Failed to load forecast', err);
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -87,7 +87,7 @@ export const api = {
     } catch {}
 
     try {
-      const res = await axios.get(`${API_BASE}/analytics/summary`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/analytics/summary`, { timeout: 1500 });
       if (res.data && res.data.total_events > 0) {
         return {
           ...res.data,
@@ -96,11 +96,11 @@ export const api = {
       }
     } catch (e) {}
 
-    const events = await api.getEvents();
+    const eventCount = (gCachedProcessedEvents && gCachedProcessedEvents.length > 0) ? gCachedProcessedEvents.length : FALLBACK_EVENTS.length;
     return {
       ...FALLBACK_SUMMARY,
-      total_events: events.length,
-      today_events: events.length,
+      total_events: eventCount,
+      today_events: eventCount,
       pending_review: queueCount,
       last_sync_ist: formatISTTimeOnly(new Date())
     };
@@ -109,7 +109,7 @@ export const api = {
   // Chart analytics
   getCharts: async () => {
     try {
-      const res = await axios.get(`${API_BASE}/analytics/charts`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/analytics/charts`, { timeout: 1500 });
       if (res.data && res.data.categories?.length > 0) return res.data;
     } catch (e) {
       // Graceful fallback
@@ -121,7 +121,7 @@ export const api = {
   getEvents: async (params = {}) => {
     let list = [];
     try {
-      const res = await axios.get(`${API_BASE}/events/`, { params, timeout: 5000 });
+      const res = await axios.get(`${API_BASE}/events/`, { params, timeout: 1800 });
       if (Array.isArray(res.data) && res.data.length > 0) {
         list = res.data;
       }
@@ -153,7 +153,7 @@ export const api = {
   // Event detail with explainable TrustScore and H3 hex polygon
   getEventDetail: async (id) => {
     try {
-      const res = await axios.get(`${API_BASE}/events/${id}`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/events/${id}`, { timeout: 1500 });
       if (res.data && res.data.event) return res.data;
     } catch (e) {}
     const sourceList = gCachedProcessedEvents || ensureRealTime24hWindow([...FALLBACK_EVENTS]);
@@ -179,7 +179,7 @@ export const api = {
   // H3 Clusters for national tactical map
   getH3Clusters: async () => {
     try {
-      const res = await axios.get(`${API_BASE}/events/clusters/h3`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/events/clusters/h3`, { timeout: 1500 });
       if (res.data?.clusters?.length > 0) return res.data;
     } catch (e) {}
     return {
@@ -191,7 +191,7 @@ export const api = {
   // Citizen report submission
   submitCitizenReport: async (data) => {
     try {
-      const res = await axios.post(`${API_BASE}/ingest/citizen`, data, { timeout: 5000 });
+      const res = await axios.post(`${API_BASE}/ingest/citizen`, data, { timeout: 2500 });
       return res.data;
     } catch (e) {
       if (e.response?.status === 429) {
@@ -221,7 +221,7 @@ export const api = {
   // 100% Real Live Meteorological Telemetry Sync
   syncLiveTelemetry: async (wipeOld = false) => {
     try {
-      const res = await axios.post(`${API_BASE}/ingest/sync-live-telemetry?wipe_old=${wipeOld}`, null, { timeout: 8000 });
+      const res = await axios.post(`${API_BASE}/ingest/sync-live-telemetry?wipe_old=${wipeOld}`, null, { timeout: 2500 });
       return res.data;
     } catch (e) {
       return { status: 'SUCCESS', ingested_count: FALLBACK_EVENTS.length, sources: ['IMD Doppler Radar Network', 'INSAT-3DR Geostationary Sat', 'Open-Meteo AWS Net', 'Citizen PWA Feed', 'Twitter X Live Stream'] };
@@ -231,7 +231,7 @@ export const api = {
   // Twitter/X Live Weather Stream Sync (#IMD, #WeatherUpdate)
   syncTwitterFeed: async () => {
     try {
-      const res = await axios.post(`${API_BASE}/ingest/sync-twitter`, null, { timeout: 8000 });
+      const res = await axios.post(`${API_BASE}/ingest/sync-twitter`, null, { timeout: 2500 });
       return res.data;
     } catch (e) {
       return { status: 'SUCCESS', new_posts_ingested: 6 };
@@ -241,7 +241,7 @@ export const api = {
   // Geolocation & Reverse Geocoding
   reverseGeocode: async (lat, lon) => {
     try {
-      const res = await axios.get(`${API_BASE}/events/geo/reverse`, { params: { lat, lon }, timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/events/geo/reverse`, { params: { lat, lon }, timeout: 1500 });
       return res.data;
     } catch (e) {
       return { city: 'Field Area', state: 'India' };
@@ -250,7 +250,7 @@ export const api = {
 
   detectLocationByIp: async () => {
     try {
-      const res = await axios.get(`${API_BASE}/events/geo/detect-ip`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/events/geo/detect-ip`, { timeout: 1500 });
       return res.data;
     } catch (e) {
       return { city: 'New Delhi', state: 'Delhi', lat: 28.6139, lon: 77.2090 };
@@ -261,7 +261,7 @@ export const api = {
   getReviewQueue: async () => {
     let queue = [];
     try {
-      const res = await axios.get(`${API_BASE}/review/queue`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/review/queue`, { timeout: 1500 });
       if (Array.isArray(res.data) && res.data.length > 0) queue = res.data;
     } catch (e) {}
 
@@ -287,7 +287,7 @@ export const api = {
 
   seedPendingReview: async () => {
     try {
-      const res = await axios.post(`${API_BASE}/review/seed-pending`, null, { timeout: 5000 });
+      const res = await axios.post(`${API_BASE}/review/seed-pending`, null, { timeout: 2000 });
       return res.data;
     } catch (e) {
       localStorage.setItem('sih_review_queue', JSON.stringify(FALLBACK_REVIEW_QUEUE));
@@ -303,7 +303,7 @@ export const api = {
         reason,
         operator_name: 'Lead Disaster Operator (Apex Authority)',
         notes
-      }, { timeout: 5000 });
+      }, { timeout: 2000 });
       return res.data;
     } catch (e) {
       const local = localStorage.getItem('sih_review_queue');
@@ -320,7 +320,7 @@ export const api = {
   // Grievances
   getGrievances: async (status = 'All') => {
     try {
-      const res = await axios.get(`${API_BASE}/grievances/`, { params: { status }, timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/grievances/`, { params: { status }, timeout: 1500 });
       return res.data;
     } catch (e) {
       const saved = localStorage.getItem('sih_grievances');
@@ -337,7 +337,7 @@ export const api = {
 
   submitGrievance: async (data) => {
     try {
-      const res = await axios.post(`${API_BASE}/grievances/`, data, { timeout: 5000 });
+      const res = await axios.post(`${API_BASE}/grievances/`, data, { timeout: 2000 });
       return res.data;
     } catch (e) {
       const newG = {
@@ -367,7 +367,7 @@ export const api = {
         resolution_note: resolutionNote,
         status,
         operator_name: 'Grievance Review Board'
-      }, { timeout: 5000 });
+      }, { timeout: 2000 });
       return res.data;
     } catch (e) {
       const saved = localStorage.getItem('sih_grievances');
@@ -386,7 +386,7 @@ export const api = {
     try {
       const res = await axios.post(`${API_BASE}/grievances/${id}/appeal`, {
         appeal_note: appealNote
-      }, { timeout: 5000 });
+      }, { timeout: 2000 });
       return res.data;
     } catch (e) {
       return { status: 'success', id, message: 'Appeal submitted.' };
@@ -396,7 +396,7 @@ export const api = {
   // CAP Emergency Alert Broadcast
   broadcastCapAlert: async (data) => {
     try {
-      const res = await axios.post(`${API_BASE}/alerts/broadcast-cap`, data, { timeout: 5000 });
+      const res = await axios.post(`${API_BASE}/alerts/broadcast-cap`, data, { timeout: 2000 });
       return res.data;
     } catch (e) {
       const alertItem = {
@@ -425,7 +425,7 @@ export const api = {
 
   getAlertHistory: async () => {
     try {
-      const res = await axios.get(`${API_BASE}/alerts/history`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/alerts/history`, { timeout: 1500 });
       if (Array.isArray(res.data) && res.data.length > 0) return res.data;
     } catch (e) {}
     const saved = localStorage.getItem('sih_cap_history');
@@ -447,7 +447,7 @@ export const api = {
   // AI Weather & Cyclone Disaster Prediction (Real-Time Synchronized)
   getCycloneForecast: async () => {
     try {
-      const res = await axios.get(`${API_BASE}/forecast/cyclone-monsoon`, { timeout: 4000 });
+      const res = await axios.get(`${API_BASE}/forecast/cyclone-monsoon`, { timeout: 1500 });
       if (res.data && res.data.timeline_steps && res.data.timeline_steps.length > 0) return res.data;
     } catch (e) {}
     return generateDynamicCycloneForecast();

@@ -10,8 +10,17 @@ import { useLanguage } from '../../context/LanguageContext';
 
 export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitted }) {
   const { tr, translateReportDescription } = useLanguage();
-  const [grievances, setGrievances] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [grievances, setGrievances] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sih_grievances');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch {}
+    return [];
+  });
+  const [loading, setLoading] = useState(false);
   const [view, setView] = useState('list'); // 'list' or 'file'
 
   // New Grievance Form State
@@ -45,9 +54,8 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
 
   const loadGrievances = async () => {
     try {
-      setLoading(true);
       const res = await api.getGrievances();
-      setGrievances(res);
+      if (Array.isArray(res)) setGrievances(res);
     } catch (err) {
       console.error('Failed to load grievances', err);
     } finally {
@@ -462,7 +470,7 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
             </div>
           )}
 
-          {loading ? (
+          {loading && grievances.length === 0 ? (
             <div className="p-12 text-center text-stone-600">
               <Radio className="w-8 h-8 text-amber-700 animate-spin mx-auto mb-2" />
               <span className="text-xs font-bold">{tr('Scanning Grievance Registry & Authenticity Metrics...', 'शिकायत रजिस्ट्री एवं प्रमाणिकता मेट्रिक्स की जांच जारी...')}</span>

@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2, XCircle, ShieldAlert, Radio, Check, ChevronRight, RefreshCw, Clock } from 'lucide-react';
-import { api } from '../../services/api';
+import { api, ensureRealTime24hWindow } from '../../services/api';
+import { FALLBACK_REVIEW_QUEUE } from '../../services/fallbackData';
 import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function OperatorDesk({ onEventUpdated }) {
   const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
-  const [queue, setQueue] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [queue, setQueue] = useState(() => {
+    try {
+      const local = localStorage.getItem('sih_review_queue');
+      if (local) {
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed) && parsed.length > 0) return ensureRealTime24hWindow(parsed);
+      }
+    } catch {}
+    return ensureRealTime24hWindow([...FALLBACK_REVIEW_QUEUE]);
+  });
+  const [selectedEvent, setSelectedEvent] = useState(() => {
+    try {
+      const local = localStorage.getItem('sih_review_queue');
+      if (local) {
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+      }
+    } catch {}
+    return FALLBACK_REVIEW_QUEUE[0] || null;
+  });
   const [decision, setDecision] = useState('VERIFIED');
   const [reason, setReason] = useState('Corroborated with local meteorological radar observation.');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
 
   const loadQueue = async (preserveSelectedId = null) => {
     try {
-      setLoading(true);
       const res = await api.getReviewQueue();
-      setQueue(res || []);
-
-      if (res && res.length > 0) {
+      if (res && res.length >= 0) {
+        setQueue(res);
         if (preserveSelectedId) {
           const match = res.find(e => e.id === preserveSelectedId);
-          setSelectedEvent(match || res[0]);
-        } else {
+          setSelectedEvent(match || res[0] || null);
+        } else if (!selectedEvent && res.length > 0) {
           setSelectedEvent(res[0]);
         }
-      } else {
-        setSelectedEvent(null);
       }
     } catch (err) {
       console.error('Failed to load review queue', err);

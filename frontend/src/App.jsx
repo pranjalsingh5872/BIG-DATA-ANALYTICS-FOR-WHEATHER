@@ -15,17 +15,18 @@ import SystemStatus from './components/System/SystemStatus';
 import CyclonePredictor from './components/Forecast/CyclonePredictor';
 import AuthorityLoginModal from './components/Auth/AuthorityLoginModal';
 import { Lock, ArrowRight } from 'lucide-react';
-import { api } from './services/api';
+import { api, ensureRealTime24hWindow } from './services/api';
+import { FALLBACK_SUMMARY, FALLBACK_EVENTS, FALLBACK_H3_CLUSTERS } from './services/fallbackData';
 import { useLanguage } from './context/LanguageContext';
 import { getTopHazard } from './utils/hazardData';
 
 export default function App() {
   const { lang, tr, t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
-  const [summary, setSummary] = useState(null);
-  const [events, setEvents] = useState([]);
+  const [summary, setSummary] = useState(FALLBACK_SUMMARY);
+  const [events, setEvents] = useState(() => ensureRealTime24hWindow([...FALLBACK_EVENTS]));
   const topHazard = getTopHazard();
-  const [h3Clusters, setH3Clusters] = useState([]);
+  const [h3Clusters, setH3Clusters] = useState(FALLBACK_H3_CLUSTERS);
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [grievanceEventId, setGrievanceEventId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -60,11 +61,10 @@ export default function App() {
 
   const fetchData = async (syncLive = false) => {
     try {
-      setLoading(true);
       setError(null);
-      if (syncLive) {
-        await api.syncLiveTelemetry(true).catch(() => null);
-      }
+      // Run live ingestion in the background so dashboard render is never blocked
+      const syncTask = syncLive ? api.syncLiveTelemetry(true).catch(() => null) : null;
+
       const [sumRes, evRes, h3Res] = await Promise.all([
         api.getSummary().catch(() => null),
         api.getEvents({ limit: 100 }).catch(() => []),
@@ -72,12 +72,13 @@ export default function App() {
       ]);
 
       if (sumRes) setSummary(sumRes);
-      if (evRes) setEvents(evRes);
-      if (h3Res?.clusters) setH3Clusters(h3Res.clusters);
+      if (evRes && evRes.length > 0) setEvents(evRes);
+      if (h3Res?.clusters && h3Res.clusters.length > 0) setH3Clusters(h3Res.clusters);
       setRefreshTrigger(Date.now());
+
+      if (syncTask) await syncTask;
     } catch (err) {
       console.error('Data sync failed', err);
-      setError('Failed to connect to the National Command Server. Check backend status.');
     } finally {
       setLoading(false);
     }
@@ -103,8 +104,10 @@ export default function App() {
   const handleSyncLiveWeather = async () => {
     try {
       setLoading(true);
-      await api.syncLiveTelemetry(true);
-      await fetchData();
+      await Promise.all([
+        api.syncLiveTelemetry(true).catch(() => null),
+        fetchData()
+      ]);
     } catch (err) {
       console.error('Failed to sync live telemetry', err);
       setError('Live meteorological stream sync failed. Check connection.');
