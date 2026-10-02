@@ -270,8 +270,7 @@ function MapFocusCenter({ center, zoom = 6 }) {
 export default function CyclonePredictor() {
   const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
   const [forecastData, setForecastData] = useState(null);
-  const [disasterMode, setDisasterMode] = useState('active'); // 'active' (Level-3 Disaster) vs 'normal' (Routine Surveillance)
-  const [selectedHazardId, setSelectedHazardId] = useState(null); // defaults to top MHSI hazard
+  const [selectedHazardId, setSelectedHazardId] = useState('landslide'); // Defaults to first threat (Rank #1) so it opens immediately on load
   const [selectedPassId, setSelectedPassId] = useState('pass_0h'); // 'pass_0h', 'pass_3h', 'pass_6h', 'pass_12h'
   const [selectedHour, setSelectedHour] = useState(24); // Forecast timeline step
   const [activeCoords, setActiveCoords] = useState([11.55, 76.15]); // Wayanad coords for top hazard
@@ -366,6 +365,54 @@ export default function CyclonePredictor() {
     if (h.status_code === 'CONTINUOUS_VENTING') return tr('CONTINUOUS VENTING', 'निरंतर गैस उत्सर्जन');
     if (h.status_code === 'BELOW_DANGER_MARK') return tr('BELOW DANGER MARK', 'खतरे के निशान से नीचे');
     return h.status_code?.replace('_', ' ');
+  };
+
+  // Stepped color gradient: Rank 1 is darkest/boldest, Rank 2 is slightly lighter, Rank 3 is even lighter
+  const getCardStyle = (hazard, isSelected) => {
+    const rank = hazard.severity_rank || 1;
+    if (isSelected) {
+      if (rank === 1) return 'bg-[#78350f] text-white border-[#451a03] shadow-md ring-2 ring-red-500/50 -translate-y-0.5';
+      if (rank === 2) return 'bg-[#9a3412] text-white border-[#7c2d12] shadow-md ring-2 ring-amber-500/50 -translate-y-0.5';
+      if (rank === 3) return 'bg-[#b45309] text-white border-[#78350f] shadow-md ring-2 ring-yellow-500/50 -translate-y-0.5';
+      return 'bg-[#d97706] text-white border-[#b45309] shadow-md ring-2 ring-yellow-400/50 -translate-y-0.5';
+    }
+    // Unselected cards with clear stepped lighter shades
+    if (rank === 1) return 'bg-rose-50/90 hover:bg-rose-100 text-stone-900 border-red-300 shadow-xs hover:border-red-400';
+    if (rank === 2) return 'bg-amber-50/80 hover:bg-amber-100 text-stone-900 border-amber-300 shadow-xs hover:border-amber-400';
+    if (rank === 3) return 'bg-yellow-50/50 hover:bg-yellow-100/70 text-stone-900 border-yellow-200 shadow-xs hover:border-yellow-300';
+    return 'bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200 shadow-xs';
+  };
+
+  const getRankBadgeStyle = (hazard, isSelected) => {
+    const rank = hazard.severity_rank || 1;
+    if (isSelected) {
+      if (rank === 1) return 'bg-red-600 text-white font-black';
+      if (rank === 2) return 'bg-orange-500 text-white font-black';
+      if (rank === 3) return 'bg-amber-500 text-white font-black';
+      return 'bg-yellow-500 text-white font-black';
+    }
+    if (rank === 1) return 'bg-red-100 text-red-900 border border-red-300 font-bold';
+    if (rank === 2) return 'bg-orange-100 text-orange-900 border border-orange-300 font-bold';
+    if (rank === 3) return 'bg-amber-100 text-amber-900 border border-amber-200 font-bold';
+    return 'bg-stone-100 text-stone-600 border border-stone-200';
+  };
+
+  const getMhsiScoreStyle = (hazard, isSelected) => {
+    const rank = hazard.severity_rank || 1;
+    if (isSelected) return 'text-white bg-white/20 px-1.5 py-0.5 rounded font-mono font-bold text-[10px]';
+    if (rank === 1) return 'text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold text-[10px]';
+    if (rank === 2) return 'text-orange-700 bg-white px-1.5 py-0.5 rounded border border-orange-200 font-mono font-bold text-[10px]';
+    if (rank === 3) return 'text-amber-700 bg-white px-1.5 py-0.5 rounded border border-amber-200 font-mono font-bold text-[10px]';
+    return 'text-stone-600 bg-white px-1.5 py-0.5 rounded border border-stone-200 font-mono font-bold text-[10px]';
+  };
+
+  const getMetricLabelStyle = (hazard, isSelected) => {
+    const rank = hazard.severity_rank || 1;
+    if (isSelected) return 'text-amber-200 font-bold';
+    if (rank === 1) return 'text-red-800 font-bold';
+    if (rank === 2) return 'text-orange-800 font-bold';
+    if (rank === 3) return 'text-amber-800 font-bold';
+    return 'text-stone-700 font-bold';
   };
 
   const getPassLabel = (p) => {
@@ -579,21 +626,13 @@ export default function CyclonePredictor() {
                   <button
                     key={hazard.id}
                     onClick={() => handleSelectHazard(hazard)}
-                    className={`shrink-0 w-72 text-left p-3 rounded-xl border transition-all ${
-                      isSelected
-                        ? 'bg-amber-900 text-white border-amber-950 shadow-md ring-2 ring-amber-600/40 -translate-y-0.5'
-                        : 'bg-white hover:bg-stone-50 text-stone-800 border-stone-300 hover:border-amber-400 shadow-xs'
-                    }`}
+                    className={`shrink-0 w-72 text-left p-3.5 rounded-xl border transition-all ${getCardStyle(hazard, isSelected)}`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
-                        isTopRank
-                          ? (isSelected ? 'bg-red-500 text-white font-bold' : 'bg-red-100 text-red-800 border border-red-300')
-                          : (isSelected ? 'bg-amber-700 text-amber-100' : 'bg-stone-100 text-stone-600')
-                      }`}>
+                      <span className={`text-[9px] uppercase px-2 py-0.5 rounded-full ${getRankBadgeStyle(hazard, isSelected)}`}>
                         {isTopRank ? tr('★ Rank #1 (Primary Face)', '★ रैंक #1 (प्राथमिक आपदा)') : `${tr('Rank', 'रैंक')} #${hazard.severity_rank}`}
                       </span>
-                      <span className={`text-[10px] font-mono font-bold ${isSelected ? 'text-amber-200' : 'text-stone-500'}`}>
+                      <span className={getMhsiScoreStyle(hazard, isSelected)}>
                         MHSI {hazard.mhsi_score}
                       </span>
                     </div>
@@ -611,7 +650,7 @@ export default function CyclonePredictor() {
                     </p>
 
                     <div className="mt-2 pt-2 border-t border-stone-200/40 flex items-center justify-between text-[10px] font-mono">
-                      <span className={isSelected ? 'text-amber-300 font-bold' : 'text-stone-700 font-bold'}>
+                      <span className={getMetricLabelStyle(hazard, isSelected)}>
                         {getHazardMetricLabel(hazard)}
                       </span>
                       <span className={isSelected ? 'text-stone-300' : 'text-stone-500'}>

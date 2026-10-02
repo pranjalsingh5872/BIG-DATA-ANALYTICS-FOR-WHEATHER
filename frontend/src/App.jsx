@@ -182,8 +182,8 @@ export default function App() {
                     </div>
                     <div>
                       <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
-                        <span>{tr('CRITICAL RED ALERT:', 'गंभीर रेड अलर्ट:')} {topHazard.name}</span>
-                        <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+                        <span>{tr('ACTIVE CRITICAL THREAT DETECTED:', 'सक्रिय गंभीर आपदा संकेत:')} {topHazard.name}</span>
+                        <span className="bg-white/20 text-white text-[10px] px-2.5 py-0.5 rounded font-mono font-bold">
                           MHSI {topHazard.mhsi_score} / 100 · {topHazard.primary_metric}
                         </span>
                       </div>
@@ -194,9 +194,9 @@ export default function App() {
                   </div>
                   <button
                     onClick={() => setActiveTab('forecast')}
-                    className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                    className="bg-white hover:bg-red-50 text-red-700 font-bold text-xs px-4 py-2 rounded-full shadow-xs transition-all active:scale-95 ml-auto flex items-center shrink-0"
                   >
-                    {tr('Inspect Hazard Command (MHSI Engine) →', 'आपदा कमान केंद्र में जांचें →')}
+                    {tr('Inspect Active Disaster Trajectory →', 'सक्रिय आपदा प्रक्षेपवक्र देखें →')}
                   </button>
                 </div>
               ) : topHazard && topHazard.mhsi_score >= 40 ? (
