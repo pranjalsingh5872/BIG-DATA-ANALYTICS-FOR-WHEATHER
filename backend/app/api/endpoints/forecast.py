@@ -417,8 +417,20 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
         }
     ]
 
+    # Standard NDMA/IMD Multi-Hazard De-listing Standard (MHSI < 20.0 is Negligible / Dissipated)
+    MHSI_ACTIVE_THRESHOLD = 20.0
+    active_multi_hazards = [
+        h for h in sorted(multi_hazards, key=lambda x: x.get("mhsi_score", 0), reverse=True)
+        if h.get("mhsi_score", 0) >= MHSI_ACTIVE_THRESHOLD and h.get("status_code") != "INACTIVE_MONITORING"
+    ]
+    for idx, h in enumerate(active_multi_hazards):
+        h["severity_rank"] = idx + 1
+
+    top_hazard_id = active_multi_hazards[0]["id"] if active_multi_hazards else "landslide"
+    has_critical_disaster = any(h.get("mhsi_score", 0) >= 65.0 for h in active_multi_hazards)
+
     normal_routine = {
-        "is_active_disaster": False,
+        "is_active_disaster": has_critical_disaster,
         "title": "All National Basins Normal · Routine Synoptic Surveillance",
         "subtitle": "Continuous AI multi-hazard surveillance active. No Level-3 emergency disaster detected across Indian territory.",
         "satellite_src": "/assets/normal_synoptic_india.jpg",
@@ -431,9 +443,9 @@ def get_cyclone_and_monsoon_forecast() -> Dict[str, Any]:
     return {
         "status": "success",
         "generated_at": now.isoformat(),
-        "has_active_national_disaster": False,
-        "active_disaster_id": "cyclone",
-        "multi_hazards": multi_hazards,
+        "has_active_national_disaster": has_critical_disaster,
+        "active_disaster_id": top_hazard_id,
+        "multi_hazards": active_multi_hazards if active_multi_hazards else multi_hazards,
         "normal_routine": normal_routine,
         "cyclone_name": "System 'ARNAB' (Dissipated / Low Threat)",
         "basin": "North Indian Ocean (Bay of Bengal)",

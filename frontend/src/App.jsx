@@ -14,15 +14,17 @@ import CapBroadcast from './components/Alerts/CapBroadcast';
 import SystemStatus from './components/System/SystemStatus';
 import CyclonePredictor from './components/Forecast/CyclonePredictor';
 import AuthorityLoginModal from './components/Auth/AuthorityLoginModal';
-import { Lock } from 'lucide-react';
+import { Lock, ArrowRight } from 'lucide-react';
 import { api } from './services/api';
 import { useLanguage } from './context/LanguageContext';
+import { getTopHazard } from './utils/hazardData';
 
 export default function App() {
   const { lang, tr, t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
   const [summary, setSummary] = useState(null);
   const [events, setEvents] = useState([]);
+  const topHazard = getTopHazard();
   const [h3Clusters, setH3Clusters] = useState([]);
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [grievanceEventId, setGrievanceEventId] = useState(null);
@@ -171,31 +173,87 @@ export default function App() {
 
           {activeTab === 'overview' && (
             <div className="space-y-4">
-              {/* National Weather & Cyclonic Threat Status Banner */}
-              <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
-                    🍃
-                  </div>
-                  <div>
-                    <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
-                      <span>{t('activeCycloneBanner')}</span>
-                      <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
-                        28 km/h · 1008 hPa · {tr('Normal Conditions', 'सामान्य स्थिति')}
-                      </span>
+              {/* National Multi-Hazard Highest MHSI Threat Status Banner */}
+              {topHazard && topHazard.mhsi_score >= 65 ? (
+                <div className="bg-gradient-to-r from-red-850 via-rose-800 to-red-900 text-white rounded-2xl p-4 shadow-md border border-red-500 flex items-center justify-between flex-wrap gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-xl shrink-0 shadow-inner">
+                      🚨
                     </div>
-                    <div className="text-[11px] text-emerald-100 mt-0.5">
-                      {t('cycloneBannerDesc')}
+                    <div>
+                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 flex-wrap">
+                        <span className="bg-white text-red-900 text-[10px] px-2.5 py-0.5 rounded-full font-black shadow-xs">
+                          {tr('CRITICAL RED ALERT · LEVEL 3', 'गंभीर रेड अलर्ट · स्तर 3')}
+                        </span>
+                        <span>{tr('HIGHEST PRIORITY THREAT:', 'सर्वोच्च प्राथमिकता आपदा:')} <span className="underline decoration-amber-300 decoration-2 underline-offset-2">{topHazard.name}</span></span>
+                        <span className="bg-red-950/70 text-red-200 border border-red-400/50 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+                          MHSI {topHazard.mhsi_score} / 100 · {topHazard.primary_metric}
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-red-100 mt-1 max-w-4xl leading-relaxed">
+                        {topHazard.description}
+                      </div>
                     </div>
                   </div>
+                  <button
+                    onClick={() => setActiveTab('forecast')}
+                    className="bg-white hover:bg-rose-50 text-red-900 font-black text-xs px-4 py-2 rounded-xl shadow-md transition-all active:scale-95 ml-auto flex items-center gap-1.5 shrink-0"
+                  >
+                    <span>{tr('Inspect Hazard Command (MHSI Engine)', 'आपदा कमान केंद्र में जांचें')}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
-                <button
-                  onClick={() => setActiveTab('forecast')}
-                  className="bg-white hover:bg-emerald-50 text-emerald-800 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
-                >
-                  {t('inspectCycloneBtn')}
-                </button>
-              </div>
+              ) : topHazard && topHazard.mhsi_score >= 40 ? (
+                <div className="bg-gradient-to-r from-amber-700 to-orange-800 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
+                      ⚠️
+                    </div>
+                    <div>
+                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                        <span>{tr('MONITORED ADVISORY:', 'निगरानी परामर्श:')} {topHazard.name}</span>
+                        <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+                          MHSI {topHazard.mhsi_score} / 100
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-amber-100 mt-0.5">
+                        {topHazard.description}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab('forecast')}
+                    className="bg-white hover:bg-amber-50 text-amber-900 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                  >
+                    {tr('Inspect Threat', 'खतरे की जांच करें')}
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-3.5 px-4 shadow-sm flex items-center justify-between flex-wrap gap-2.5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shrink-0">
+                      🍃
+                    </div>
+                    <div>
+                      <div className="text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                        <span>{tr('NATIONAL SYNOPTIC SURVEILLANCE: ROUTINE NORMAL CONDITIONS', 'राष्ट्रीय मौसमी निगरानी: सामान्य स्थितियां')}</span>
+                        <span className="bg-white/25 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+                          MHSI &lt; 20 · {tr('Zero Active Emergencies', 'शून्य सक्रिय आपात स्थिति')}
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-emerald-100 mt-0.5">
+                        {tr('All multi-hazard vectors across India below trigger thresholds (MHSI < 20). Negligible threats automatically de-listed.', 'भारत भर में सभी आपदाएं नियंत्रण सीमा से नीचे हैं (MHSI < 20)। नगण्य खतरे स्वतः डी-लिस्ट किए गए हैं।')}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab('forecast')}
+                    className="bg-white hover:bg-emerald-50 text-emerald-800 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 ml-auto"
+                  >
+                    {tr('Open Hazard Center', 'आपदा केंद्र खोलें')}
+                  </button>
+                </div>
+              )}
 
               {/* Top KPI Cards */}
               <MetricCards summary={summary} />

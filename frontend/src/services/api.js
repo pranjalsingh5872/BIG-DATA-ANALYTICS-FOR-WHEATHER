@@ -179,6 +179,9 @@ export const api = {
       const res = await axios.post(`${API_BASE}/ingest/citizen`, data, { timeout: 5000 });
       return res.data;
     } catch (e) {
+      if (e.response?.status === 429) {
+        throw new Error(e.response?.data?.detail || 'Device Quota Exceeded: A maximum of 2 incident reports are allowed per physical device.');
+      }
       const newEvt = {
         id: `CIT-${Date.now().toString(36).toUpperCase()}`,
         title: data.description?.slice(0, 50) || 'Citizen Weather Field Report',

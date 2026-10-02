@@ -1,10 +1,39 @@
 import React, { useState, useRef } from 'react';
-import { Send, MapPin, Camera, AlertCircle, CheckCircle, ShieldCheck, Sparkles, Upload, Image as ImageIcon, X } from 'lucide-react';
+import { Send, MapPin, Camera, AlertCircle, CheckCircle, ShieldCheck, ShieldAlert, Sparkles, Upload, Image as ImageIcon, X } from 'lucide-react';
 import { api } from '../../services/api';
 import { useLanguage } from '../../context/LanguageContext';
 
+const MAX_REPORTS_PER_DEVICE = 2;
+
+function getOrCreateDeviceId() {
+  try {
+    let id = localStorage.getItem('weathernexus_citizen_device_id');
+    if (!id) {
+      id = 'DEV-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now().toString(36).slice(-4).toUpperCase();
+      localStorage.setItem('weathernexus_citizen_device_id', id);
+    }
+    return id;
+  } catch {
+    return 'DEV-CLIENT-NODE';
+  }
+}
+
+function getStoredDeviceSubmissions() {
+  try {
+    const raw = localStorage.getItem('weathernexus_device_reports_history');
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
 export default function CitizenReportPWA({ onReportSubmitted }) {
   const { lang, tr, t, translateCategory, translateSeverity } = useLanguage();
+  const [deviceId] = useState(() => getOrCreateDeviceId());
+  const [deviceSubmissions, setDeviceSubmissions] = useState(() => getStoredDeviceSubmissions());
+  const reportCount = deviceSubmissions.length;
+  const isDeviceQuotaReached = reportCount >= MAX_REPORTS_PER_DEVICE;
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -160,16 +189,44 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isDeviceQuotaReached) {
+      setErrorMsg(tr(
+        'Anti-Spam Quota Reached: A physical device can submit a maximum of 2 incident reports to prevent coordinate manipulation.',
+        'एंटी-स्पैम कोटा पूर्ण: स्पैम और हेरफेर रोकने हेतु एक डिवाइस से अधिकतम 2 रिपोर्ट की अनुमति है।'
+      ));
+      return;
+    }
     if (!formData.title || !formData.description) return;
     setErrorMsg(null);
     try {
       setSubmitting(true);
-      const res = await api.submitCitizenReport(formData);
+      const payload = {
+        ...formData,
+        source_author: `${deviceId} · ${formData.source_author || 'Citizen Volunteer'}`
+      };
+      const res = await api.submitCitizenReport(payload);
       setResult(res);
+
+      const updatedHistory = [
+        ...deviceSubmissions,
+        {
+          id: res.id || res.event_id || `CIT-${Date.now().toString(36).toUpperCase()}`,
+          time: new Date().toISOString(),
+          title: formData.title,
+          city: formData.city || 'India'
+        }
+      ];
+      setDeviceSubmissions(updatedHistory);
+      try {
+        localStorage.setItem('weathernexus_device_reports_history', JSON.stringify(updatedHistory));
+      } catch (err) {
+        console.error(err);
+      }
+
       if (onReportSubmitted) onReportSubmitted();
     } catch (err) {
       console.error('Failed to submit citizen report', err);
-      setErrorMsg('Failed to submit report. Please check connection.');
+      setErrorMsg(err.message || tr('Failed to submit report. Please check connection.', 'रिपोर्ट दर्ज करने में त्रुटि। कृपया नेटवर्क जांचें।'));
     } finally {
       setSubmitting(false);
     }
@@ -192,6 +249,59 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           )}
         </p>
       </div>
+
+      {/* Device Anti-Spam Quota Status Strip */}
+      <div className="flex items-center justify-between bg-slate-100/90 border border-slate-200 px-3.5 py-2 rounded-xl text-xs flex-wrap gap-2 shadow-xs">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-4 h-4 text-blue-700 shrink-0" />
+          <span className="font-bold text-slate-800">
+            {tr('Device Verification Status:', 'डिवाइस सत्यापन स्थिति:')}
+          </span>
+          <span className="font-mono text-[11px] text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-300 font-semibold">
+            {deviceId}
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 ml-auto">
+          <span className="text-[11px] text-slate-500 font-medium">
+            {tr('Anti-Spam Quota:', 'एंटी-स्पैम कोटा:')}
+          </span>
+          <span className={`px-2.5 py-0.5 rounded-full font-mono font-bold text-xs ${
+            isDeviceQuotaReached
+              ? 'bg-amber-100 text-amber-900 border border-amber-300'
+              : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+          }`}>
+            {reportCount} / {MAX_REPORTS_PER_DEVICE} {tr('Reports', 'रिपोर्ट')}
+          </span>
+        </div>
+      </div>
+
+      {/* Prominent Warning if Quota is Reached */}
+      {isDeviceQuotaReached && (
+        <div className="bg-amber-50 border border-amber-300 rounded-2xl p-4 text-xs text-amber-950 space-y-2.5 shadow-sm">
+          <div className="flex items-center gap-2 font-black text-sm text-amber-900">
+            <ShieldAlert className="w-5 h-5 text-amber-700 shrink-0" />
+            <span>{tr('Device Incident Limit Reached (2 / 2 Reports Submitted)', 'डिवाइस रिपोर्ट सीमा पूर्ण (2 में से 2 रिपोर्ट दर्ज)')}</span>
+          </div>
+          <p className="text-amber-900 leading-relaxed text-[11.5px]">
+            {tr(
+              'To eliminate coordinate spam, data manipulation, and false flood alarms from a single location, each device is restricted to a maximum of 2 incident submissions. Both of your reports have been ingested and verified by National AI Operations.',
+              'एक ही स्थान से स्पैम, गलत अलर्ट एवं डेटा हेरफेर रोकने हेतु, प्रत्येक डिवाइस को अधिकतम 2 रिपोर्ट दर्ज करने की अनुमति है। आपकी दोनों रिपोर्ट राष्ट्रीय AI नियंत्रण कक्ष में दर्ज कर ली गई हैं।'
+            )}
+          </p>
+          <div className="bg-white/90 p-2.5 rounded-xl border border-amber-200 text-[11px] font-mono space-y-1">
+            <span className="font-bold text-amber-900 block">{tr('Logged Incident Submissions from this Device:', 'इस डिवाइस से दर्ज रिपोर्ट:')}</span>
+            {deviceSubmissions.map((sub, i) => (
+              <div key={i} className="flex items-center justify-between text-stone-700 border-b border-amber-100/80 last:border-0 py-0.5">
+                <span>#{i + 1} <b>{sub.title}</b> ({sub.city || 'India'})</span>
+                <span className="text-amber-800 font-bold font-mono text-[10px]">{sub.id}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] text-amber-800 font-semibold pt-0.5">
+            {tr('For life-threatening emergencies requiring immediate dispatch, dial 112 directly.', 'जीवन-घातक आपात स्थिति में तत्काल सहायता हेतु राष्ट्रीय आपातकालीन नंबर 112 पर संपर्क करें।')}
+          </p>
+        </div>
+      )}
 
       {result ? (
         <div className="bg-command-card border border-emerald-300 rounded-2xl p-6 shadow-sm text-center space-y-4">
@@ -540,14 +650,27 @@ export default function CitizenReportPWA({ onReportSubmitted }) {
           </div>
 
           {/* Submit Action */}
-          {errorMsg && <div className="p-2 rounded bg-red-50 border border-red-200 text-red-800 text-xs">{errorMsg}</div>}
+          {errorMsg && <div className="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold">{errorMsg}</div>}
           <button
             type="submit"
-            disabled={submitting}
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-50"
+            disabled={submitting || isDeviceQuotaReached}
+            className={`w-full py-3 rounded-xl font-black text-xs uppercase tracking-wider shadow-sm transition-all flex items-center justify-center gap-2 ${
+              isDeviceQuotaReached
+                ? 'bg-slate-200 text-slate-500 cursor-not-allowed border border-slate-300 shadow-none'
+                : 'bg-blue-600 hover:bg-blue-700 text-white active:scale-[0.99] disabled:opacity-50'
+            }`}
           >
-            <Send className="w-4 h-4" />
-            <span>{submitting ? tr('Running Tri-Check AI Verification...', 'ट्राई-चेक एआई सत्यापन जारी...') : tr('Transmit Report to National Command Room', 'राष्ट्रीय नियंत्रण कक्ष को रिपोर्ट प्रेषित करें')}</span>
+            {isDeviceQuotaReached ? (
+              <>
+                <ShieldAlert className="w-4 h-4 text-amber-600" />
+                <span>{tr('Device Quota Limit Reached (Max 2 Reports / Device)', 'डिवाइस कोटा सीमा पूर्ण (अधिकतम 2 रिपोर्ट प्रति डिवाइस)')}</span>
+              </>
+            ) : (
+              <>
+                <Send className="w-4 h-4" />
+                <span>{submitting ? tr('Running Tri-Check AI Verification...', 'ट्राई-चेक एआई सत्यापन जारी...') : tr('Transmit Report to National Command Room', 'राष्ट्रीय नियंत्रण कक्ष को रिपोर्ट प्रेषित करें')}</span>
+              </>
+            )}
           </button>
         </form>
       )}

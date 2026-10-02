@@ -17,6 +17,21 @@ def submit_citizen_report(
     report: WeatherEventCreate,
     db: Session = Depends(get_db)
 ):
+    # 0. Anti-Spam Device Limit: Max 2 incident reports allowed per device
+    if report.source_author and "DEV-" in report.source_author:
+        dev_token = [part for part in report.source_author.split("·") if "DEV-" in part]
+        dev_id = dev_token[0].strip() if dev_token else None
+        if dev_id:
+            device_count = db.query(WeatherEvent).filter(
+                WeatherEvent.source == "Citizen Report",
+                WeatherEvent.source_author.contains(dev_id)
+            ).count()
+            if device_count >= 2:
+                raise HTTPException(
+                    status_code=429,
+                    detail="Anti-Spam Device Quota Reached: Each physical device is strictly restricted to a maximum of 2 incident reports to prevent spam and spatial coordinate manipulation."
+                )
+
     # 1. NLP Category Detection if not set or generic
     cat, nlp_conf = detect_category(f"{report.title} {report.description}", report.category)
 
