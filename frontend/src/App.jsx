@@ -30,6 +30,8 @@ export default function App() {
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [grievanceEventId, setGrievanceEventId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pageBlinking, setPageBlinking] = useState(false);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -129,13 +131,41 @@ export default function App() {
     }
   };
 
+  const handleManualRefresh = async () => {
+    if (isRefreshing) return;
+    setIsRefreshing(true);
+    setLoading(true);
+    const minSpinMs = 850; // Smooth 360-degree rotation visible to user
+    const startTime = Date.now();
+
+    try {
+      await fetchData(true);
+    } catch (err) {
+      console.error('Manual refresh failed', err);
+    } finally {
+      const elapsed = Date.now() - startTime;
+      const waitRemaining = Math.max(0, minSpinMs - elapsed);
+
+      setTimeout(() => {
+        setIsRefreshing(false);
+        setLoading(false);
+
+        // When spin completes, trigger page blink effect on the active page
+        setPageBlinking(true);
+        setTimeout(() => {
+          setPageBlinking(false);
+        }, 650);
+      }, waitRemaining);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Operations Navbar */}
       <Navbar
         summary={summary}
-        onRefresh={() => fetchData(true)}
-        loading={loading}
+        onRefresh={handleManualRefresh}
+        loading={loading || isRefreshing}
         authorityUser={authorityUser}
         onOpenAuthModal={() => setAuthModalOpen(true)}
         onLogout={handleLogout}
@@ -167,7 +197,15 @@ export default function App() {
         </div>
 
         {/* Dynamic Center Stage - Full Screen Command Deck */}
-        <main className="flex-1 p-3 sm:p-5 overflow-y-auto max-h-[calc(100vh-62px)] w-full">
+        <main className={`flex-1 p-3 sm:p-5 overflow-y-auto max-h-[calc(100vh-62px)] w-full relative ${pageBlinking ? 'page-blink' : ''}`}>
+          {/* Refresh Complete Confirmation Toast */}
+          {pageBlinking && (
+            <div className="fixed top-20 right-6 z-50 pointer-events-none transition-all flex items-center gap-2 bg-emerald-950/90 text-emerald-200 border border-emerald-500/50 text-xs px-3.5 py-1.5 rounded-full shadow-xl backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span className="font-semibold tracking-wide">{tr('Telemetry Synced & Page Refreshed', 'टेलीमेट्री सिंक और पेज रीफ्रेश हुआ')}</span>
+            </div>
+          )}
+
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
               <span className="text-red-600 font-bold">⚠ CONNECTION ERROR:</span>

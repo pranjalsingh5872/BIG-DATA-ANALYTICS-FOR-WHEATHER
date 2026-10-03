@@ -203,3 +203,45 @@ body {
   box-shadow: 0 1px 3px rgba(39, 201, 63, 0.4);
 }
 
+/* 5. macOS Refresh Spin & Page Blink Animations */
+@keyframes macosRefreshSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.macos-refresh-spin {
+  animation: macosRefreshSpin 0.75s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+}
+
+@keyframes macosPageBlink {
+  0% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  20% {
+    opacity: 0.2;
+    filter: brightness(1.35) saturate(1.15);
+  }
+  48% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  72% {
+    opacity: 0.35;
+    filter: brightness(1.22);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+.page-blink {
+  animation: macosPageBlink 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: opacity, filter;
+}
+

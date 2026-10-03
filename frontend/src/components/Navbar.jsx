@@ -141,10 +141,14 @@ export default function Navbar({
         <button
           onClick={onRefresh}
           disabled={loading}
-          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-all shadow-xs disabled:opacity-50 macos-tap cursor-pointer"
-          title="Refresh All Stream Telemetry"
+          className={`p-2 rounded-xl border transition-all shadow-xs macos-tap cursor-pointer flex items-center justify-center ${
+            loading
+              ? 'bg-emerald-50 border-emerald-300 text-emerald-600 ring-2 ring-emerald-400/30'
+              : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border-slate-200'
+          }`}
+          title="Refresh All Stream Telemetry & Page Data"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-600' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'macos-refresh-spin text-emerald-600' : ''}`} />
         </button>
       </div>
     </header>
