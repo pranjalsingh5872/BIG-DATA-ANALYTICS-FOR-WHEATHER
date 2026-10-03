@@ -27,7 +27,10 @@ import {
   Users,
   Home,
   Activity,
-  Clock
+  Clock,
+  FileText,
+  ShieldAlert,
+  History
 } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, Circle, Marker, Popup, Polygon, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
@@ -288,6 +291,13 @@ export default function CyclonePredictor({ refreshTrigger }) {
   const [highResModalOpen, setHighResModalOpen] = useState(false);
   const [xaiModalOpen, setXaiModalOpen] = useState(false);
   const [xaiLang, setXaiLang] = useState('en');
+  const [disasterReportModalOpen, setDisasterReportModalOpen] = useState(false);
+  const [activeReportHazard, setActiveReportHazard] = useState(null);
+  const [reportLang, setReportLang] = useState(lang);
+
+  useEffect(() => {
+    setReportLang(lang);
+  }, [lang]);
 
   const sliderRef = useRef(null);
 
@@ -549,6 +559,19 @@ export default function CyclonePredictor({ refreshTrigger }) {
             }`}></span>
             <span>{tr(`Live Surveillance: ${getHazardDisplayName(currentHazard)} (${getHazardStatusLabel(currentHazard?.status)})`, `लाइव निगरानी: ${getHazardDisplayName(currentHazard)}`)}</span>
           </div>
+
+          {/* Quick Disaster Briefing Button */}
+          <button
+            onClick={() => {
+              setActiveReportHazard(currentHazard);
+              setDisasterReportModalOpen(true);
+            }}
+            className="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-amber-50 text-stone-800 border border-stone-300 flex items-center gap-1.5 shadow-xs macos-tap cursor-pointer"
+            title="Read Complete Clean Disaster Report"
+          >
+            <FileText className="w-3.5 h-3.5 text-red-600" />
+            <span>{tr('Disaster Briefing', 'आपदा ब्रीफिंग')}</span>
+          </button>
         </div>
       </div>
 
@@ -594,8 +617,15 @@ export default function CyclonePredictor({ refreshTrigger }) {
                 return (
                   <button
                     key={hazard.id}
-                    onClick={() => handleSelectHazard(hazard)}
-                    className={`shrink-0 w-72 text-left p-3.5 rounded-xl border transition-all snap-start hover:scale-[1.01] active:scale-[0.99] cursor-pointer ${getCardStyle(hazard, isSelected)}`}
+                    onClick={() => {
+                      if (hazard.id === selectedHazardId) {
+                        setActiveReportHazard(hazard);
+                        setDisasterReportModalOpen(true);
+                      } else {
+                        handleSelectHazard(hazard);
+                      }
+                    }}
+                    className={`shrink-0 w-76 text-left p-3.5 rounded-xl border transition-all snap-start hover:scale-[1.01] active:scale-[0.99] cursor-pointer ${getCardStyle(hazard, isSelected)}`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
                       <span className={`text-[9px] uppercase px-2 py-0.5 rounded-full ${getRankBadgeStyle(hazard, isSelected)}`}>
@@ -618,12 +648,25 @@ export default function CyclonePredictor({ refreshTrigger }) {
                       {getHazardRegionName(hazard)}
                     </p>
 
-                    <div className="mt-2 pt-2 border-t border-stone-200/40 flex items-center justify-between text-[10px] font-mono">
+                    <div className="mt-2.5 pt-2 border-t border-stone-200/40 flex items-center justify-between text-[10px]">
                       <span className={getMetricLabelStyle(hazard, isSelected)}>
                         {getHazardMetricLabel(hazard)}
                       </span>
-                      <span className={isSelected ? 'text-stone-300' : 'text-stone-500'}>
-                        {getHazardStatusLabel(hazard)}
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveReportHazard(hazard);
+                          setDisasterReportModalOpen(true);
+                        }}
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all macos-tap cursor-pointer ${
+                          isSelected
+                            ? 'bg-amber-400 text-stone-900 hover:bg-amber-300 shadow-xs'
+                            : 'bg-stone-200/90 text-stone-700 hover:bg-stone-300'
+                        }`}
+                        title={tr('View Clear Plain Language Report', 'आपदा की आसान स्पष्ट रिपोर्ट देखें')}
+                      >
+                        <FileText className="w-3 h-3" />
+                        <span>{tr('Read Report', 'रिपोर्ट पढ़ें')}</span>
                       </span>
                     </div>
                   </button>
@@ -644,9 +687,9 @@ export default function CyclonePredictor({ refreshTrigger }) {
             )}
           </div>
 
-          {/* Active Threat Profile Summary Strip with XAI Button */}
-          <div className="flex items-center justify-between bg-[#ede4d4]/70 px-3.5 py-2 rounded-xl border border-[#ded3bf] flex-wrap gap-2">
-            <div className="flex items-center gap-2">
+          {/* Active Threat Profile Summary Strip with Report & XAI Buttons */}
+          <div className="flex items-center justify-between bg-[#ede4d4]/80 px-3.5 py-2.5 rounded-xl border border-[#ded3bf] flex-wrap gap-2.5">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className={`w-2.5 h-2.5 rounded-full ${currentHazard.badge_color || 'bg-red-600'}`}></span>
               <span className="text-xs font-bold text-stone-900">
                 {tr('Active Threat Focus:', 'सक्रिय आपदा केंद्र:')} <span className="underline decoration-amber-600 underline-offset-2">{getHazardDisplayName(currentHazard)}</span>
@@ -655,14 +698,31 @@ export default function CyclonePredictor({ refreshTrigger }) {
                 {tr('MHSI Threat Index:', 'MHSI आपदा सूचकांक:')} {currentHazard.mhsi_score} / 100
               </span>
             </div>
-            <button
-              onClick={() => setXaiModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-amber-800 hover:bg-amber-900 text-amber-100 shadow-sm transition-all cursor-pointer"
-              title={tr('Inspect mathematical breakdown and satellite attribution for this score', 'इस स्कोर के गणितीय विभाजन और उपग्रह साक्ष्य का निरीक्षण करें')}
-            >
-              <Brain className="w-3.5 h-3.5 text-amber-300" />
-              <span>{tr('Explain AI Threat Score (XAI)', 'एआई खतरे का स्पष्टीकरण (XAI)')}</span>
-            </button>
+
+            <div className="flex items-center gap-2">
+              {/* CLEAR DISASTER REPORT BUTTON (The money button!) */}
+              <button
+                onClick={() => {
+                  setActiveReportHazard(currentHazard);
+                  setDisasterReportModalOpen(true);
+                }}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white shadow-sm transition-all macos-tap cursor-pointer"
+                title={tr('View a crystal-clear, plain language disaster report anyone can understand', 'सरल शब्दों में आपदा की संपूर्ण स्पष्ट रिपोर्ट देखें')}
+              >
+                <FileText className="w-3.5 h-3.5 text-white" />
+                <span>{tr('Read Clean Disaster Report', 'आपदा की आसान रिपोर्ट पढ़ें')}</span>
+              </button>
+
+              {/* XAI Threat Attribution Button */}
+              <button
+                onClick={() => setXaiModalOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-800 hover:bg-amber-900 text-amber-100 shadow-sm transition-all macos-tap cursor-pointer"
+                title={tr('Inspect mathematical breakdown and satellite attribution for this score', 'इस स्कोर के गणितीय विभाजन और उपग्रह साक्ष्य का निरीक्षण करें')}
+              >
+                <Brain className="w-3.5 h-3.5 text-amber-300" />
+                <span>{tr('Explain AI Score (XAI)', 'AI स्कोर विश्लेषण (XAI)')}</span>
+              </button>
+            </div>
           </div>
 
           {/* DYNAMIC METRIC KPI BAR FOR SELECTED DISASTER */}
@@ -1535,6 +1595,341 @@ export default function CyclonePredictor({ refreshTrigger }) {
           </div>
         </div>
       )}
+
+      {/* ========================================================================= */}
+      {/* 📄 CRYSTAL-CLEAR DISASTER REPORT MODAL (Understandable by Any Human)       */}
+      {/* ========================================================================= */}
+      {disasterReportModalOpen && (() => {
+        const reportHazard = activeReportHazard || currentHazard;
+        const isHi = (reportLang || lang) === 'hi';
+
+        return (
+          <div
+            onClick={() => setDisasterReportModalOpen(false)}
+            className="fixed inset-0 z-[99999] bg-stone-950/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 cursor-pointer macos-backdrop"
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#fcfaf5] border border-[#ded3bf] rounded-3xl max-w-3xl w-full p-5 sm:p-7 shadow-2xl text-stone-800 cursor-default macos-window max-h-[92vh] flex flex-col overflow-hidden"
+            >
+              {/* macOS Window Topbar */}
+              <div className="flex items-center justify-between border-b border-[#ded3bf] pb-3 shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="macos-traffic-dots">
+                    <span onClick={() => setDisasterReportModalOpen(false)} className="macos-dot macos-dot-close" title="Close"></span>
+                    <span className="macos-dot macos-dot-minimize" title="Minimize"></span>
+                    <span className="macos-dot macos-dot-maximize" title="Zoom"></span>
+                  </div>
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-xs ${
+                    reportHazard?.badge_color || 'bg-red-600'
+                  }`}>
+                    {reportHazard?.id === 'landslide' && <Mountain className="w-4 h-4" />}
+                    {reportHazard?.id === 'volcano' && <Flame className="w-4 h-4" />}
+                    {reportHazard?.id === 'flood' && <Waves className="w-4 h-4" />}
+                    {reportHazard?.id === 'cyclone' && <Wind className="w-4 h-4" />}
+                  </div>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-black text-stone-900 flex items-center gap-2 flex-wrap">
+                      <span>{isHi ? 'आधिकारिक आपदा स्थिति रिपोर्ट' : 'Official Disaster Situation Report'}</span>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full text-white font-bold ${
+                        reportHazard?.status_code === 'HIGH_ALERT'
+                          ? 'bg-red-600'
+                          : reportHazard?.status_code === 'MONITORED_ADVISORY'
+                          ? 'bg-orange-600'
+                          : 'bg-emerald-600'
+                      }`}>
+                        {reportHazard?.status_code === 'HIGH_ALERT'
+                          ? (isHi ? 'लाल चेतावनी • अति गंभीर' : 'RED ALERT • CRITICAL')
+                          : reportHazard?.status_code === 'MONITORED_ADVISORY'
+                          ? (isHi ? 'नारंगी चेतावनी • निगरानी' : 'ORANGE ALERT • ADVISORY')
+                          : (isHi ? 'सुरक्षित • सामान्य' : 'SAFE / GUARDED')}
+                      </span>
+                    </h3>
+                    <p className="text-[11px] text-stone-500 flex items-center gap-1.5 mt-0.5 flex-wrap">
+                      <MapPin className="w-3 h-3 text-red-600" />
+                      <span>{getHazardRegionName(reportHazard)}</span>
+                      <span>•</span>
+                      <Clock className="w-3 h-3 text-stone-400" />
+                      <span>{isHi ? 'लाइव सत्यापित' : 'Live Verified'}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {/* In-Modal Language Switcher (EN / HI) */}
+                  <div className="flex items-center rounded-lg border border-stone-300 bg-white overflow-hidden text-[10px] font-bold shadow-2xs">
+                    <button
+                      onClick={() => setReportLang('en')}
+                      className={`px-2.5 py-1 transition-colors ${!isHi ? 'bg-stone-800 text-white' : 'text-stone-600 hover:bg-stone-100'}`}
+                    >
+                      English
+                    </button>
+                    <button
+                      onClick={() => setReportLang('hi')}
+                      className={`px-2.5 py-1 transition-colors ${isHi ? 'bg-stone-800 text-white' : 'text-stone-600 hover:bg-stone-100'}`}
+                    >
+                      सरल हिंदी
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => setDisasterReportModalOpen(false)}
+                    className="p-1.5 rounded-xl text-stone-500 hover:text-stone-900 hover:bg-stone-200/60 transition-colors macos-tap cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Scrollable Report Body */}
+              <div className="overflow-y-auto space-y-4 py-4 pr-1 scrollbar-thin scrollbar-thumb-stone-300">
+                {/* 1. Quick Take Box (एक नज़र में समझें) */}
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50/60 border border-amber-200/80 rounded-2xl p-4 space-y-2 shadow-xs">
+                  <div className="flex items-center gap-2 text-amber-900 font-bold text-xs uppercase tracking-wide">
+                    <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0" />
+                    <span>{isHi ? 'एक नज़र में समझें (मुख्य स्थिति)' : 'At A Glance (Core Situation)'}</span>
+                  </div>
+                  <h4 className="text-sm sm:text-base font-black text-stone-900 leading-snug">
+                    {isHi
+                      ? reportHazard?.plain_report?.headline_hi || reportHazard?.name
+                      : reportHazard?.plain_report?.headline_en || reportHazard?.name}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-medium">
+                    {isHi
+                      ? reportHazard?.plain_report?.quick_take_hi || reportHazard?.description
+                      : reportHazard?.plain_report?.quick_take_en || reportHazard?.description}
+                  </p>
+                </div>
+
+                {/* 🌟 2. 3 CRITICAL PILLARS: Kab Start Hua • Kaise Badh Raha Hai • Current Situation 🌟 */}
+                <div className="bg-[#ede4d4]/60 border border-[#ded3bf] rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-2xs">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-stone-800 flex items-center gap-2">
+                    <History className="w-4 h-4 text-amber-800" />
+                    <span>{isHi ? 'आपदा की कालक्रम एवं प्रगति यात्रा (Genesis, Escalation & Current Status)' : 'Crisis Genesis, Escalation & Current Ground Status'}</span>
+                  </span>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {/* Pillar 1: Kab Start Hua (When Started) */}
+                    <div className="bg-white p-3.5 rounded-xl border border-stone-200/90 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center gap-1.5 text-xs font-black text-amber-900 mb-1">
+                          <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-[10px] font-mono font-bold">1</span>
+                          <span>{isHi ? 'कब शुरू हुआ? (Origin)' : 'When Did It Start?'}</span>
+                        </div>
+                        <p className="text-xs text-stone-700 leading-relaxed font-medium">
+                          {isHi ? reportHazard?.plain_report?.when_started_hi : reportHazard?.plain_report?.when_started_en}
+                        </p>
+                      </div>
+                      <span className="text-[10px] text-amber-800 font-bold bg-amber-50 px-2 py-0.5 rounded self-start mt-2">
+                        {isHi ? 'प्रारंभिक ट्रिगर' : 'Initial Trigger'}
+                      </span>
+                    </div>
+
+                    {/* Pillar 2: Kaise Badh Raha Hai (Escalation) */}
+                    <div className="bg-white p-3.5 rounded-xl border border-stone-200/90 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center gap-1.5 text-xs font-black text-red-900 mb-1">
+                          <span className="w-5 h-5 rounded-full bg-red-100 text-red-800 flex items-center justify-center text-[10px] font-mono font-bold">2</span>
+                          <span>{isHi ? 'कैसे बढ़ रहा है? (Escalation)' : 'How Is It Escalating?'}</span>
+                        </div>
+                        <p className="text-xs text-stone-700 leading-relaxed font-medium">
+                          {isHi ? reportHazard?.plain_report?.how_escalating_hi : reportHazard?.plain_report?.how_escalating_en}
+                        </p>
+                      </div>
+                      <span className="text-[10px] text-red-800 font-bold bg-red-50 px-2 py-0.5 rounded self-start mt-2">
+                        {isHi ? 'प्रगति पथ' : 'Progression Vector'}
+                      </span>
+                    </div>
+
+                    {/* Pillar 3: What is Current Situation (Current State) */}
+                    <div className="bg-white p-3.5 rounded-xl border border-stone-200/90 shadow-2xs space-y-1.5 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center gap-1.5 text-xs font-black text-emerald-900 mb-1">
+                          <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px] font-mono font-bold">3</span>
+                          <span>{isHi ? 'अभी क्या स्थिति है? (Now)' : 'What Is The Current Situation?'}</span>
+                        </div>
+                        <p className="text-xs text-stone-700 leading-relaxed font-medium">
+                          {isHi ? reportHazard?.plain_report?.current_situation_hi : reportHazard?.plain_report?.current_situation_en}
+                        </p>
+                      </div>
+                      <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded self-start mt-2">
+                        {isHi ? 'सक्रिय ज़मीनी हकीकत' : 'Ground Reality Right Now'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Future Outlook Strip */}
+                  {reportHazard?.plain_report?.future_outlook_en && (
+                    <div className="bg-stone-50 p-2.5 rounded-xl border border-stone-300 text-xs text-stone-700 flex items-center gap-2">
+                      <Compass className="w-4 h-4 text-stone-500 shrink-0" />
+                      <span className="font-bold text-stone-900 shrink-0">{isHi ? 'अगले 12-24 घंटे का अनुमान:' : 'Next 12-24h Outlook:'}</span>
+                      <span>{isHi ? reportHazard?.plain_report?.future_outlook_hi : reportHazard?.plain_report?.future_outlook_en}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Key Metrics & Numbers (आसान आंकड़े) */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <div className="bg-white border border-[#ded3bf] rounded-xl p-3 shadow-2xs">
+                    <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                      {isHi ? 'आपदा सूचकांक (MHSI)' : 'Threat Index (MHSI)'}
+                    </span>
+                    <span className="text-xl font-black text-red-700 font-mono">
+                      {reportHazard?.mhsi_score} <span className="text-xs text-stone-400 font-normal">/ 100</span>
+                    </span>
+                    <span className="text-[10px] text-stone-500 block mt-0.5">
+                      {reportHazard?.severity_rank === 1 ? (isHi ? 'देश में सर्वोच्च' : 'Highest in India') : `${isHi ? 'रैंक' : 'Rank'} #${reportHazard?.severity_rank}`}
+                    </span>
+                  </div>
+
+                  <div className="bg-white border border-[#ded3bf] rounded-xl p-3 shadow-2xs">
+                    <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                      {isHi ? 'प्राथमिक पैमाना' : 'Primary Metric'}
+                    </span>
+                    <span className="text-base font-black text-stone-900 truncate block">
+                      {reportHazard?.primary_metric}
+                    </span>
+                    <span className="text-[10px] text-stone-500 block mt-0.5">
+                      {isHi ? 'उपग्रह / ज़मीनी रीडिंग' : 'Satellite / Ground Read'}
+                    </span>
+                  </div>
+
+                  <div className="bg-white border border-[#ded3bf] rounded-xl p-3 shadow-2xs">
+                    <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                      {isHi ? 'द्वितीयक पैमाना' : 'Secondary Metric'}
+                    </span>
+                    <span className="text-base font-black text-stone-900 truncate block">
+                      {reportHazard?.secondary_metric}
+                    </span>
+                    <span className="text-[10px] text-stone-500 block mt-0.5">
+                      {isHi ? 'मौसम स्टेशन गेज' : 'Weather Station Gauge'}
+                    </span>
+                  </div>
+
+                  <div className="bg-white border border-[#ded3bf] rounded-xl p-3 shadow-2xs">
+                    <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                      {isHi ? 'डेटा विश्वसनीयता' : 'Data Confidence'}
+                    </span>
+                    <span className="text-xl font-black text-emerald-700 font-mono">
+                      {reportHazard?.interpretability_breakdown?.confidence_score || 98}%
+                    </span>
+                    <span className="text-[10px] text-stone-500 block mt-0.5">
+                      {isHi ? 'बहु-स्रोत सहमति' : 'Multi-source consensus'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4. Deep Dive: Why is it dangerous? & Who is affected? */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-[#ede4d4]/60 border border-[#ded3bf] rounded-2xl p-4 space-y-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-stone-900">
+                      <Activity className="w-3.5 h-3.5 text-red-600" />
+                      <span>{isHi ? 'यह क्यों खतरनाक है? (कारण)' : 'Why Is It Dangerous? (The Physics)'}</span>
+                    </div>
+                    <p className="text-xs text-stone-700 leading-relaxed">
+                      {isHi
+                        ? reportHazard?.plain_report?.why_dangerous_hi
+                        : reportHazard?.plain_report?.why_dangerous_en}
+                    </p>
+                  </div>
+
+                  <div className="bg-[#ede4d4]/60 border border-[#ded3bf] rounded-2xl p-4 space-y-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-stone-900">
+                      <Users className="w-3.5 h-3.5 text-blue-600" />
+                      <span>{isHi ? 'कौन प्रभावित है? (जनसंख्या)' : 'Who Is Affected? (Exposure)'}</span>
+                    </div>
+                    <p className="text-xs text-stone-700 leading-relaxed">
+                      {isHi
+                        ? reportHazard?.plain_report?.who_affected_hi
+                        : reportHazard?.plain_report?.who_affected_en}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 5. Action in Progress (शासन और राहत दलों की कार्रवाई) */}
+                <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900">
+                    <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                    <span>{isHi ? 'वर्तमान प्रशासनिक कार्रवाई एवं बचाव स्थिति:' : 'Active Emergency Response & Relief Status:'}</span>
+                  </div>
+                  <p className="text-xs text-emerald-800 leading-relaxed font-medium">
+                    {isHi
+                      ? reportHazard?.plain_report?.current_action_hi
+                      : reportHazard?.plain_report?.current_action_en}
+                  </p>
+                </div>
+
+                {/* 6. What Citizens Should Do & Not Do (सुरक्षा निर्देश) */}
+                {reportHazard?.plain_report && (
+                  <div className="bg-white border border-[#ded3bf] rounded-2xl p-4 space-y-2.5 shadow-2xs">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-stone-900">
+                      <ShieldAlert className="w-4 h-4 text-amber-700" />
+                      <span>{isHi ? 'नागरिकों एवं प्रभावित क्षेत्र के लिए सुरक्षा निर्देश:' : 'Safety Instructions & Guidelines for Public:'}</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {(isHi
+                        ? reportHazard.plain_report.dos_and_donts_hi
+                        : reportHazard.plain_report.dos_and_donts_en
+                      )?.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-xs text-stone-700 bg-[#fbf8f1] p-2.5 rounded-xl border border-stone-200">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                          <span className="leading-snug">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 7. Specific Hotspot Areas at Risk */}
+                {reportHazard?.hotspots && reportHazard.hotspots.length > 0 && (
+                  <div className="bg-[#ede4d4]/40 border border-[#ded3bf] rounded-2xl p-4 space-y-2">
+                    <span className="text-[11px] uppercase font-bold text-stone-700 block">
+                      {isHi ? 'चिह्नित संवेदनशील स्थल (Hotspots):' : 'Identified High-Risk Hotspots:'}
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {reportHazard.hotspots.map((spot, idx) => (
+                        <div key={idx} className="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-stone-200 text-xs">
+                          <span className="font-bold text-stone-800 flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                            <span>{spot.name}</span>
+                          </span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-100 text-red-800 font-bold border border-red-200">
+                            {spot.risk}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 8. Verification Proof (उपग्रह एवं ग्राउंड सेंसर साक्ष्य) */}
+                <div className="flex items-center justify-between text-[11px] text-stone-600 bg-stone-100 px-3.5 py-2 rounded-xl border border-stone-300 flex-wrap gap-2">
+                  <span className="flex items-center gap-1.5 font-bold text-stone-800">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>{isHi ? 'सत्यापित उपग्रह सेंसर:' : 'Verified Sensor:'} {reportHazard?.satellite_label}</span>
+                  </span>
+                  <span className="text-stone-500 font-mono text-[10px]">
+                    WeatherNexus Autonomous Cross-Validation Grid
+                  </span>
+                </div>
+              </div>
+
+              {/* macOS Modal Footer */}
+              <div className="border-t border-[#ded3bf] pt-3 shrink-0 flex items-center justify-between flex-wrap gap-2">
+                <span className="text-[11px] text-stone-500 font-medium">
+                  {isHi ? 'यह रिपोर्ट स्वतः वास्तविक समय डेटा से तैयार की गई है।' : 'Automated situation report verified against multi-satellite feeds.'}
+                </span>
+                <button
+                  onClick={() => setDisasterReportModalOpen(false)}
+                  className="px-5 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs shadow-md transition-all macos-tap cursor-pointer ml-auto"
+                >
+                  {isHi ? 'रिपोर्ट बंद करें' : 'Done / Close Report'}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

@@ -38,6 +38,38 @@ export const DEFAULT_MULTI_HAZARDS = [
       { name: 'Meppadi Ridge', lat: 11.55, lon: 76.13, risk: 'Soil Saturation 93%' },
       { name: 'Vellarimala Peak', lat: 11.47, lon: 76.14, risk: 'Headscarp Tension Cracks' }
     ],
+    plain_report: {
+      headline_en: 'Severe Ground Saturation & Landslide Risk in Wayanad',
+      headline_hi: 'वायनाड में अत्यधिक जल-भराव एवं गंभीर भूस्खलन का खतरा',
+      quick_take_en: 'Continuous heavy rainfall (312 mm) has soaked the mountain soil past 91% of its water-holding limit. Steep hill slopes near tea settlements are at acute risk of mud and rock slippage.',
+      quick_take_hi: 'लगातार 48 घंटे में 312 मिमी भारी बारिश के कारण मिट्टी 91.4% तक पानी से संतृप्त हो चुकी है। चाय बागानों के पास खड़ी ढलानों पर मिट्टी और मलबे के खिसकने का गंभीर खतरा है।',
+      when_started_en: '36 Hours Ago (Oct 2 Evening): Intense cloudburst-scale monsoon rain started over the Western Ghats ridge, triggering heavy mountain runoff.',
+      when_started_hi: '36 घंटे पहले (2 अक्टूबर शाम): पश्चिमी घाट की पहाड़ियों में बादल फटने जैसी मूसलाधार बारिश (312 मिमी) शुरू हुई, जिससे ढलानों पर अचानक भारी पानी भर गया।',
+      how_escalating_en: 'Rainwater seeped deep into mountain bedrock, driving pore-water pressure past 91.4%. Surface tension cracks widened on upper tea slopes, raising threat of sudden mudflow down to valleys.',
+      how_escalating_hi: 'लगातार बारिश से मिट्टी में पानी का रिसाव 91.4% तक पहुंच गया। पहाड़ियों पर दरारें चौड़ी हो गईं, जिससे कीचड़ और मलबे का तेज बहाव नीचे बस्तियों की ओर बढ़ने लगा।',
+      current_situation_en: 'Red Alert in effect. Precautionary evacuation underway for 4 hillside hamlets (Chooralmala & Mundakkai). InSAR radar and thermal drones actively tracking slope movements.',
+      current_situation_hi: 'रेड अलर्ट लागू है। चूरलमाला और मुंडकई की 4 बस्तियों को सुरक्षित राहत शिविरों में शिफ्ट किया जा रहा है। उपग्रह और ड्रोन द्वारा दरारों पर 24x7 नजर रखी जा रही है।',
+      future_outlook_en: 'Intermittent rainfall expected for next 12 hours before tapering. Ground saturation remains critical; high vigilance required through tomorrow.',
+      future_outlook_hi: 'अगले 12 घंटों तक रुक-रुक कर बारिश रहने का अनुमान है। मिट्टी अत्यधिक गीली होने से कल तक पूर्ण सतर्कता आवश्यक है।',
+      why_dangerous_en: 'When hillside soil absorbs this much water, friction holding it together fails. Millions of tons of mud and boulders can slide down into valleys within minutes without warning.',
+      why_dangerous_hi: 'जब पहाड़ी मिट्टी अत्यधिक पानी सोख लेती है तो ढलान का संतुलन बिगड़ जाता है। लाखों टन कीचड़ और भारी पत्थर बिना चेतावनी चंद मिनटों में नीचे घाटियों की ओर बह सकते हैं।',
+      who_affected_en: 'Tea estate workers and residents in 4 highland sectors (Chooralmala, Mundakkai, Meppadi, and Vellarimala).',
+      who_affected_hi: 'वायनाड के 4 पहाड़ी इलाके (चूरलमाला, मुंडकई, मेप्पाडी और वेल्लारीमाला) के चाय बागान निवासी एवं बस्तियां।',
+      current_action_en: 'NDRF teams stationed on ground. Evacuation to designated relief camps advised. Drone thermal cameras scanning tension cracks.',
+      current_action_hi: 'एनडीआरएफ (NDRF) की टीमें तैनात हैं। निचले इलाकों से सुरक्षित राहत शिविरों में जाने की सलाह दी गई है। ड्रोन द्वारा दरारों की निगरानी जारी है।',
+      dos_and_donts_en: [
+        'Move immediately to designated highland district relief shelters.',
+        'Avoid all night travel on steep hill roads and hairpin bends.',
+        'Do not cross overflowing streams, culverts, or natural mountain runoffs.',
+        'Follow verified alerts from Kerala Disaster Management & IMD only.'
+      ],
+      dos_and_donts_hi: [
+        'प्रशासन द्वारा बनाए गए नजदीकी राहत शिविरों में तुरंत जाएं।',
+        'रात के समय पहाड़ी और घुमावदार रास्तों पर यात्रा बिल्कुल न करें।',
+        'उफनते नालों, पुलिया और पहाड़ी झरनों को पार करने की कोशिश न करें।',
+        'सोशल मीडिया की अफवाहों पर भरोसा न करें, केवल आधिकारिक अलर्ट देखें।'
+      ]
+    },
     interpretability_breakdown: {
       formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
       intensity_score: 84,
@@ -73,6 +105,38 @@ export const DEFAULT_MULTI_HAZARDS = [
       { name: 'Western Lava Channel', lat: 12.28, lon: 93.84, risk: 'Sub-surface Basalt Flow' },
       { name: 'Maritime Buffer Zone', lat: 12.25, lon: 93.80, risk: '45 km Exclusion Perimeter' }
     ],
+    plain_report: {
+      headline_en: 'Active Volcanic Activity at Barren Island (No Threat to Mainland)',
+      headline_hi: 'बैरन द्वीप पर सक्रिय ज्वालामुखी हलचल (मुख्य भूमि सुरक्षित)',
+      quick_take_en: 'India’s only active volcano is emitting hot basalt lava (1100°C) and sulfur gas plumes. However, the island is completely uninhabited, meaning zero direct danger to civilian life.',
+      quick_take_hi: 'भारत का एकमात्र सक्रिय ज्वालामुखी 1100°C गर्म लावा और सल्फर गैस का धुआं छोड़ रहा है। चूंकि यह द्वीप पूरी तरह निर्जन (खाली) है, इसलिए आम जनता को कोई खतरा नहीं है।',
+      when_started_en: '24 Hours Ago (Oct 3, 02:30 AM): Renewed Strombolian eruptive pulses detected from central caldera by Sentinel-2 SWIR infrared sensor.',
+      when_started_hi: '24 घंटे पहले (3 अक्टूबर तड़के): सेंट्रल काल्डेरा क्रेटर से लावा उत्सर्जन और सल्फर गैस का धुआं उपग्रह इन्फ्रारेड सेंसर द्वारा दर्ज किया गया।',
+      how_escalating_en: 'Steady basaltic spattering inside crater releasing 142 MW thermal radiative energy. SO2 gas plume drifting WSW over the Andaman Sea without paroxysmal explosive shift.',
+      how_escalating_hi: 'ज्वालामुखी से 142 MW की स्थिर ताप ऊर्जा निकल रही है और धुआं समुद्र के ऊपर 22 किमी पश्चिम-दक्षिण दिशा में फैल रहा है। कोई बड़ा विस्फोटक बदलाव नहीं हुआ है।',
+      current_situation_en: 'Island is completely uninhabited; zero danger to civilian populace. Indian Coast Guard enforcing 45 km maritime safety perimeter. Port Blair (138 km away) is 100% normal.',
+      current_situation_hi: 'द्वीप पूरी तरह निर्जन है; नागरिकों को कोई खतरा नहीं। तटरक्षक बल ने समुद्र में 45 किमी का सुरक्षा घेरा बनाया हुआ है। पोर्ट ब्लेयर (138 किमी दूर) में जनजीवन पूरी तरह सामान्य है।',
+      future_outlook_en: 'Activity expected to remain in steady Strombolian degassing mode. Maritime advisory maintained through the week.',
+      future_outlook_hi: 'अगले कुछ दिनों तक सामान्य गैसीय उत्सर्जन जारी रहने का अनुमान है। समुद्र में जहाजों के लिए सतर्कता एडवाइजरी जारी रहेगी।',
+      why_dangerous_en: 'Volcanic vents release toxic sulfur dioxide and hot basalt fragments. The hazard is strictly maritime—hazardous to passing fishing boats and low-flying aircraft.',
+      why_dangerous_hi: 'ज्वालामुखी से जहरीली गैस और गर्म चट्टानें निकलती हैं। यह खतरा सिर्फ समुद्र में गुजरने वाले जहाजों और हवाई जहाजों के लिए है, जमीन पर किसी बस्ती को नहीं।',
+      who_affected_en: 'No human population resides on the island. Maritime shipping vessels and aviation corridors in the Andaman Sea are regulated.',
+      who_affected_hi: 'द्वीप पर कोई इंसान नहीं रहता। अंडमान सागर में चलने वाले जहाजों और उड़ानों के मार्ग को नियंत्रित किया गया है।',
+      current_action_en: 'Indian Coast Guard maintaining a 45 km exclusion buffer. Sentinel-5P satellite continuously tracking ash plume direction.',
+      current_action_hi: 'भारतीय तटरक्षक बल ने 45 किमी का सुरक्षा घेरा बनाया है। उपग्रह से धुएं और राख के फैलाव पर नजर रखी जा रही है।',
+      dos_and_donts_en: [
+        'Fishermen and boats must maintain at least 45 km distance from the caldera.',
+        'Aviation flights rerouted around ash dispersion corridors.',
+        'Mainland and Port Blair residents have zero risk; normal daily life continues.',
+        'Do not attempt private drone flights or unauthorized sea expeditions.'
+      ],
+      dos_and_donts_hi: [
+        'मछुआरों और नावों को द्वीप से कम से कम 45 किमी दूर रहने की सख्त हिदायत है।',
+        'विमानों के रास्तों को ज्वालामुखी के धुएं से दूर मोड़ा गया है।',
+        'पोर्ट ब्लेयर और मुख्य भूमि के नागरिकों को कोई खतरा नहीं, स्थिति सामान्य है।',
+        'द्वीप के पास अनधिकृत नाव या ड्रोन ले जाने का प्रयास न करें।'
+      ]
+    },
     interpretability_breakdown: {
       formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
       intensity_score: 68,
@@ -108,6 +172,38 @@ export const DEFAULT_MULTI_HAZARDS = [
       { name: 'Kaziranga North Lowlands', lat: 26.65, lon: 93.35, risk: 'Seasonal Inundation Normal' },
       { name: 'Tezpur CWC Gauge', lat: 26.62, lon: 92.79, risk: 'Stage 64.2m (Safe)' }
     ],
+    plain_report: {
+      headline_en: 'Controlled River Runoff in Brahmaputra Valley (Below Danger Mark)',
+      headline_hi: 'ब्रह्मपुत्र घाटी में नियंत्रित जल प्रवाह (खतरे के निशान से नीचे)',
+      quick_take_en: 'The Brahmaputra River is flowing 0.8 meters safely below statutory danger levels. Embankments and dykes are intact, and routine seasonal monitoring is underway.',
+      quick_take_hi: 'ब्रह्मपुत्र नदी का जलस्तर खतरे के निशान से 0.8 मीटर सुरक्षित नीचे बह रहा है। सभी सुरक्षा तटबंध मजबूत हैं और सामान्य मानसूनी निगरानी जारी है।',
+      when_started_en: '48 Hours Ago: Monsoon runoff from Arunachal highlands swelled basin flow into Assam, raising discharge to 18,200 m³/s.',
+      when_started_hi: '48 घंटे पहले: अरुणाचल की पहाड़ियों में तेज मानसूनी बारिश के बाद ब्रह्मपुत्र बेसिन में पानी का बहाव बढ़कर 18,200 m³/s हुआ।',
+      how_escalating_en: 'Flow reached initial flood warning stages but remained safely bounded within engineered dykes without breaches or spillover.',
+      how_escalating_hi: 'नदी का जलस्तर बढ़ा परंतु सुरक्षा तटबंधों के भीतर रहा। किसी भी तटबंध के टूटने या आबादी में पानी घुसने की कोई घटना नहीं हुई।',
+      current_situation_en: 'Water stage stabilized at 0.8 meters below statutory danger mark. CWC automatic gauges confirm receding trend upstream.',
+      current_situation_hi: 'जलस्तर खतरे के निशान से 0.8 मीटर नीचे पूरी तरह स्थिर है। केंद्रीय जल आयोग के गेज पुष्टि कर रहे हैं कि पानी धीरे-धीरे घट रहा है।',
+      future_outlook_en: 'Catchment rainfall decreasing. River levels projected to drop further by 0.3 meters over next 24-48 hours.',
+      future_outlook_hi: 'जलग्रहण क्षेत्र में बारिश कम हो रही है। अगले 24 से 48 घंटे में जलस्तर 0.3 मीटर और नीचे जाने का अनुमान है।',
+      why_dangerous_en: 'During peak monsoon, catchment runoff can swell river channels. At present, river discharge is within standard capacity (18,200 m³/s), with no flash flood threat.',
+      why_dangerous_hi: 'तेज बारिश में नदी का बहाव तेज हो सकता है, लेकिन वर्तमान में पानी की निकासी सामान्य क्षमता में है और किसी अचानक बाढ़ (फ्लैश फ्लड) का खतरा नहीं है।',
+      who_affected_en: 'Low-lying riparian farmland in Majuli and Kaziranga. Normal daily agricultural life continues under guarded awareness.',
+      who_affected_hi: 'माजुली और काजीरंगा के निचले तटीय कृषि क्षेत्र। सभी दैनिक गतिविधियां सामान्य रूप से चल रही हैं।',
+      current_action_en: 'Central Water Commission (CWC) telemetry gauges updating river height every hour. SDRF boats on standby in Majuli island.',
+      current_action_hi: 'केंद्रीय जल आयोग (CWC) हर घंटे नदी के स्तर की जांच कर रहा है। सुरक्षा दल माजुली में सतर्क अवस्था में तैनात हैं।',
+      dos_and_donts_en: [
+        'Stay informed via local CWC water stage announcements.',
+        'Farmers in low-lying char areas should monitor riverbank alerts.',
+        'No emergency evacuation or panic required; flood barriers are functioning.',
+        'Do not swim or moor unanchored wooden country boats during high current hours.'
+      ],
+      dos_and_donts_hi: [
+        'जल आयोग द्वारा जारी होने वाले दैनिक जलस्तर बुलेटिन पर नजर रखें।',
+        'नदी किनारे के किसान आधिकारिक अलर्ट का पालन करें।',
+        'किसी प्रकार के डर की जरूरत नहीं है, सभी तटबंध सुरक्षित हैं।',
+        'तेज बहाव के समय नदी में तैरने या छोटी नावों को बिना बांधे छोड़ने से बचें।'
+      ]
+    },
     interpretability_breakdown: {
       formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
       intensity_score: 34,
@@ -144,6 +240,38 @@ export const DEFAULT_MULTI_HAZARDS = [
       { name: 'Kendrapara', lat: 20.50, lon: 86.42, risk: 'All Clear · Safe Maritime Belt' },
       { name: 'Purba Medinipur', lat: 21.93, lon: 87.77, risk: 'All Clear · Nominal Weather' }
     ],
+    plain_report: {
+      headline_en: 'System Dissipated: Cyclone Threat Over (Normal Sea Breeze)',
+      headline_hi: 'प्रणाली शांत: चक्रवात का खतरा समाप्त (सामान्य तटीय मौसम)',
+      quick_take_en: 'System ARNAB / DANA has completely weakened and lost its circulation over the open Bay of Bengal. There is NO coastal landfall threat and weather is normal.',
+      quick_take_hi: 'चक्रवाती प्रणाली गहरे समुद्र में पूरी तरह कमजोर होकर बिखर चुकी है। भारतीय समुद्र तटों पर किसी भी तूफान के टकराने (लैंडफॉल) का कोई खतरा नहीं है।',
+      when_started_en: '72 Hours Ago: A tropical convective disturbance formed over south-central Bay of Bengal.',
+      when_started_hi: '72 घंटे पहले: दक्षिण-मध्य बंगाल की खाड़ी के ऊपर एक चक्रवाती हवा का दबाव बनना शुरू हुआ था।',
+      how_escalating_en: 'Adverse high vertical wind shear (30+ knots) rapidly disrupted the system’s core circulation over open waters, halting cyclonic development.',
+      how_escalating_hi: 'खुले समुद्र में तेज विपरीत हवाओं (विंड शीयर) ने इसके चक्रवाती भंवर को तोड़ दिया। तूफान संगठित होने के बजाय बिखर गया।',
+      current_situation_en: 'System completely dissipated into a harmless remnant trough. Coastal winds calm at 28 km/h. Zero threat of storm surge or coastal landfall.',
+      current_situation_hi: 'प्रणाली पूरी तरह समाप्त होकर सामान्य बादलों में बदल चुकी है। तटीय हवाएं शांत (28 किमी/घंटा) हैं। चक्रवात का कोई खतरा नहीं है।',
+      future_outlook_en: 'Remnant moisture will dissipate over sea in next 24 hours. Clear, normal coastal weather expected across Odisha and West Bengal.',
+      future_outlook_hi: 'अगले 24 घंटे में बचे-खुचे बादल भी समुद्र में समाप्त हो जाएंगे। ओडिशा और बंगाल के तटों पर मौसम पूरी तरह साफ रहेगा।',
+      why_dangerous_en: 'Tropical cyclones generate destructive winds and storm surges when intact. However, 4 independent satellites confirm this system has decayed into harmless scattered clouds.',
+      why_dangerous_hi: 'चक्रवात जब सक्रिय होता है तो तेज हवा और तूफानी लहरें लाता है, लेकिन 4 उपग्रहों ने पुष्टि की है कि यह सिस्टम अब केवल बादलों के सामान्य बिखराव में बदल चुका है।',
+      who_affected_en: 'Coastal Odisha and West Bengal (Balasore, Bhadrak, Purba Medinipur) are fully in the safe green zone. Ports and fishing are operating normally.',
+      who_affected_hi: 'ओडिशा और पश्चिम बंगाल के तटीय जिले (बालेश्वर, भद्रक, मेदिनीपुर) पूरी तरह सुरक्षित ग्रीन जोन में हैं। बंदरगाह और मछुआरे सामान्य काम कर रहे हैं।',
+      current_action_en: 'Automated satellite tracking confirms open-water dissipation. De-escalated from emergency priority; all coastal alerts lifted.',
+      current_action_hi: 'उपग्रह डेटा ने चक्रवात के शांत होने की पुष्टि की है। सभी तटीय आपात चेतावनियां वापस ले ली गई हैं।',
+      dos_and_donts_en: [
+        'Ignore old or recycled cyclone videos spreading on social media.',
+        'Normal maritime fishing and port operations can proceed as scheduled.',
+        'Tourists and coastal residents can go about their daily routines safely.',
+        'Rely on IMD / WeatherNexus for true real-time atmospheric verification.'
+      ],
+      dos_and_donts_hi: [
+        'सोशल मीडिया पर पुराने या फर्जी चक्रवाती वीडियो पर ध्यान न दें।',
+        'तटीय क्षेत्रों में बाजार, स्कूल और मछली पकड़ने की गतिविधियां सामान्य हैं।',
+        'नागरिक और पर्यटक बिना किसी भय के अपनी सामान्य दिनचर्या जारी रख सकते हैं।',
+        'वास्तविक स्थिति के लिए केवल आधिकारिक मौसम बुलेटिन देखें।'
+      ]
+    },
     interpretability_breakdown: {
       formula: 'MHSI = (0.35 × Intensity + 0.35 × Exposure + 0.20 × Urgency) × Telemetry Confidence',
       intensity_score: 18,
