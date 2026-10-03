@@ -59,26 +59,45 @@ export default function EventDetailModal({ eventId, initialEvent, onClose, onOpe
   const strokeDashoffset = circumference - (circumference * progress) / 100;
 
   return (
-    <div className="fixed inset-0 z-[99999] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white border border-slate-300 rounded-2xl w-full max-w-4xl max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col relative z-[100000]">
-        {/* Header */}
-        <div className="px-5 py-3.5 bg-[#0b1528] border-b border-[#1c2c48] flex items-center justify-between sticky top-0 z-10">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-400">
-                {tr('WEATHERNEXUS · AI Inspection & Evidence Desk', 'वेदरनेक्सस · AI अन्वेषण एवं साक्ष्य डेस्क')}
-              </span>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-300 font-mono font-bold border border-cyan-500/40">
-                {eventId}
-              </span>
+    <div 
+      className="fixed inset-0 z-[99999] bg-slate-950/65 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 macos-backdrop"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-3xl w-full max-w-4xl max-h-[92vh] overflow-y-auto flex flex-col relative z-[100000] macos-window overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* macOS Window Chrome Header */}
+        <div className="px-5 py-3.5 bg-gradient-to-r from-[#0b1528] via-[#0f1f3d] to-[#0b1528] border-b border-[#1c2c48] flex items-center justify-between sticky top-0 z-20 backdrop-blur-xl">
+          <div className="flex items-center gap-3.5">
+            {/* macOS Window Traffic Lights */}
+            <div className="macos-traffic-dots mr-1">
+              <span onClick={onClose} className="macos-dot macos-dot-close" title="Close (Esc)"></span>
+              <span className="macos-dot macos-dot-minimize" title="Minimize"></span>
+              <span className="macos-dot macos-dot-maximize" title="Zoom"></span>
             </div>
-            <h2 className="text-base font-black text-white mt-0.5">
-              {translateReportTitle(data?.event?.title) || tr('Loading Weather Event...', 'मौसम घटना लोड हो रही है...')}
-            </h2>
+
+            <div className="h-4 w-px bg-slate-700/60 hidden sm:block"></div>
+
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-400 font-mono">
+                  {tr('WEATHERNEXUS · AI Inspection & Evidence Desk', 'वेदरनेक्सस · AI अन्वेषण एवं साक्ष्य डेस्क')}
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-950 text-cyan-300 font-mono font-bold border border-cyan-500/40">
+                  {eventId}
+                </span>
+              </div>
+              <h2 className="text-sm sm:text-base font-black text-white mt-0.5 truncate max-w-md sm:max-w-xl">
+                {translateReportTitle(data?.event?.title) || tr('Loading Weather Event...', 'मौसम घटना लोड हो रही है...')}
+              </h2>
+            </div>
           </div>
+
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-[#13223f] hover:bg-[#1a2d54] text-slate-300 hover:text-white border border-[#1e2f50] transition-colors shadow-xs"
+            className="p-1.5 rounded-lg bg-[#13223f] hover:bg-[#1a2d54] text-slate-300 hover:text-white border border-[#1e2f50] transition-colors shadow-xs macos-tap cursor-pointer shrink-0"
+            title="Close Window"
           >
             <X className="w-5 h-5" />
           </button>

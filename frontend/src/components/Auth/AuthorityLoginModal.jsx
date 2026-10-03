@@ -39,27 +39,43 @@ export default function AuthorityLoginModal({ isOpen, onClose, onLoginSuccess })
   };
 
   return (
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-slate-950/60 backdrop-blur-xs p-4">
-      <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
-        {/* Header */}
-        <div className="flex items-start justify-between border-b border-slate-200 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 shadow-xs">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                {tr('Restricted Access', 'प्रतिबंधित पहुंच')}
-              </span>
-              <h3 className="text-base font-black text-slate-900 mt-1">{tr('Disaster Authority Sign-In', 'आपदा प्रबंधन अधिकारी लॉगिन')}</h3>
-            </div>
+    <div 
+      className="fixed inset-0 z-[100000] flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 macos-backdrop"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 macos-window overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* macOS Window Titlebar Controls */}
+        <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
+          <div className="macos-traffic-dots">
+            <span onClick={onClose} className="macos-dot macos-dot-close" title="Close"></span>
+            <span className="macos-dot macos-dot-minimize" title="Minimize"></span>
+            <span className="macos-dot macos-dot-maximize" title="Zoom"></span>
           </div>
+          <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
+            Security Authorization Desk
+          </span>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors macos-tap cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center gap-3 pt-1">
+          <div className="w-11 h-11 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-700 shadow-xs shrink-0">
+            <ShieldCheck className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-mono">
+              {tr('Restricted Access', 'प्रतिबंधित पहुंच')}
+            </span>
+            <h3 className="text-base font-black text-slate-900 mt-0.5">{tr('Disaster Authority Sign-In', 'आपदा प्रबंधन अधिकारी लॉगिन')}</h3>
+          </div>
         </div>
 
         <p className="text-xs text-slate-600 leading-relaxed">

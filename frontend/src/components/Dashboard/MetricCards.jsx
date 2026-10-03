@@ -70,7 +70,7 @@ export default function MetricCards({ summary }) {
         return (
           <div
             key={i}
-            className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs transition-all hover:shadow-md flex flex-col justify-between"
+            className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs transition-all flex flex-col justify-between macos-card-interactive cursor-default"
           >
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[10px] sm:text-[11px] font-extrabold tracking-wider uppercase text-slate-500 truncate">

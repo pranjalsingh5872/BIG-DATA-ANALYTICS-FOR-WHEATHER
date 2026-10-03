@@ -1308,37 +1308,45 @@ export default function CyclonePredictor({ refreshTrigger }) {
         </div>
       )}
 
-      {/* Fullscreen High-Res Modal */}
+      {/* Fullscreen High-Res Modal (macOS Preview / Quick Look Window) */}
       {highResModalOpen && (
         <div
           onClick={() => setHighResModalOpen(false)}
-          className="fixed inset-0 z-[99999] bg-stone-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[99999] bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer macos-backdrop"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-stone-900 border border-stone-700 rounded-2xl max-w-4xl w-full p-4 shadow-2xl space-y-3 text-stone-100"
+            className="bg-stone-900/95 backdrop-blur-2xl border border-stone-700/80 rounded-3xl max-w-4xl w-full p-4 shadow-2xl space-y-3 text-stone-100 macos-window overflow-hidden cursor-default"
           >
-            <div className="flex items-center justify-between border-b border-stone-800 pb-2">
-              <span className="text-xs font-bold text-stone-200 flex items-center gap-2">
-                <Camera className="w-4 h-4 text-cyan-400" />
-                <span>Real-Time Satellite Observation ({currentHazard.name})</span>
-              </span>
+            {/* macOS Titlebar Chrome */}
+            <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="macos-traffic-dots">
+                  <span onClick={() => setHighResModalOpen(false)} className="macos-dot macos-dot-close" title="Close"></span>
+                  <span className="macos-dot macos-dot-minimize" title="Minimize"></span>
+                  <span className="macos-dot macos-dot-maximize" title="Zoom"></span>
+                </div>
+                <span className="text-xs font-bold text-stone-200 flex items-center gap-2 font-mono">
+                  <Camera className="w-4 h-4 text-cyan-400" />
+                  <span>Real-Time Satellite Observation · {currentHazard.name}</span>
+                </span>
+              </div>
               <button
                 onClick={() => setHighResModalOpen(false)}
-                className="text-stone-400 hover:text-stone-100 text-sm font-bold"
+                className="text-stone-400 hover:text-stone-100 p-1 rounded-lg hover:bg-stone-800 transition-colors macos-tap cursor-pointer"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
             <img
               src={selectedHazardId === 'cyclone' ? activePass.imageSrc : currentHazard.satellite_src}
               alt="High-Res Earth Observation View"
-              className="w-full max-h-[75vh] object-contain rounded-xl bg-stone-950"
+              className="w-full max-h-[75vh] object-contain rounded-2xl bg-stone-950 border border-stone-800"
               onError={(e) => {
                 e.target.src = '/assets/zoom_earth_pass_0h.jpg';
               }}
             />
-            <div className="flex items-center justify-between text-xs text-stone-400 font-mono">
+            <div className="flex items-center justify-between text-xs text-stone-400 font-mono px-1">
               <span>Center: <b>{currentHazard.center[0]}°N, {currentHazard.center[1]}°E</b></span>
               <span>Region: <b>{currentHazard.region}</b></span>
             </div>
@@ -1346,19 +1354,24 @@ export default function CyclonePredictor({ refreshTrigger }) {
         </div>
       )}
 
-      {/* Explainable AI (XAI) Multi-Hazard Severity Breakdown Modal */}
+      {/* Explainable AI (XAI) Multi-Hazard Severity Breakdown Modal (macOS Inspector) */}
       {xaiModalOpen && (
         <div
           onClick={() => setXaiModalOpen(false)}
-          className="fixed inset-0 z-[99999] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[99999] bg-stone-950/75 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer macos-backdrop"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#fcfaf5] border border-[#ded3bf] rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 text-stone-800 cursor-default"
+            className="bg-[#fcfaf5]/95 backdrop-blur-2xl border border-[#ded3bf] rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 text-stone-800 cursor-default macos-window overflow-hidden"
           >
-            {/* Modal Header */}
+            {/* macOS Inspector Header */}
             <div className="flex items-center justify-between border-b border-[#ded3bf] pb-3">
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-3">
+                <div className="macos-traffic-dots">
+                  <span onClick={() => setXaiModalOpen(false)} className="macos-dot macos-dot-close" title="Close"></span>
+                  <span className="macos-dot macos-dot-minimize" title="Minimize"></span>
+                  <span className="macos-dot macos-dot-maximize" title="Zoom"></span>
+                </div>
                 <div className="w-8 h-8 rounded-xl bg-amber-800 text-amber-100 flex items-center justify-center shadow-xs">
                   <Brain className="w-4 h-4" />
                 </div>
@@ -1376,7 +1389,7 @@ export default function CyclonePredictor({ refreshTrigger }) {
               </div>
               <button
                 onClick={() => setXaiModalOpen(false)}
-                className="p-1 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-200/50 transition-colors"
+                className="p-1 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-200/50 transition-colors macos-tap cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

@@ -61,7 +61,7 @@ export default function PriorityQueue({ events, onSelectEvent, onSwitchTab }) {
               <div
                 key={ev.id}
                 onClick={() => onSelectEvent(ev.id)}
-                className="p-3 rounded-lg bg-slate-50 hover:bg-blue-50/60 border border-slate-200 hover:border-blue-300 transition-all cursor-pointer group shadow-sm"
+                className="p-3 rounded-xl bg-slate-50/80 hover:bg-blue-50/70 border border-slate-200 hover:border-blue-300 transition-all cursor-pointer group shadow-2xs macos-card-interactive"
               >
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-1.5 truncate">

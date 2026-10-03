@@ -778,31 +778,38 @@ export default function GrievancePortal({ preselectedEventId, onGrievanceSubmitt
       {selectedPhotoModal && (
         <div 
           onClick={() => setSelectedPhotoModal(null)}
-          className="fixed inset-0 z-[99999] bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[99999] bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer macos-backdrop"
         >
           <div 
             onClick={(e) => e.stopPropagation()} 
-            className="bg-stone-900 border border-stone-700 rounded-2xl max-w-2xl w-full p-4 shadow-2xl space-y-3 text-stone-100"
+            className="bg-stone-900/95 backdrop-blur-2xl border border-stone-700/80 rounded-3xl max-w-2xl w-full p-4 shadow-2xl space-y-3 text-stone-100 macos-window overflow-hidden cursor-default"
           >
-            <div className="flex items-center justify-between border-b border-stone-800 pb-2">
-              <span className="text-xs font-bold text-stone-200 flex items-center gap-2">
-                <Camera className="w-4 h-4 text-amber-500" />
-                <span>Mandatory Ground Photo Evidence (Vision AI Capture)</span>
-              </span>
+            <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="macos-traffic-dots">
+                  <span onClick={() => setSelectedPhotoModal(null)} className="macos-dot macos-dot-close" title="Close"></span>
+                  <span className="macos-dot macos-dot-minimize" title="Minimize"></span>
+                  <span className="macos-dot macos-dot-maximize" title="Zoom"></span>
+                </div>
+                <span className="text-xs font-bold text-stone-200 flex items-center gap-2">
+                  <Camera className="w-4 h-4 text-amber-500" />
+                  <span>Mandatory Ground Photo Evidence (Vision AI Capture)</span>
+                </span>
+              </div>
               <button
                 onClick={() => setSelectedPhotoModal(null)}
-                className="text-stone-400 hover:text-stone-100 text-sm font-bold"
+                className="text-stone-400 hover:text-stone-100 p-1 rounded-lg hover:bg-stone-800 transition-colors macos-tap cursor-pointer"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
             <img 
               src={selectedPhotoModal} 
               alt="Dispute Ground Evidence" 
-              className="w-full max-h-[70vh] object-contain rounded-xl bg-stone-950" 
+              className="w-full max-h-[70vh] object-contain rounded-2xl bg-stone-950 border border-stone-800" 
             />
-            <div className="text-[11px] text-stone-400 text-right">
-              Click anywhere outside or ✕ to close
+            <div className="text-[11px] text-stone-400 text-right px-1">
+              Click anywhere outside or traffic light 🔴 to close
             </div>
           </div>
         </div>

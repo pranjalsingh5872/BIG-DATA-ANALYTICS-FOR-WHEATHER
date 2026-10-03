@@ -70,7 +70,7 @@ export default function Navbar({
               setLang('en');
               localStorage.setItem('weathernexus_lang', 'en');
             }}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
+            className={`px-2.5 py-1 rounded-lg transition-all macos-tap cursor-pointer ${
               lang === 'en'
                 ? 'bg-emerald-600 text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
@@ -84,7 +84,7 @@ export default function Navbar({
               setLang('hi');
               localStorage.setItem('weathernexus_lang', 'hi');
             }}
-            className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 macos-tap cursor-pointer ${
               lang === 'hi'
                 ? 'bg-emerald-600 text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
@@ -128,7 +128,7 @@ export default function Navbar({
         ) : (
           <button
             onClick={onOpenAuthModal}
-            className="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs px-3 py-1.5 rounded-xl transition-all shadow-xs active:scale-95"
+            className="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs px-3 py-1.5 rounded-xl transition-all shadow-xs macos-tap cursor-pointer"
             title="Restricted Sign-In for Command & Disaster Authorities"
           >
             <Lock className="w-3.5 h-3.5 text-amber-700" />
@@ -141,7 +141,7 @@ export default function Navbar({
         <button
           onClick={onRefresh}
           disabled={loading}
-          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors shadow-xs disabled:opacity-50"
+          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-all shadow-xs disabled:opacity-50 macos-tap cursor-pointer"
           title="Refresh All Stream Telemetry"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-600' : ''}`} />

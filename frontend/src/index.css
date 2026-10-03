@@ -66,18 +66,132 @@ body {
   background-color: #ffffff !important;
 }
 
-/* Smooth Tab Flow Animation */
-@keyframes tabFadeSlide {
-  from {
+/* ========================================================================= */
+/* MACBOOK (macOS) NATIVE MOTION, QUICK LOOK & INSPECT WINDOW EFFECTS        */
+/* ========================================================================= */
+
+/* 1. macOS Window Pop (Quick Look / Inspector Spring Launch) */
+@keyframes macosWindowPop {
+  0% {
     opacity: 0;
-    transform: translateY(6px);
+    transform: scale(0.92) translateY(18px);
+    filter: blur(5px);
   }
-  to {
+  68% {
+    transform: scale(1.008) translateY(-1px);
+    filter: blur(0px);
+  }
+  100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes macosBackdropFade {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+}
+
+.macos-backdrop {
+  animation: macosBackdropFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.macos-window {
+  animation: macosWindowPop 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+    0 25px 65px -12px rgba(0, 0, 0, 0.45),
+    0 0 45px -10px rgba(0, 0, 0, 0.25);
+  will-change: transform, opacity, filter;
+}
+
+/* 2. macOS Section / Tab Transition (Spring Reveal) */
+@keyframes macosSectionOpen {
+  0% {
+    opacity: 0;
+    transform: scale(0.982) translateY(8px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
   }
 }
 
 .tab-enter {
-  animation: tabFadeSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: macosSectionOpen 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
 }
+
+/* 3. macOS Interactive Card & Widget Physics */
+.macos-card-interactive {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.macos-card-interactive:hover {
+  transform: translateY(-2px) scale(1.008);
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.macos-card-interactive:active {
+  transform: scale(0.985);
+  transition-duration: 0.1s;
+}
+
+.macos-tap {
+  transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+.macos-tap:active {
+  transform: scale(0.955);
+}
+
+/* 4. macOS Traffic Lights Control Buttons */
+.macos-traffic-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px;
+}
+.macos-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
+  cursor: pointer;
+}
+.macos-dot:hover {
+  filter: brightness(0.9);
+  transform: scale(1.12);
+}
+.macos-dot:active {
+  transform: scale(0.88);
+}
+.macos-dot-close {
+  background-color: #ff5f56;
+  border: 1px solid #e0443e;
+  box-shadow: 0 1px 3px rgba(255, 95, 86, 0.4);
+}
+.macos-dot-minimize {
+  background-color: #ffbd2e;
+  border: 1px solid #dea123;
+  box-shadow: 0 1px 3px rgba(255, 189, 46, 0.4);
+}
+.macos-dot-maximize {
+  background-color: #27c93f;
+  border: 1px solid #1aab29;
+  box-shadow: 0 1px 3px rgba(39, 201, 63, 0.4);
+}
+

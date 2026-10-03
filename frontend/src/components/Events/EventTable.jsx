@@ -255,10 +255,14 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                 </tr>
               ) : (
                 filteredEvents.map((ev) => (
-                  <tr key={ev.id} className="hover:bg-slate-50/70 transition-colors">
+                  <tr 
+                    key={ev.id} 
+                    onClick={() => onSelectEvent(ev.id)}
+                    className="hover:bg-blue-50/60 transition-all duration-150 cursor-pointer group"
+                  >
                     {/* Event Title */}
                     <td className="px-4 py-3 max-w-sm">
-                      <div className="font-bold text-slate-900 mb-0.5 line-clamp-1">{translateReportTitle(ev.title)}</div>
+                      <div className="font-bold text-slate-900 mb-0.5 line-clamp-1 group-hover:text-blue-700 transition-colors">{translateReportTitle(ev.title)}</div>
                       <div className="text-[11px] text-slate-600 line-clamp-1">{translateReportDescription(ev.description)}</div>
                       <div className="text-[10px] text-slate-500 font-mono mt-0.5">
                         {tr('Observed:', 'अवलोकन समय:')} {formatIST(ev.observed_at)}
@@ -324,16 +328,21 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
                     {/* Actions */}
                     <td className="px-4 py-3 text-right whitespace-nowrap space-x-2">
                       <button
-                        onClick={() => onSelectEvent(ev.id)}
-                        className="p-1.5 rounded bg-white hover:bg-slate-100 text-blue-600 border border-slate-200 shadow-sm transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectEvent(ev.id);
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold border border-blue-200/90 shadow-2xs transition-all macos-tap hover:scale-105 active:scale-95 cursor-pointer text-[11px]"
                         title={tr("Inspect AI Evidence & Audit Ledger", "AI साक्ष्य एवं ऑडिट लेज़र देखें")}
                       >
-                        <Eye className="w-3.5 h-3.5" />
+                        <Eye className="w-3.5 h-3.5 text-blue-600" />
+                        <span>{tr("Inspect", "अन्वेषण")}</span>
                       </button>
                       <a
                         href={api.getPdfDownloadUrl(ev.id)}
                         download
-                        className="inline-block p-1.5 rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-block p-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-2xs transition-all macos-tap hover:scale-105 active:scale-95 cursor-pointer"
                         title={tr("Download Official Incident Brief PDF", "आधिकारिक घटना सारांश PDF डाउनलोड करें")}
                       >
                         <FileDown className="w-3.5 h-3.5" />

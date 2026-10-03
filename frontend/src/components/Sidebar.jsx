@@ -49,9 +49,9 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full group flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-200 ${
+              className={`w-full group flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-150 macos-tap cursor-pointer ${
                 isActive
-                  ? 'bg-emerald-50 text-emerald-950 border-l-4 border-emerald-600 font-bold shadow-xs'
+                  ? 'bg-emerald-50 text-emerald-950 border-l-4 border-emerald-600 font-bold shadow-2xs'
                   : 'text-slate-700 hover:bg-slate-50 hover:text-slate-950 border-l-4 border-transparent'
               }`}
             >
@@ -101,9 +101,9 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full group flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-200 text-left ${
+                  className={`w-full group flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-150 text-left macos-tap cursor-pointer ${
                     isActive
-                      ? 'bg-amber-50 text-amber-950 border-l-4 border-amber-600 font-bold shadow-xs'
+                      ? 'bg-amber-50 text-amber-950 border-l-4 border-amber-600 font-bold shadow-2xs'
                       : 'text-slate-700 hover:bg-amber-50/50 hover:text-amber-950 border-l-4 border-transparent'
                   }`}
                 >
@@ -164,7 +164,7 @@ export default function Sidebar({ activeTab, setActiveTab, pendingCount, openGri
               </p>
               <button
                 onClick={onOpenAuthModal}
-                className="w-full py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer macos-tap"
               >
                 <KeyRound className="w-3.5 h-3.5" />
                 <span>{t('authoritySignIn')}</span>
