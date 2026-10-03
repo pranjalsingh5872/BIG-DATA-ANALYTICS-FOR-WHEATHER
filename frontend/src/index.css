@@ -74,12 +74,16 @@ body {
 @keyframes macosWindowPop {
   0% {
     opacity: 0;
-    transform: scale(0.92) translateY(18px);
-    filter: blur(5px);
+    transform: scale(0.88) translateY(24px);
+    filter: blur(6px);
   }
-  68% {
-    transform: scale(1.008) translateY(-1px);
+  65% {
+    opacity: 1;
+    transform: scale(1.015) translateY(-2px);
     filter: blur(0px);
+  }
+  84% {
+    transform: scale(0.995) translateY(1px);
   }
   100% {
     opacity: 1;
@@ -102,11 +106,11 @@ body {
 }
 
 .macos-backdrop {
-  animation: macosBackdropFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: macosBackdropFade 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .macos-window {
-  animation: macosWindowPop 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: macosWindowPop 0.58s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   box-shadow: 
     0 0 0 1px rgba(255, 255, 255, 0.15) inset,
     0 25px 65px -12px rgba(0, 0, 0, 0.45),
@@ -118,8 +122,12 @@ body {
 @keyframes macosSectionOpen {
   0% {
     opacity: 0;
-    transform: scale(0.982) translateY(8px);
-    filter: blur(2px);
+    transform: scale(0.97) translateY(14px);
+    filter: blur(4px);
+  }
+  70% {
+    transform: scale(1.004) translateY(-1px);
+    filter: blur(0px);
   }
   100% {
     opacity: 1;
@@ -129,29 +137,29 @@ body {
 }
 
 .tab-enter {
-  animation: macosSectionOpen 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: macosSectionOpen 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity, filter;
 }
 
 /* 3. macOS Interactive Card & Widget Physics */
 .macos-card-interactive {
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .macos-card-interactive:hover {
-  transform: translateY(-2px) scale(1.008);
-  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 .macos-card-interactive:active {
   transform: scale(0.985);
-  transition-duration: 0.1s;
+  transition-duration: 0.15s;
 }
 
 .macos-tap {
-  transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, box-shadow 0.25s ease;
   user-select: none;
 }
 .macos-tap:active {
-  transform: scale(0.955);
+  transform: scale(0.95);
 }
 
 /* 4. macOS Traffic Lights Control Buttons */
