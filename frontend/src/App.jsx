@@ -150,17 +150,17 @@ export default function App() {
         setIsRefreshing(false);
         setLoading(false);
 
-        // When spin completes, trigger page blink effect on the active page
+        // When spin completes, trigger single strong page blink across entire screen
         setPageBlinking(true);
         setTimeout(() => {
           setPageBlinking(false);
-        }, 650);
+        }, 480);
       }, waitRemaining);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
+    <div className={`min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans ${pageBlinking ? 'page-blink' : ''}`}>
       {/* Top Operations Navbar */}
       <Navbar
         summary={summary}
@@ -197,15 +197,7 @@ export default function App() {
         </div>
 
         {/* Dynamic Center Stage - Full Screen Command Deck */}
-        <main className={`flex-1 p-3 sm:p-5 overflow-y-auto max-h-[calc(100vh-62px)] w-full relative ${pageBlinking ? 'page-blink' : ''}`}>
-          {/* Refresh Complete Confirmation Toast */}
-          {pageBlinking && (
-            <div className="fixed top-20 right-6 z-50 pointer-events-none transition-all flex items-center gap-2 bg-emerald-950/90 text-emerald-200 border border-emerald-500/50 text-xs px-3.5 py-1.5 rounded-full shadow-xl backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="font-semibold tracking-wide">{tr('Telemetry Synced & Page Refreshed', 'टेलीमेट्री सिंक और पेज रीफ्रेश हुआ')}</span>
-            </div>
-          )}
-
+        <main className="flex-1 p-3 sm:p-5 overflow-y-auto max-h-[calc(100vh-62px)] w-full relative">
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
               <span className="text-red-600 font-bold">⚠ CONNECTION ERROR:</span>
