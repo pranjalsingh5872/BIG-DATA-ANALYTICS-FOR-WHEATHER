@@ -90,11 +90,11 @@ export default function DisasterReportModal({ isOpen, onClose, activeHazard }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[99999] bg-stone-950/75 backdrop-blur-md flex items-start justify-center p-3 sm:p-5 pt-[180px] sm:pt-[220px] lg:pt-[240px] cursor-pointer macos-backdrop"
+      className="fixed inset-0 z-[99999] bg-stone-950/75 backdrop-blur-md flex items-start justify-center p-3 sm:p-5 pt-[115px] sm:pt-[125px] lg:pt-[135px] cursor-pointer macos-backdrop"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#fcfaf5] border border-[#ded3bf] rounded-2xl max-w-5xl w-full p-5 sm:p-6 shadow-2xl text-stone-800 cursor-default macos-window flex flex-col space-y-3 max-h-[76vh] overflow-y-auto"
+        className="bg-[#fcfaf5] border border-[#ded3bf] rounded-2xl max-w-5xl w-full p-5 sm:p-6 shadow-2xl text-stone-800 cursor-default macos-window flex flex-col space-y-3 max-h-[84vh] overflow-y-auto"
       >
         {/* Row 1: Header */}
         <div className="flex items-center justify-between border-b border-[#ded3bf] pb-3 shrink-0">
