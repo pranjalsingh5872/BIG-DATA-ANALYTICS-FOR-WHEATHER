@@ -19,6 +19,7 @@ export const DEFAULT_MULTI_HAZARDS = [
   {
     id: 'landslide',
     name: 'Wayanad Slope Instability & Debris Flow',
+    name_hi: 'वायनाड मेप्पाडी भूस्खलन एवं मलबा प्रवाह',
     hazard_type: 'Monsoon Landslide & Mudslip',
     icon_type: 'mountain',
     severity_rank: 1,
@@ -26,10 +27,14 @@ export const DEFAULT_MULTI_HAZARDS = [
     status_code: 'HIGH_ALERT',
     badge_color: 'bg-red-600',
     region: 'Western Ghats, Kerala (Meppadi - Chooralmala)',
+    region_hi: 'पश्चिमी घाट ढलान, केरल (चूरलमाला - मेप्पाडी)',
     center: [11.55, 76.15],
     primary_metric: '91% Soil Saturation',
+    primary_metric_hi: '91.4% मृदा जल-संतृप्ति',
     secondary_metric: '312 mm / 48h Rain',
+    secondary_metric_hi: '312 मिमी / 48 घंटे वर्षा',
     satellite_label: 'Sentinel-2 & InSAR Topographic Moisture Analysis',
+    satellite_label_hi: 'सेंटिनल उपग्रह रडार एवं ग्राउंड सेंसर ग्रिड',
     satellite_src: '/assets/landslide_sar_wayanad.jpg',
     description: 'Extreme antecedent monsoon precipitation has triggered deep hydraulic soil saturation (>90%) across steep slopes (>30°). High probability of slope slippage and debris channelization.',
     hotspots: [
@@ -40,23 +45,23 @@ export const DEFAULT_MULTI_HAZARDS = [
     ],
     plain_report: {
       headline_en: 'Severe Ground Saturation & Landslide Risk in Wayanad',
-      headline_hi: 'वायनाड में अत्यधिक जल-भराव एवं गंभीर भूस्खलन का खतरा',
+      headline_hi: 'वायनाड में अत्यधिक जल-संतृप्ति एवं गंभीर भूस्खलन का खतरा',
       quick_take_en: 'Continuous heavy rainfall (312 mm) has soaked the mountain soil past 91% of its water-holding limit. Steep hill slopes near tea settlements are at acute risk of mud and rock slippage.',
-      quick_take_hi: 'लगातार 48 घंटे में 312 मिमी भारी बारिश के कारण मिट्टी 91.4% तक पानी से संतृप्त हो चुकी है। चाय बागानों के पास खड़ी ढलानों पर मिट्टी और मलबे के खिसकने का गंभीर खतरा है।',
+      quick_take_hi: 'लगातार 48 घंटों में 312 मिमी मूसलाधार वर्षा से पहाड़ी मिट्टी 91.4% तक पानी से संतृप्त हो चुकी है। चाय बागानों के पास खड़ी ढलानों पर मिट्टी और मलबे के खिसकने का गंभीर खतरा बना हुआ है।',
       when_started_en: '36 Hours Ago (Oct 2 Evening): Intense cloudburst-scale monsoon rain started over the Western Ghats ridge, triggering heavy mountain runoff.',
-      when_started_hi: '36 घंटे पहले (2 अक्टूबर शाम): पश्चिमी घाट की पहाड़ियों में बादल फटने जैसी मूसलाधार बारिश (312 मिमी) शुरू हुई, जिससे ढलानों पर अचानक भारी पानी भर गया।',
+      when_started_hi: '36 घंटे पहले (2 अक्टूबर शाम 18:30 IST): पश्चिमी घाट की मेप्पाडी पहाड़ियों पर बादल फटने जैसी मूसलाधार बारिश (312 मिमी) शुरू हुई, जिससे ढलानों पर भारी जल प्रवाह उत्पन्न हुआ।',
       how_escalating_en: 'Rainwater seeped deep into mountain bedrock, driving pore-water pressure past 91.4%. Surface tension cracks widened on upper tea slopes, raising threat of sudden mudflow down to valleys.',
-      how_escalating_hi: 'लगातार बारिश से मिट्टी में पानी का रिसाव 91.4% तक पहुंच गया। पहाड़ियों पर दरारें चौड़ी हो गईं, जिससे कीचड़ और मलबे का तेज बहाव नीचे बस्तियों की ओर बढ़ने लगा।',
+      how_escalating_hi: 'बारिश का पानी गहराई में रिसने से पोर-वाटर प्रेशर 91.4% पहुंच गया। उपग्रह इनसार (InSAR) ने 14 मिमी/घंटे की गति से ढलान खिसकना और ऊपरी चाय बागानों में दरारें दर्ज की हैं।',
       current_situation_en: 'Red Alert in effect. Precautionary evacuation underway for 4 hillside hamlets (Chooralmala & Mundakkai). InSAR radar and thermal drones actively tracking slope movements.',
-      current_situation_hi: 'रेड अलर्ट लागू है। चूरलमाला और मुंडकई की 4 बस्तियों को सुरक्षित राहत शिविरों में शिफ्ट किया जा रहा है। उपग्रह और ड्रोन द्वारा दरारों पर 24x7 नजर रखी जा रही है।',
+      current_situation_hi: 'रेड अलर्ट पूर्णतः प्रभावी है। 4 संवेदनशील बस्तियों (चूरलमाला व मुंडक्कई) से 850+ परिवारों को सुरक्षित शिविरों में शिफ्ट किया जा रहा है। एनडीआरएफ और थर्मल ड्रोन 24x7 निगरानी कर रहे हैं।',
       future_outlook_en: 'Intermittent rainfall expected for next 12 hours before tapering. Ground saturation remains critical; high vigilance required through tomorrow.',
-      future_outlook_hi: 'अगले 12 घंटों तक रुक-रुक कर बारिश रहने का अनुमान है। मिट्टी अत्यधिक गीली होने से कल तक पूर्ण सतर्कता आवश्यक है।',
+      future_outlook_hi: 'अगले 12 घंटों तक रुक-रुक कर बारिश रहने का अनुमान है। मिट्टी अत्यधिक गीली होने से कल शाम तक पूर्ण सतर्कता अनिवार्य है।',
       why_dangerous_en: 'When hillside soil absorbs this much water, friction holding it together fails. Millions of tons of mud and boulders can slide down into valleys within minutes without warning.',
-      why_dangerous_hi: 'जब पहाड़ी मिट्टी अत्यधिक पानी सोख लेती है तो ढलान का संतुलन बिगड़ जाता है। लाखों टन कीचड़ और भारी पत्थर बिना चेतावनी चंद मिनटों में नीचे घाटियों की ओर बह सकते हैं।',
+      why_dangerous_hi: 'जब पहाड़ी मिट्टी 90% से अधिक पानी सोख लेती है तो पत्थरों और मिट्टी को थामने वाला घर्षण समाप्त हो जाता है। बिना चेतावनी के लाखों टन कीचड़ और भारी चट्टानें नीचे बह सकती हैं।',
       who_affected_en: 'Tea estate workers and residents in 4 highland sectors (Chooralmala, Mundakkai, Meppadi, and Vellarimala).',
-      who_affected_hi: 'वायनाड के 4 पहाड़ी इलाके (चूरलमाला, मुंडकई, मेप्पाडी और वेल्लारीमाला) के चाय बागान निवासी एवं बस्तियां।',
+      who_affected_hi: 'चूरलमाला, मुंडक्कई, मेप्पाडी और वेल्लारीमाला के चाय बागान श्रमिक व ग्रामीण आबादी।',
       current_action_en: 'NDRF teams stationed on ground. Evacuation to designated relief camps advised. Drone thermal cameras scanning tension cracks.',
-      current_action_hi: 'एनडीआरएफ (NDRF) की टीमें तैनात हैं। निचले इलाकों से सुरक्षित राहत शिविरों में जाने की सलाह दी गई है। ड्रोन द्वारा दरारों की निगरानी जारी है।',
+      current_action_hi: 'एनडीआरएफ की 3 बटालियन और राज्य आपदा दल तैनात हैं। सुरक्षित जिला राहत शिविरों में लोगों को भेजा गया है। ड्रोन द्वारा दरारों की निगरानी जारी है।',
       dos_and_donts_en: [
         'Move immediately to designated highland district relief shelters.',
         'Avoid all night travel on steep hill roads and hairpin bends.',
@@ -64,10 +69,10 @@ export const DEFAULT_MULTI_HAZARDS = [
         'Follow verified alerts from Kerala Disaster Management & IMD only.'
       ],
       dos_and_donts_hi: [
-        'प्रशासन द्वारा बनाए गए नजदीकी राहत शिविरों में तुरंत जाएं।',
-        'रात के समय पहाड़ी और घुमावदार रास्तों पर यात्रा बिल्कुल न करें।',
+        'प्रशासन द्वारा बनाए गए नजदीकी सुरक्षित राहत शिविरों में तुरंत जाएं।',
+        'रात के समय पहाड़ी और घुमावदार रास्तों पर यात्रा से पूर्णतः बचें।',
         'उफनते नालों, पुलिया और पहाड़ी झरनों को पार करने की कोशिश न करें।',
-        'सोशल मीडिया की अफवाहों पर भरोसा न करें, केवल आधिकारिक अलर्ट देखें।'
+        'केवल आपदा प्रबंधन और मौसम विभाग के आधिकारिक अलर्ट पर भरोसा करें।'
       ]
     },
     interpretability_breakdown: {
@@ -81,12 +86,13 @@ export const DEFAULT_MULTI_HAZARDS = [
       confidence_score: 95,
       confidence_detail: 'Sentinel-2 SAR Soil Moisture Index + Kerala IMD Automated Weather Stations',
       plain_english: 'The AI ranked Wayanad as #1 High Alert due to dangerous hydraulic saturation exceeding critical slope shear limits across tea estate settlements.',
-      plain_hindi: 'एआई ने वायनाड को सर्वोच्च चेतावनी स्तर पर रखा है क्योंकि 91% मिट्टी की नमी ढलानों की सुरक्षित सीमा पार कर चुकी है और भूस्खलन का उच्च जोखिम है।'
+      plain_hindi: 'एआई ने वायनाड को सर्वोच्च चेतावनी स्तर पर रखा है क्योंकि 91.4% मिट्टी की नमी ढलानों की सुरक्षित सीमा पार कर चुकी है और भूस्खलन का उच्च जोखिम है।'
     }
   },
   {
     id: 'volcano',
     name: 'Barren Island Volcanic & Thermal Emission',
+    name_hi: 'बैरन द्वीप ज्वालामुखी सक्रिय थर्मल विस्फोट',
     hazard_type: 'Volcanic / Thermal Anomaly',
     icon_type: 'flame',
     severity_rank: 2,
@@ -94,10 +100,16 @@ export const DEFAULT_MULTI_HAZARDS = [
     status_code: 'MONITORED_ADVISORY',
     badge_color: 'bg-orange-600',
     region: 'Andaman Sea (138 km East of Port Blair)',
+    region_hi: 'अंडमान सागर (पोर्ट ब्लेयर से 138 किमी पूर्व)',
     center: [12.28, 93.86],
     primary_metric: '142 MW Radiative Power',
+    primary_metric_hi: '142 मेगावाट विकिरण ऊर्जा',
     secondary_metric: '3.8 DU SO₂ Plume',
+    secondary_metric_hi: '3.8 DU SO₂ गैस फैलाव',
     satellite_label: 'Sentinel-2 SWIR Thermal Infrared & Aerosol Dispersion',
+    satellite_label_hi: 'सेंटिनल-2 SWIR इन्फ्रारेड एवं एरोसोल सेंसर',
+    satellite_src: '/assets/volcano_thermal_barren.jpg',
+    description: 'Continuous strombolian activity with thermal radiative bloom from central caldera. SO2 aerosol plume drifting WSW. Maritime advisory in effect for 45 km radius.',
     satellite_src: '/assets/volcano_thermal_barren.jpg',
     description: 'Continuous strombolian activity with thermal radiative bloom from central caldera. SO2 aerosol plume drifting WSW. Maritime advisory in effect for 45 km radius.',
     hotspots: [
@@ -154,6 +166,7 @@ export const DEFAULT_MULTI_HAZARDS = [
   {
     id: 'flood',
     name: 'Brahmaputra Valley Riverine Surveillance',
+    name_hi: 'असम ब्रह्मपुत्र नदी घाटी जल विज्ञान निगरानी',
     hazard_type: 'Hydrological Basin Inundation',
     icon_type: 'waves',
     severity_rank: 3,
@@ -161,10 +174,14 @@ export const DEFAULT_MULTI_HAZARDS = [
     status_code: 'NORMAL_GUARDED',
     badge_color: 'bg-emerald-600',
     region: 'Upper Assam (Kaziranga - Majuli Sector)',
+    region_hi: 'ऊपरी असम (काजीरंगा - माजुली सेक्टर)',
     center: [26.75, 93.50],
     primary_metric: '0.8m Below Danger Level',
+    primary_metric_hi: 'खतरे के निशान से 0.8 मी. नीचे',
     secondary_metric: 'Discharge 18,200 m³/s',
+    secondary_metric_hi: '18,200 घन मी/सेकंड निर्वहन',
     satellite_label: 'Sentinel-1 SAR Hydrological Flood Extent Analysis',
+    satellite_label_hi: 'सेंटिनल-1 SAR जल स्तर एवं बेसिन टेलीमेट्री',
     satellite_src: '/assets/flood_cwc_brahmaputra.jpg',
     description: 'Monsoon basin runoff within controlled thresholds. CWC hydrological gauges at Dhubri, Guwahati, and Nematighat reporting steady river stages below warning thresholds.',
     hotspots: [
@@ -221,6 +238,7 @@ export const DEFAULT_MULTI_HAZARDS = [
   {
     id: 'cyclone',
     name: "System 'ARNAB' (Dissipated / Low Threat)",
+    name_hi: "प्रणाली 'अर्नब' (शांत / कम खतरा - सामान्य स्थिति)",
     hazard_type: 'Dissipated Cyclonic System',
     icon_type: 'cyclone',
     severity_rank: 4,
@@ -228,10 +246,14 @@ export const DEFAULT_MULTI_HAZARDS = [
     status_code: 'INACTIVE_MONITORING',
     badge_color: 'bg-stone-500',
     region: 'Central Bay of Bengal (Open Sea)',
+    region_hi: 'मध्य बंगाल की खाड़ी (खुला समुद्री क्षेत्र)',
     center: [16.8, 88.5],
     primary_metric: '28 km/h Breeze (Normal)',
+    primary_metric_hi: '28 किमी/घंटा सामान्य हवा',
     secondary_metric: '1008 hPa (Standard Pressure)',
+    secondary_metric_hi: '1008 hPa सामान्य वायुदाब',
     satellite_label: 'Zoom Earth & INSAT-3DR Real-Time Synoptic Observation',
+    satellite_label_hi: 'इनसैट-3डीआर एवं उपग्रह रडार लाइव अवलोकन',
     satellite_src: '/assets/normal_synoptic_india.jpg',
     description: 'System ARNAB has weakened and dissipated over the open sea into a remnant low-pressure trough. No severe cyclonic or coastal landfall threat exists along Indian coastlines. Routine coastal monitoring active.',
     hotspots: [
