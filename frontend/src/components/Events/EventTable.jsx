@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Search, Filter, FileDown, Eye, ShieldAlert, Sparkles, MapPin, Calendar, RotateCcw } from 'lucide-react';
+import { Search, Filter, FileDown, Eye, ShieldAlert, Sparkles, MapPin, Calendar, RotateCcw, FileText } from 'lucide-react';
 import { api } from '../../services/api';
 import { formatIST } from '../../utils/time';
 import { useLanguage } from '../../context/LanguageContext';
+import { DEFAULT_MULTI_HAZARDS } from '../../utils/hazardData';
+import DisasterReportModal from '../Forecast/DisasterReportModal';
 
 export default function EventTable({ events, onSelectEvent, onFilterChange }) {
   const { lang, tr, t, translateCategory, translateSeverity, translateStatus, translateSource, translateCity, translateState, translateReportTitle, translateReportDescription } = useLanguage();
+  const [disasterModalOpen, setDisasterModalOpen] = useState(false);
+  const [activeDisasterHazard, setActiveDisasterHazard] = useState(DEFAULT_MULTI_HAZARDS[0]);
   const [filters, setFilters] = useState({
     date: '',
     category: 'All',
@@ -71,6 +75,51 @@ export default function EventTable({ events, onSelectEvent, onFilterChange }) {
 
   return (
     <div className="space-y-4">
+      {/* Active National Disaster Briefing Banner (Visible from Weather Events Registry) */}
+      <div className="bg-[#fcfaf5] border border-[#ded3bf] rounded-2xl p-4 shadow-sm flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-red-600 flex items-center justify-center text-white shrink-0 shadow-xs">
+            <ShieldAlert className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-red-100 text-red-800 border border-red-300">
+                {tr('Active Crisis Surveillance', 'सक्रिय राष्ट्रीय आपदा निगरानी')}
+              </span>
+              <h4 className="text-xs sm:text-sm font-black text-stone-900">
+                {lang === 'hi' ? 'वायनाड मेप्पाडी भूस्खलन एवं मलबा प्रवाह' : 'Wayanad Meppadi Debris Flow & Landslide'}
+              </h4>
+              <span className="text-[10px] font-mono font-bold text-red-700 bg-white px-2 py-0.5 rounded border border-stone-300">
+                MHSI 78.6 / 100
+              </span>
+            </div>
+            <p className="text-[11px] sm:text-xs text-stone-600 mt-0.5">
+              {lang === 'hi'
+                ? 'लगातार 312 मिमी मूसलाधार मानसूनी वर्षा से 91.4% पोर-वाटर संतृप्ति। आधिकारिक स्थिति रिपोर्ट देखने हेतु क्लिक करें।'
+                : 'Intense antecedent deluge (312 mm) with 91.4% pore pressure saturation across Western Ghats ridge. Click to inspect full report.'}
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            setActiveDisasterHazard(DEFAULT_MULTI_HAZARDS[0]);
+            setDisasterModalOpen(true);
+          }}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white shadow-sm transition-all macos-tap cursor-pointer ml-auto"
+          title={tr('Read Disaster Situation Report', 'आपदा स्थिति रिपोर्ट पढ़ें')}
+        >
+          <FileText className="w-3.5 h-3.5 text-white" />
+          <span>{tr('Read Disaster Report', 'आपदा स्थिति रिपोर्ट पढ़ें')}</span>
+        </button>
+      </div>
+
+      <DisasterReportModal
+        isOpen={disasterModalOpen}
+        onClose={() => setDisasterModalOpen(false)}
+        activeHazard={activeDisasterHazard}
+      />
+
       {/* 7-Parameter Filter Toolbar */}
       <div className="bg-command-card border border-command-border rounded-xl p-4 shadow-sm space-y-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
