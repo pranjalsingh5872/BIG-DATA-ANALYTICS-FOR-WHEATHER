@@ -1,4 +1,4 @@
-# WEATHERNEXUS · National Weather Big Data Analytics Platform
+## WEATHERNEXUS · National Weather Big Data Analytics Platform
 ### Government of India · Ministry of Earth Sciences · India Meteorological Department (IMD)
 > **SIH-26069 National Crisis & Meteorological Intelligence System**
 
